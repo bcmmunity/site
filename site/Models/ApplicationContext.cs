@@ -10,5 +10,11 @@ namespace site.Models
 		{
 			Database.EnsureCreated();
 		}
+
+		public DbSet<Article> Articles { get; set; }
+		public DbSet<Project> Projects { get; set; }
+		public DbSet<Team> Teams { get; set; }
+		public DbSet<Tag> Tags { get; set; }
+		public DbSet<Speciality> Specialities { get; set; }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using site.Models;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace site.Controllers
 {
@@ -8,6 +9,15 @@ namespace site.Controllers
 	[ApiController]
 	public class MainController : Controller
 	{
+		static ApplicationContext db;
+
+		public static void Unit()
+		{
+			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=usersstoredb;Trusted_Connection=True;MultipleActiveResultSets=true");
+			db = new ApplicationContext(optionsBuilder.Options);
+		}
+
 		[Route("GetProjects")]
 		public JsonResult GetProjects()
 		{
