@@ -2,7 +2,7 @@
 using site.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 namespace site.Controllers
 {
 	[Route("api/[controller]")]
@@ -21,6 +21,7 @@ namespace site.Controllers
 		[Route("GetProjects")]
 		public JsonResult GetProjects()
 		{
+			
 			List<Project> projects = new List<Project>();
 
 			projects.Add(new Project { Name = "Проект 1", Description = "Супер проект", Img = "https://www.voltmobi.com/wp-content/uploads/Untitled-5.jpg" });

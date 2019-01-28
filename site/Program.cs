@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using site.Controllers;
 
 namespace site
 {
@@ -15,6 +16,7 @@ namespace site
 		public static void Main(string[] args)
 		{
 			CreateWebHostBuilder(args).Build().Run();
+			MainController.Unit();
 		}
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
