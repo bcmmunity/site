@@ -19,7 +19,7 @@ namespace site.Controllers
 			db = new ApplicationContext(optionsBuilder.Options);
 		}
 		
-		[Route("GetArticles")]
+		[Route("getArticles")]
 		[HttpGet]
 		public JsonResult GetArticles(int? skip, int? limit)
 		{
@@ -33,7 +33,7 @@ namespace site.Controllers
 		}
 
 
-		[Route("GetTopArticles")]
+		[Route("getTopArticles")]
 		[HttpGet]
 		public JsonResult GetTopArticles()
 		{
@@ -45,7 +45,7 @@ namespace site.Controllers
 			return Json(temp);
 		}
 
-		[Route("GetArticle")]
+		[Route("getArticle")]
 		[HttpGet]
 		public JsonResult GetArticle(int? id)
 		{
@@ -56,7 +56,7 @@ namespace site.Controllers
 			return Json(temp);
 		}
 
-		[Route("GetTeams")]
+		[Route("getTeams")]
 		[HttpGet]
 		public JsonResult GetTeams()
 		{
@@ -67,7 +67,7 @@ namespace site.Controllers
 			return Json(temp);
 		}
 
-		[Route("GetTeamInfo")]
+		[Route("getTeamInfo")]
 		[HttpGet]
 		public JsonResult GetTeamInfo(int? id)
 		{
@@ -78,7 +78,7 @@ namespace site.Controllers
 			return Json(temp);
 		}
 
-		[Route("GetMembers")]
+		[Route("getMembers")]
 		[HttpGet]
 		public JsonResult GetMembers(string id)
 		{
@@ -99,7 +99,7 @@ namespace site.Controllers
 			throw new NullReferenceException();
 		}
 
-		[Route("GetMembers")]
+		[Route("getMembers")]
 		[HttpGet]
 		public JsonResult GetMembers(string id, int? offset, int? count)
 		{
@@ -111,7 +111,7 @@ namespace site.Controllers
 			return Json(temp);
 		}
 		
-		[Route("GetMemberInfo")]
+		[Route("getMemberInfo")]
 		[HttpGet]
 		public JsonResult GetMemberInfo(string id)
 		{
@@ -126,7 +126,7 @@ namespace site.Controllers
 			return Json(temp);
 		}
 		
-		[Route("GetProjects")]
+		[Route("getProjects")]
 		public JsonResult GetProjects()
 		{
 			List<Project> projects = new List<Project>();
@@ -140,7 +140,7 @@ namespace site.Controllers
 
 	
 
-		[Route("GetTeam")]
+		[Route("getTeam")]
 		public JsonResult GetTeam(Project p)
 		{	
 			return Json(p);
