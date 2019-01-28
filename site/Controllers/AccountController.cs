@@ -4,6 +4,7 @@ using site.ViewModels;
 using site.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System;
 
 namespace site.Controllers
 {
@@ -19,20 +20,18 @@ namespace site.Controllers
 			_userManager = userManager;
 			_signInManager = signInManager;
 		}
-		[HttpGet]
-		public IActionResult Register()
-		{
-			return View();
-		}
 
-		[Route("Register")]
+		[Route("register")]
+		[HttpPost]
 		public async Task<IActionResult> Register(RegisterViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				User user = new User { Email = model.Email, UserName = model.Email };
 				// добавляем пользователя
+
 				var result = await _userManager.CreateAsync(user, model.Password);
+				
 				if (result.Succeeded)
 				{
 					// установка куки
@@ -50,14 +49,9 @@ namespace site.Controllers
 			return Json("Exception");
 		}
 
-		[HttpGet]
-		public IActionResult Login(string returnUrl = null)
-		{
-			return View(new LoginViewModel { ReturnUrl = returnUrl });
-		}
-
+		[Route("logIn")]
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -65,31 +59,24 @@ namespace site.Controllers
 				var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 				if (result.Succeeded)
 				{
-					// проверяем, принадлежит ли URL приложению
-					if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-					{
-						return Redirect(model.ReturnUrl);
-					}
-					else
-					{
-						return RedirectToAction("Index", "Home");
-					}
+					return Json("Вы вошли");
 				}
 				else
 				{
-					ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+					return Json("Неправильный логин и (или) пароль");
 				}
 			}
-			return View(model);
+			return Json("Вы вошли");
 		}
 
+		[Route("logOff")]
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> LogOff()
 		{
 			// удаляем аутентификационные куки
 			await _signInManager.SignOutAsync();
-			return RedirectToAction("Index", "Home");
+			return Json("Вы вышли");
 		}
 	}
 }
