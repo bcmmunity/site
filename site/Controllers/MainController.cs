@@ -15,8 +15,46 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=usersstoredb;Trusted_Connection=True;MultipleActiveResultSets=true");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test79;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
+//			TestAdd();
+		}
+
+
+		private static void TestAdd()
+		{
+			
+			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
+			string body =
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+			string descr = body.Substring(0, 50);
+			Tag t1 = new Tag {Name = "C#"};
+			Tag t2 = new Tag {Name = "Java"};
+			List<Tag> tags = new List<Tag>();
+			tags.Add(t1);
+			tags.Add(t2);
+			
+			User auth = new User();
+			
+			for (int i = 0; i < 5; i++)
+			{
+				Console.WriteLine("asdasdd");
+				Article temp = new Article
+				{
+					Name = names[i],
+					Body = body,
+					Description = descr,
+					Author = auth,
+					Date = new DateTime(2019, 12, i + 1),
+					Tags = tags
+				};
+				
+				
+				db.Articles.Add(temp);
+				db.SaveChanges();
+			}
+
+			
 		}
 		
 		[Route("getArticles")]
@@ -45,13 +83,17 @@ namespace site.Controllers
 			return Json(temp);
 		}
 
-		[Route("getArticle")]
+		[Route("getArticle")] 
 		[HttpGet]
 		public JsonResult GetArticle(int? id)
 		{
+
+			Console.WriteLine(id);
+			Console.WriteLine("\n\n\n");
+			Article art = db.Articles.FirstOrDefault(a => a.ArticleId == id) ;
 			var temp = new
 			{
-				id
+				article = art
 			};
 			return Json(temp);
 		}
@@ -60,9 +102,11 @@ namespace site.Controllers
 		[HttpGet]
 		public JsonResult GetTeams()
 		{
+			Article art = db.Articles.FirstOrDefault(a => a.ArticleId == 0);
 			var temp = new
 			{
-				k = "k"
+				k = "k",
+				art
 			};
 			return Json(temp);
 		}
