@@ -20,7 +20,7 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test98;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t2;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 //			TestAdd();
 //			TestAdd2();
@@ -42,7 +42,11 @@ namespace site.Controllers
 			tags.Add(t1);
 			tags.Add(t2);
 			
-			User auth = new User();
+			User auth = new User
+			{
+				Name = "artem",
+				Surname = "kim"
+			};
 			
 			for (int i = 0; i < 20; i++)
 			{
@@ -193,9 +197,15 @@ namespace site.Controllers
 		{
 			if (skip != null && limit != null)
 			{
-				Article[] arts = db.Articles.Skip((int)skip).Take((int)limit).ToArray();
+				Article[] arts = db.Articles
+					.Include("Author")
+					.Include("Tags")
+					.Skip((int)skip)
+					.Take((int)limit)
+					.ToArray();
 				return Json(arts);
 			}
+			throw new NullReferenceException();
 			
 			
 
@@ -206,7 +216,12 @@ namespace site.Controllers
 		[HttpGet]
 		public JsonResult GetTopArticles()
 		{
-			Article[] arts = db.Articles.OrderByDescending(d => d.Date).Take(3).ToArray();
+			Article[] arts = db.Articles
+				.Include("Author")
+				.Include("Tags")
+				.OrderByDescending(d => d.Date)
+				.Take(3)
+				.ToArray();
 
 			return Json(arts);
 		}
@@ -217,7 +232,10 @@ namespace site.Controllers
 		{
 			if (id != null)
 			{
-				Article art = db.Articles.FirstOrDefault(a => a.ArticleId == id) ;
+				Article art = db.Articles
+					.Include("Author")
+					.Include("Tags")
+					.FirstOrDefault(a => a.ArticleId == id) ;
 				if (art != null)
 				{
 					return Json(art);
@@ -241,7 +259,12 @@ namespace site.Controllers
 		{
 			if (id != null)
 			{
-				Team team = db.Teams.Find(id);
+				Team team = db.Teams
+					.Include("Projects")
+					.Include("Members")
+					.Include("Specialities")
+					.FirstOrDefault(t => t.TeamId == id);
+					
 				if (team != null)
 				{
 					return Json(team);
@@ -257,7 +280,11 @@ namespace site.Controllers
 		{
 			if (id != null)
 			{
-				Team team = db.Teams.Find(id);
+				Team team = db.Teams
+					.Include("Projects")
+					.Include("Members")
+					.Include("Specialities")
+					.FirstOrDefault(t => t.TeamId == id);
 				if (team != null)
 				{
 					List<User> mems = team.Members;
@@ -277,7 +304,11 @@ namespace site.Controllers
 		{
 			if (offset != null && count != null)
 			{
-				User[] users = db.Users.Skip((int) offset).Take((int) count).ToArray();
+				User[] users = db.Users
+					.Include("Specialities")
+					.Skip((int) offset)
+					.Take((int) count)
+					.ToArray();
 				return Json(users);
 			}
 			throw new NullReferenceException();
@@ -286,11 +317,14 @@ namespace site.Controllers
 		
 		[Route("getMemberInfo")]
 		[HttpGet]
-		public JsonResult GetMemberInfo(int? id)
+		public JsonResult GetMemberInfo(string id)
 		{
 			if (id != null)
 			{
-				User user = db.Users.Find(id);
+				User user = db.Users
+					.Include("Specialities")
+					.FirstOrDefault(u => u.Id == id);
+					
 				if (user != null)
 				{
 					return Json(user);
@@ -305,7 +339,11 @@ namespace site.Controllers
 		[Route("getProjects")]
 		public JsonResult GetProjects()
 		{
-			Project[] projects = db.Projects.ToArray();
+			Project[] projects = db.Projects
+				.Include("Team")
+				.Include("Members")
+				.Include("Specialities")
+				.ToArray();
 			return Json(projects);
 			
 		}
@@ -317,7 +355,11 @@ namespace site.Controllers
 		{
 			if (id != null)
 			{
-				Team team = db.Teams.Include("Members").Include("Projects").FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
+				Team team = db.Teams
+					.Include("Team")
+					.Include("Members")
+					.Include("Projects")
+					.FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
 				if (team != null)
 				{
 					return Json(team);
@@ -352,7 +394,11 @@ namespace site.Controllers
 		{
 			if (id != null)
 			{
-				Project pr = db.Projects.Find(id);
+				Project pr = db.Projects
+					.Include("Team")
+					.Include("Members")
+					.Include("Projects")
+					.FirstOrDefault(p => p.ProjectId == id);
 				if (pr != null)
 				{
 					return Json(pr);
