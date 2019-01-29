@@ -20,12 +20,13 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
+//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t5;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
-			TestAdd();
-			TestAdd2();
-			TestAdd3();
-			TestAdd5();
+//			TestAdd();
+//			TestAdd2();
+//			TestAdd3();
+//			TestAdd5();
 		}
 
 		#region Тестовые данные
@@ -337,14 +338,21 @@ namespace site.Controllers
 		}
 		
 		[Route("getProjects")]
-		public JsonResult GetProjects()
+		[HttpGet]
+		public JsonResult GetProjects(int? offset, int? count)
 		{
-			Project[] projects = db.Projects
-				.Include("Team")
-				.Include("Members")
-				.Include("Specialities")
-				.ToArray();
-			return Json(projects);
+			if (offset != null && count != null)
+			{
+				Project[] projects = db.Projects
+					.Include("Team")
+					.Include("Specialities")
+					.Skip((int)offset)
+					.Take((int)count)
+					.ToArray();
+				return Json(projects);
+			}
+			throw new NullReferenceException();
+			
 			
 		}
 
@@ -396,8 +404,7 @@ namespace site.Controllers
 			{
 				Project pr = db.Projects
 					.Include("Team")
-					.Include("Members")
-					.Include("Projects")
+					.Include("Specialities")
 					.FirstOrDefault(p => p.ProjectId == id);
 				if (pr != null)
 				{
