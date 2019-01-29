@@ -17,14 +17,15 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test82;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test83;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 //			TestAdd();
 //			TestAdd2();
 //			TestAdd3();
+			TestAdd4();
 		}
 
-
+		#region Тестовые данные
 		private static void TestAdd2()
 		{
 			
@@ -129,6 +130,21 @@ namespace site.Controllers
 				db.SaveChanges();
 			}
 		}
+
+		private static void TestAdd4()
+		{
+			string[] tags = { "devblog", "razrab", "vlog", "news" };
+			foreach (var t in tags) 
+			{
+				Tag temp = new Tag
+				{
+					Name = t
+				};
+				db.Tags.Add(temp);
+				db.SaveChanges();
+			}
+			
+		}
 		
 		[Route("getArticles")]
 		[HttpGet]
@@ -138,7 +154,7 @@ namespace site.Controllers
 			return Json(arts);
 
 		}
-
+		#endregion
 
 		[Route("getTopArticles")]
 		[HttpGet]
@@ -157,8 +173,6 @@ namespace site.Controllers
 		public JsonResult GetArticle(int? id)
 		{
 
-			Console.WriteLine(id);
-			Console.WriteLine("\n\n\n");
 			Article art = db.Articles.FirstOrDefault(a => a.ArticleId == id) ;
 			var temp = new
 			{
@@ -193,28 +207,18 @@ namespace site.Controllers
 
 		[Route("getMembers")]
 		[HttpGet]
-		public JsonResult GetMembers(string id)
+		public JsonResult GetTeamMembers(int? id)
 		{
 			var temp = new
 			{
 				hui = "hui"
 			};
-			if (id != null)
-			{
-				if (id.ToLower() == "all")
-					return Json(temp);
-				if (id.All(char.IsDigit))
-				{
-					int _id = Convert.ToInt32(id);
-					return Json(temp);
-				}
-			}
 			throw new NullReferenceException();
 		}
 
 		[Route("getMembers")]
 		[HttpGet]
-		public JsonResult GetMembers(string id, int? offset, int? count)
+		public JsonResult GetMembers(int? offset, int? count)
 		{
 			var temp = new
 			{
@@ -228,6 +232,7 @@ namespace site.Controllers
 		[HttpGet]
 		public JsonResult GetMemberInfo(int? id)
 		{
+			User user = db.Users.Find(id);
 			var temp = new
 			{
 				id
@@ -240,16 +245,23 @@ namespace site.Controllers
 		{
 			Project[] projects = db.Projects.ToArray();
 			return Json(projects);
+			
 		}
 
-	
+		
 
 		[Route("getTeam")]
 		public JsonResult GetTeam(Project p)
 		{	
 			return Json(p);
 		}
-		
+
+		[Route("getTags")]
+		public JsonResult GetTags()
+		{
+			Tag[] tags = db.Tags.ToArray();
+			return Json(tags);
+		}
 		
 	}
 }
