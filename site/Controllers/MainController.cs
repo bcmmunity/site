@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.CodeAnalysis;
+using Project = site.Models.Project;
 
 namespace site.Controllers
 {
@@ -17,12 +20,12 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test83;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test98;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 //			TestAdd();
 //			TestAdd2();
 //			TestAdd3();
-			TestAdd4();
+//			TestAdd5();
 		}
 
 		#region Тестовые данные
@@ -41,12 +44,12 @@ namespace site.Controllers
 			
 			User auth = new User();
 			
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 20; i++)
 			{
 				Console.WriteLine("asdasdd");
 				Article temp = new Article
 				{
-					Name = names[i],
+					Name = names[i % 5],
 					Body = body,
 					Description = descr,
 					Author = auth,
@@ -62,7 +65,7 @@ namespace site.Controllers
 			
 		}
 
-		private static void TestAdd()
+		private static List<User> TestAdd()
 		{
 			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
 			string url = "https://loremflickr.com/320/245";
@@ -82,7 +85,8 @@ namespace site.Controllers
 			string body =
 				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 			string descr = body.Substring(0, 50);
-			for (int i = 0; i < 20; i++)
+			List<User> kek = new List<User>();
+			for (int i = 0; i < 5; i++)
 			{
 				Models.User temp = new User
 				{
@@ -93,9 +97,10 @@ namespace site.Controllers
 					Description = descr,
 					Specialities = spec
 				};
-				db.Users.Add(temp);
-				db.SaveChanges();
+				kek.Add(temp);
 			}
+
+			return kek;
 		}
 
 		private static void TestAdd3()
@@ -129,6 +134,7 @@ namespace site.Controllers
 				db.Projects.Add(temp);
 				db.SaveChanges();
 			}
+			
 		}
 
 		private static void TestAdd4()
@@ -145,99 +151,155 @@ namespace site.Controllers
 			}
 			
 		}
+
+		private static void TestAdd5()
+		{
+			string[] names = { "devblog", "razrab", "vlog", "news" };
+			string body =
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+			string descr = body.Substring(0, 30);
+			Project pr1 = new Project
+			{
+				Name = "1",
+				Img = "123"
+			};
+			Project pr2 = new Project
+			{
+				Name = "2",
+				Img = "d"
+			};
+			List<Project> kek = new List<Project>();
+			kek.Add(pr1);
+			kek.Add(pr2);
+			for (int i = 0; i < 20; i++)
+			{
+				Team team = new Team
+				{
+					Name = names[i % 4],
+					Description = descr,
+					Members = TestAdd(),
+					Projects = kek,
+					Specialities = null
+				};
+				db.Teams.Add(team);
+				db.SaveChanges();
+			}
+		}
 		
+		#endregion
 		[Route("getArticles")]
 		[HttpGet]
-		public JsonResult GetArticles(int skip, int limit)
+		public JsonResult GetArticles(int? skip, int? limit)
 		{
-			Article[] arts = db.Articles.Skip(skip).Take(limit).ToArray();
-			return Json(arts);
+			if (skip != null && limit != null)
+			{
+				Article[] arts = db.Articles.Skip((int)skip).Take((int)limit).ToArray();
+				return Json(arts);
+			}
+			
+			
 
 		}
-		#endregion
+		
 
 		[Route("getTopArticles")]
 		[HttpGet]
 		public JsonResult GetTopArticles()
 		{
-			var temp = new
-			{
-				kek = new string[] {"тут будут топовые статьи"}
-			};
+			Article[] arts = db.Articles.OrderByDescending(d => d.Date).Take(3).ToArray();
 
-			return Json(temp);
+			return Json(arts);
 		}
 
 		[Route("getArticle")] 
 		[HttpGet]
 		public JsonResult GetArticle(int? id)
 		{
-
-			Article art = db.Articles.FirstOrDefault(a => a.ArticleId == id) ;
-			var temp = new
+			if (id != null)
 			{
-				article = art
-			};
-			return Json(temp);
+				Article art = db.Articles.FirstOrDefault(a => a.ArticleId == id) ;
+				if (art != null)
+				{
+					return Json(art);
+				}
+				throw new NullReferenceException();
+			}
+			throw new NullReferenceException();
 		}
 
 		[Route("getTeams")]
 		[HttpGet]
 		public JsonResult GetTeams()
 		{
-			Article art = db.Articles.FirstOrDefault(a => a.ArticleId == 0);
-			var temp = new
-			{
-				k = "k",
-				art
-			};
-			return Json(temp);
+			Team[] teams = db.Teams.Include("Members").ToArray();
+			return Json(teams);
 		}
 
 		[Route("getTeamInfo")]
 		[HttpGet]
 		public JsonResult GetTeamInfo(int? id)
 		{
-			var temp = new
+			if (id != null)
 			{
-				teamId = id
-			};
-			return Json(temp);
+				Team team = db.Teams.Find(id);
+				if (team != null)
+				{
+					return Json(team);
+				}
+				throw new NullReferenceException();
+			}
+			throw new NullReferenceException();
 		}
 
-		[Route("getMembers")]
+		[Route("getTeamMembers")]
 		[HttpGet]
 		public JsonResult GetTeamMembers(int? id)
 		{
-			var temp = new
+			if (id != null)
 			{
-				hui = "hui"
-			};
+				Team team = db.Teams.Find(id);
+				if (team != null)
+				{
+					List<User> mems = team.Members;
+					return Json(mems);
+				}
+				throw new NullReferenceException();
+			}
 			throw new NullReferenceException();
+			
+
+			
 		}
 
 		[Route("getMembers")]
 		[HttpGet]
 		public JsonResult GetMembers(int? offset, int? count)
 		{
-			var temp = new
+			if (offset != null && count != null)
 			{
-				offset,
-				count
-			};
-			return Json(temp);
+				User[] users = db.Users.Skip((int) offset).Take((int) count).ToArray();
+				return Json(users);
+			}
+			throw new NullReferenceException();
+			
 		}
 		
 		[Route("getMemberInfo")]
 		[HttpGet]
 		public JsonResult GetMemberInfo(int? id)
 		{
-			User user = db.Users.Find(id);
-			var temp = new
+			if (id != null)
 			{
-				id
-			};
-			return Json(temp);
+				User user = db.Users.Find(id);
+				if (user != null)
+				{
+					return Json(user);
+					
+				}
+				throw new NullReferenceException();
+			}
+
+			throw new NullReferenceException();
 		}
 		
 		[Route("getProjects")]
@@ -251,16 +313,54 @@ namespace site.Controllers
 		
 
 		[Route("getTeam")]
-		public JsonResult GetTeam(Project p)
-		{	
-			return Json(p);
+		public JsonResult GetTeam(int? id)
+		{
+			if (id != null)
+			{
+				Team team = db.Teams.Include("Members").Include("Projects").FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
+				if (team != null)
+				{
+					return Json(team);
+					
+				}
+				throw new NullReferenceException();
+			}
+
+			throw new NullReferenceException();
 		}
 
 		[Route("getTags")]
+		[HttpGet]
 		public JsonResult GetTags()
 		{
 			Tag[] tags = db.Tags.ToArray();
 			return Json(tags);
+		}
+
+		[Route("getSpecialities")]
+		[HttpGet]
+		public JsonResult GetSpecialities()
+		{
+			Speciality[] specs = db.Specialities.ToArray();
+			return Json(specs);
+		}
+
+
+		[Route("getProjectInfo")]
+		[HttpGet]
+		public JsonResult GetProjectInfo(int? id)
+		{
+			if (id != null)
+			{
+				Project pr = db.Projects.Find(id);
+				if (pr != null)
+				{
+					return Json(pr);
+				}
+				throw new NullReferenceException();
+			}
+			throw new NullReferenceException();
+			
 		}
 		
 	}
