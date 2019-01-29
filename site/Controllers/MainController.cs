@@ -20,12 +20,12 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t2;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
-//			TestAdd();
-//			TestAdd2();
-//			TestAdd3();
-//			TestAdd5();
+			TestAdd();
+			TestAdd2();
+			TestAdd3();
+			TestAdd5();
 		}
 
 		#region Тестовые данные
@@ -193,15 +193,15 @@ namespace site.Controllers
 		#endregion
 		[Route("getArticles")]
 		[HttpGet]
-		public JsonResult GetArticles(int? skip, int? limit)
+		public JsonResult GetArticles(int? offset, int? count)
 		{
-			if (skip != null && limit != null)
+			if (offset != null && count != null)
 			{
 				Article[] arts = db.Articles
 					.Include("Author")
 					.Include("Tags")
-					.Skip((int)skip)
-					.Take((int)limit)
+					.Skip((int)offset)
+					.Take((int)count)
 					.ToArray();
 				return Json(arts);
 			}
