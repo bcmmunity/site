@@ -21,9 +21,9 @@ namespace site.Controllers
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t5;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t9;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
-//			TestAdd();
+			TestAdd();
 //			TestAdd2();
 //			TestAdd3();
 //			TestAdd5();
@@ -70,7 +70,7 @@ namespace site.Controllers
 			
 		}
 
-		private static List<User> TestAdd()
+		private static void TestAdd()
 		{
 			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
 			string url = "https://loremflickr.com/320/245";
@@ -93,7 +93,7 @@ namespace site.Controllers
 			List<User> kek = new List<User>();
 			for (int i = 0; i < 5; i++)
 			{
-				Models.User temp = new User
+				User temp = new User
 				{
 					Photo = url,
 					Name = names[i % 5],
@@ -102,13 +102,12 @@ namespace site.Controllers
 					Description = descr,
 					Specialities = spec
 				};
-				kek.Add(temp);
+				db.Users.Add(temp);
+				db.SaveChanges();
 			}
-
-			return kek;
 		}
 
-		private static void TestAdd3()
+		private static List<Project> TestAdd3()
 		{
 			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
 			string url = "https://loremflickr.com/320/245";
@@ -126,20 +125,22 @@ namespace site.Controllers
 			List<Speciality> spec = new List<Speciality>();
 			spec.Add(sp1);
 			spec.Add(sp2);
-			for (int i = 0; i < 20; i++)
+			List<Project> kek = new List<Project>();
+			for (int i = 0; i < 5; i++)
 			{
 				Project temp = new Project
 				{
-					Name = names[i % 5],
+					Name = names[i % 4],
 					Img = url,
 					Description = descr,
 					Team = null,
 					Specialities = spec
 				};
-				db.Projects.Add(temp);
-				db.SaveChanges();
+				kek.Add(temp);
 			}
-			
+
+			return kek;
+
 		}
 
 		private static void TestAdd4()
@@ -182,8 +183,8 @@ namespace site.Controllers
 				{
 					Name = names[i % 4],
 					Description = descr,
-					Members = TestAdd(),
-					Projects = kek,
+//					Members = TestAdd(),
+					Projects = TestAdd3(),
 					Specialities = null
 				};
 				db.Teams.Add(team);
