@@ -21,12 +21,12 @@ namespace site.Controllers
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t9;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t13;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
-			TestAdd();
+//			TestAdd();
 //			TestAdd2();
 //			TestAdd3();
-//			TestAdd5();
+			TestAdd5();
 		}
 
 		#region Тестовые данные
@@ -133,7 +133,6 @@ namespace site.Controllers
 					Name = names[i % 4],
 					Img = url,
 					Description = descr,
-					Team = null,
 					Specialities = spec
 				};
 				kek.Add(temp);
@@ -183,8 +182,7 @@ namespace site.Controllers
 				{
 					Name = names[i % 4],
 					Description = descr,
-//					Members = TestAdd(),
-					Projects = TestAdd3(),
+					Projects = kek,
 					Specialities = null
 				};
 				db.Teams.Add(team);
@@ -345,7 +343,6 @@ namespace site.Controllers
 			if (offset != null && count != null)
 			{
 				Project[] projects = db.Projects
-					.Include("Team")
 					.Include("Specialities")
 					.Skip((int)offset)
 					.Take((int)count)
@@ -404,7 +401,6 @@ namespace site.Controllers
 			if (id != null)
 			{
 				Project pr = db.Projects
-					.Include("Team")
 					.Include("Specialities")
 					.FirstOrDefault(p => p.ProjectId == id);
 				if (pr != null)
