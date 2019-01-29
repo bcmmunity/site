@@ -4,6 +4,8 @@ using site.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+
 namespace site.Controllers
 {
 	[Route("api/[controller]")]
@@ -15,13 +17,15 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test79;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=test82;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 //			TestAdd();
+//			TestAdd2();
+//			TestAdd3();
 		}
 
 
-		private static void TestAdd()
+		private static void TestAdd2()
 		{
 			
 			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
@@ -55,6 +59,75 @@ namespace site.Controllers
 			}
 
 			
+		}
+
+		private static void TestAdd()
+		{
+			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
+			string url = "https://loremflickr.com/320/245";
+			string surname = "deffind";
+			string[] pos = {"teamlad", "jun", "senior", "middle", "gen dir"};
+			Speciality sp1 = new Speciality
+			{
+				Name = "c#"
+			};
+			Speciality sp2 = new Speciality
+			{
+				Name = "front"
+			};
+			List<Speciality> spec = new List<Speciality>();
+			spec.Add(sp1);
+			spec.Add(sp2);
+			string body =
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+			string descr = body.Substring(0, 50);
+			for (int i = 0; i < 20; i++)
+			{
+				Models.User temp = new User
+				{
+					Photo = url,
+					Name = names[i % 5],
+					Surname = surname,
+					Position = pos[i % 5],
+					Description = descr,
+					Specialities = spec
+				};
+				db.Users.Add(temp);
+				db.SaveChanges();
+			}
+		}
+
+		private static void TestAdd3()
+		{
+			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
+			string url = "https://loremflickr.com/320/245";
+			string body =
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+			string descr = body.Substring(0, 50);
+			Speciality sp1 = new Speciality
+			{
+				Name = "c#"
+			};
+			Speciality sp2 = new Speciality
+			{
+				Name = "front"
+			};
+			List<Speciality> spec = new List<Speciality>();
+			spec.Add(sp1);
+			spec.Add(sp2);
+			for (int i = 0; i < 20; i++)
+			{
+				Project temp = new Project
+				{
+					Name = names[i % 5],
+					Img = url,
+					Description = descr,
+					Team = null,
+					Specialities = spec
+				};
+				db.Projects.Add(temp);
+				db.SaveChanges();
+			}
 		}
 		
 		[Route("getArticles")]
@@ -153,12 +226,8 @@ namespace site.Controllers
 		
 		[Route("getMemberInfo")]
 		[HttpGet]
-		public JsonResult GetMemberInfo(string id)
+		public JsonResult GetMemberInfo(int? id)
 		{
-			if (id.All(char.IsDigit))
-			{
-				int _id = Convert.ToInt32(id);
-			}
 			var temp = new
 			{
 				id
@@ -169,12 +238,7 @@ namespace site.Controllers
 		[Route("getProjects")]
 		public JsonResult GetProjects()
 		{
-			List<Project> projects = new List<Project>();
-
-			projects.Add(new Project { Name = "Проект 1", Description = "Супер проект", Img = "https://www.voltmobi.com/wp-content/uploads/Untitled-5.jpg" });
-			projects.Add(new Project { Name = "Проект 2", Description = "Супер проект", Img = "https://www.voltmobi.com/wp-content/uploads/Untitled-5.jpg" });
-			projects.Add(new Project { Name = "Проект 3", Description = "Супер проект", Img = "https://www.voltmobi.com/wp-content/uploads/Untitled-5.jpg" });
-
+			Project[] projects = db.Projects.ToArray();
 			return Json(projects);
 		}
 
