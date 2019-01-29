@@ -59,14 +59,10 @@ namespace site.Controllers
 		
 		[Route("getArticles")]
 		[HttpGet]
-		public JsonResult GetArticles(int? skip, int? limit)
+		public JsonResult GetArticles(int skip, int limit)
 		{
-			var temp = new
-			{
-				skip,
-				limit
-			};
-			return Json(temp);
+			Article[] arts = db.Articles.Skip(skip).Take(limit).ToArray();
+			return Json(arts);
 
 		}
 
