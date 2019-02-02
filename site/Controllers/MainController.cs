@@ -20,8 +20,9 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t13;Trusted_Connection=True;");
+//			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t13;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 //			TestAdd();
 //			TestAdd2();
