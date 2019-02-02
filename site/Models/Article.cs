@@ -12,5 +12,6 @@ namespace site.Models
 		public User Author { get; set; }
 		public DateTime Date { get; set; }
 		public List<Tag> Tags { get; set; }
+
 	}
 }

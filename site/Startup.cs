@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using site.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using site.Controllers;
 
 namespace site
 {
@@ -22,6 +23,7 @@ namespace site
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			MainController.Unit();
 			services.AddDbContext<ApplicationContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -59,7 +61,7 @@ namespace site
 
 			app.UseMvc(routes =>
 			{
-				//routes.MapRoute(name: "api", template: "api/{controller=Admin}");
+				routes.MapRoute(name: "api", template: "api/{controller=Admin}");
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
