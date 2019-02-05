@@ -23,9 +23,9 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=t45;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
+//			optionsBuilder.UseSqlServer(
+//				"Server=localhost\\SQLEXPRESS;Database=t45;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 //			AddTags();

@@ -8,8 +8,8 @@ using System;
 
 namespace site.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
+	//[Route("api/[controller]")]
+	//[ApiController]
 	public class AccountController : Controller
 	{
 		private readonly UserManager<User> _userManager;//= new UserManager<User, string>(new UserStore<ApplicationUser, CustomRole, string, CustomUserLogin, CustomUserRole, CustomUserClaim>(new myDbContext()));
@@ -21,22 +21,24 @@ namespace site.Controllers
 			_signInManager = signInManager;
 		}
 
-		[Route("register")]
+		[HttpGet]
+		public IActionResult Register()
+		{
+			return View();
+		}
 		[HttpPost]
 		public async Task<IActionResult> Register(RegisterViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				User user = new User { Email = model.Email, UserName = model.Email };
+				User user = new User { Email = model.Email, UserName = model.Email};
 				// добавляем пользователя
-
 				var result = await _userManager.CreateAsync(user, model.Password);
-				
 				if (result.Succeeded)
 				{
 					// установка куки
 					await _signInManager.SignInAsync(user, false);
-					return Json("Ok");
+					return RedirectToAction("Index", "Home");
 				}
 				else
 				{
@@ -46,37 +48,110 @@ namespace site.Controllers
 					}
 				}
 			}
-			return Json("Exception");
+			return View(model);
 		}
 
-		[Route("logIn")]
+		[HttpGet]
+		public IActionResult Login(string returnUrl = null)
+		{
+			return View();//new LoginViewModel { ReturnUrl = returnUrl });
+		}
+
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+				var result =
+					await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 				if (result.Succeeded)
 				{
-					return Json("Вы вошли");
+					// проверяем, принадлежит ли URL приложению
+					//if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+					//{
+					//	return Redirect(model.ReturnUrl);
+					//}
+					//else
+					//{
+						return RedirectToAction("Index", "Home");
+					//}
 				}
 				else
 				{
-					return Json("Неправильный логин и (или) пароль");
+					ModelState.AddModelError("", "Неправильный логин и (или) пароль");
 				}
 			}
-			return Json("Вы вошли");
+			return View(model);
 		}
 
-		[Route("logOff")]
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> LogOff()
 		{
 			// удаляем аутентификационные куки
 			await _signInManager.SignOutAsync();
-			return Json("Вы вышли");
+			return RedirectToAction("Index", "Home");
 		}
+
+
+
+		//[Route("register")]
+		//	[HttpPost]
+		//	public async Task<IActionResult> Register(RegisterViewModel model)
+		//	{
+		//		if (ModelState.IsValid)
+		//		{
+		//			User user = new User { Email = model.Email, UserName = model.Email };
+		//			// добавляем пользователя
+
+		//			var result = await _userManager.CreateAsync(user, model.Password);
+
+		//			if (result.Succeeded)
+		//			{
+		//				// установка куки
+		//				await _signInManager.SignInAsync(user, false);
+		//				return Json("Ok");
+		//			}
+		//			else
+		//			{
+		//				foreach (var error in result.Errors)
+		//				{
+		//					ModelState.AddModelError(string.Empty, error.Description);
+		//				}
+		//			}
+		//		}
+		//		return Json("Exception");
+		//	}
+
+		//	//[Route("logIn")]
+		//	[HttpPost]
+		//	//[ValidateAntiForgeryToken]
+		//	public async Task<IActionResult> Login(LoginViewModel model)
+		//	{
+		//		if (ModelState.IsValid)
+		//		{
+		//			var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+		//			if (result.Succeeded)
+		//			{
+		//				return Json("Вы вошли");
+		//			}
+		//			else
+		//			{
+		//				return Json("Неправильный логин и (или) пароль");
+		//			}
+		//		}
+		//		return Json("Вы вошли");
+		//	}
+
+		//	//[Route("logOff")]
+		//	[HttpPost]
+		//	//[ValidateAntiForgeryToken]
+		//	public async Task<IActionResult> LogOff()
+		//	{
+		//		// удаляем аутентификационные куки
+		//		await _signInManager.SignOutAsync();
+		//		return Json("Вы вышли");
+		//	}
 	}
 }

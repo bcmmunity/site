@@ -10,7 +10,7 @@ namespace site.Controllers
 {
 	public class HomeController : Controller
 	{
-		
+
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
@@ -28,6 +28,18 @@ namespace site.Controllers
 				.Take(count)
 				.ToArray();
 			ViewBag.p = projects;
+			return View();
+		}
+
+		public ActionResult About()
+		{
+			int offset = 0;
+			int count = 10;
+			return View(MainController.db.Projects.Skip(offset).Take(count).ToArray());
+		}
+
+		public ActionResult Contacts()
+		{
 			return View();
 		}
 	}
