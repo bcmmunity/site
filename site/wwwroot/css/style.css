@@ -165,6 +165,54 @@ header .down {
     margin-top: 40px;
     flex-direction: row; }
 
+.projects {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-align: center; }
+  .projects__title {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column; }
+  .projects__item {
+    margin-top: 40px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: row;
+    width: 540px;
+    height: 270px; }
+    .projects__item .left, .projects__item .right {
+      width: 50%; }
+    .projects__item .left {
+      background-color: #bababa; }
+      .projects__item .left__img {
+        width: 100%; }
+    .projects__item .right {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      flex-direction: column;
+      background-color: #E9E9E9;
+      justify-content: space-between;
+      text-align: left;
+      padding: 20px; }
+      .projects__item .right span {
+        color: #434343; }
+      .projects__item .right .type {
+        font-size: 20px; }
+      .projects__item .right .name {
+        font-size: 24px; }
+      .projects__item .right .comp-more {
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+        justify-content: space-between; }
+      .projects__item .right .company {
+        font-size: 14px; }
+      .projects__item .right a {
+        font-size: 14px; }
+
 footer .up {
   height: 240px;
   background-color: #434343;

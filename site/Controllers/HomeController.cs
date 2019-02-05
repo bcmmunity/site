@@ -21,6 +21,13 @@ namespace site.Controllers
 
 		public ActionResult Index()
 		{
+			int offset = 0;
+			int count = 10;
+			Project[] projects = MainController.db.Projects
+				.Skip(offset)
+				.Take(count)
+				.ToArray();
+			ViewBag.p = projects;
 			return View();
 		}
 	}

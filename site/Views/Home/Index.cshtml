@@ -1,6 +1,8 @@
-﻿@{
+﻿@using site.Controllers
+@{
   Layout = "_Header_Footer";
   ViewBag.Title = "Главная";
+  Project[] pr = ViewBag.p;
 }
 
 <div class="about-us">
@@ -61,21 +63,80 @@
       </div>
     </div>
 
-    <div class="join">
-      <h2 class="h2-general">Присоединяйтесь</h2>
-      <h3 class="h3-general">Подписывайтесь на нас в социальных сетях и будьте в курсе событий!</h3>
-      <div class="soc-list">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
-        <img src="img/logo_yt.svg" alt="" class = "join__img">
+<div class="join">
+  <h2 class="h2-general">Присоединяйтесь</h2>
+  <h3 class="h3-general">Подписывайтесь на нас в социальных сетях и будьте в курсе событий!</h3>
+  <div class="soc-list">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
+    <img src="img/logo_yt.svg" alt="" class = "join__img">
 
+  </div>
+</div>
+
+
+<div class="projects">
+  <h2 class="h2-general">Projects</h2>
+  <div class="container">
+    
+    @for (int i = 0, len = pr.Length; i < len; i += 2)
+    {
+      <div class="container">
+        <div class="row">
+          @if (i < len)
+          {
+            <div class="col-6">
+              <div class="projects__item">
+                <div class="left">
+                  <img src= @pr[i].Img alt="" class="left__img">
+                </div>
+                <div class="right">
+                  <div class="projects__title">
+                    <span class="type">@pr[i].Name</span>
+                    <span class="date">September, 12, 2017</span>
+                  </div>
+                  <span class="name">@pr[i].Name</span>
+                  <div class="comp-more">
+                    <span class="company">Diffind</span>
+                    <a href="">Learn more</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          }
+          
+          @if (i + 1 < len)
+          {
+            <div class="col-6">
+              <div class="projects__item">
+                <div class="left">
+                  <img src= @pr[i].Img alt=""  class="left__img">
+                </div>
+                <div class="right">
+                  <div class="projects__title">
+                    <span class="type">@pr[i + 1].Name</span>
+                    <span class="date">September, 12, 2017</span>
+                  </div>
+                  <span class="name">@pr[i + 1].Name</span>
+                  <div class="comp-more">
+                    <span class="company">Diffind</span>
+                    <a href="">Learn more</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          }
+        </div>
       </div>
-    </div>
 
-
+    }
+  </div>
+</div>
 

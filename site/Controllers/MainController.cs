@@ -18,22 +18,22 @@ namespace site.Controllers
 	[ApiController]
 	public class MainController : Controller
 	{
-		static ApplicationContext db;
+		public static ApplicationContext db;
 
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
 			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=t43;Trusted_Connection=True;");
+				"Server=localhost\\SQLEXPRESS;Database=t45;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
-			AddTags();
-			AddSpecialities();
-			AddUsers();
-			AddProjects();
-			AddTeams();
-			AddArticles();
+//			AddTags();
+//			AddSpecialities();
+//			AddUsers();
+//			AddProjects();
+//			AddTeams();
+//			AddArticles();
 		}
 		
 		#region Test data
@@ -126,7 +126,7 @@ namespace site.Controllers
 
 		public static void AddProjects()
 		{
-			string photo = "https://loremflickr.com/320/240";
+			string photo = "https://loremflickr.com/cache/resized/7890_46965722211_26f02453fd_h_1000_1000_nofilter.jpg";
 			string[] names =
 			{
 				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал"
