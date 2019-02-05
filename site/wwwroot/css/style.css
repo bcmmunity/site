@@ -1,0 +1,211 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  height: 5000px; }
+
+.fl {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: row; }
+
+.h2-general {
+  font-size: 32px;
+  color: #434343; }
+
+.h3-general {
+  font-size: 20px;
+  color: #434343; }
+
+header .up {
+  height: 50px;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  align-items: center;
+  background-color: #e9e9e9; }
+  header .up .container {
+    height: 30px; }
+  header .up .phone {
+    color: #434343;
+    text-decoration: underline; }
+header .socnet {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: row; }
+  header .socnet__icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 7.5px;
+    margin-right: 7.5px; }
+header .down {
+  height: 120px;
+  background-color: #434343;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  align-items: center; }
+  header .down .container {
+    height: 90px; }
+  header .down span {
+    color: #e9e9e9; }
+  header .down .slogan {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column; }
+  header .down__up {
+    font-size: 36px; }
+  header .down__down {
+    font-size: 24px; }
+  header .down ul {
+    margin: 0;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex; }
+    header .down ul li {
+      display: -webkit-inline-flex;
+      display: -ms-inline-flex;
+      display: inline-flex;
+      margin-left: 7.5px;
+      margin-right: 7.5px; }
+      header .down ul li a {
+        color: #e9e9e9; }
+        header .down ul li a:hover {
+          text-decoration: none; }
+
+.language {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: row; }
+  .language a {
+    color: #434343;
+    font-size: 18px; }
+  .language__img {
+    width: 20px;
+    height: 20px; }
+
+.row {
+  justify-content: center;
+  align-items: center; }
+
+.about-us {
+  padding-top: 75px;
+  padding-bottom: 75px; }
+  .about-us__title {
+    text-align: center; }
+
+.descr {
+  margin-top: 40px; }
+  .descr p {
+    font-size: 16px; }
+  .descr img {
+    width: 100%; }
+  .descr .bttn {
+    display: block; }
+    .descr .bttn__block {
+      width: 155px;
+      margin: auto;
+      height: 40px;
+      background-color: #555;
+      color: #fff;
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px; }
+
+.why-we {
+  padding-top: 75px;
+  padding-bottom: 75px; }
+  .why-we__title {
+    text-align: center; }
+  .why-we .list {
+    margin-top: 40px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: row; }
+    .why-we .list__inner {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center; }
+      .why-we .list__inner svg {
+        width: 100px;
+        height: 100px;
+        color: #434343; }
+      .why-we .list__inner p {
+        font-size: 16px; }
+    .why-we .list .title {
+      margin-top: 20px;
+      font-size: 24px; }
+
+.join {
+  margin-top: 75px;
+  margin-bottom: 75px;
+  text-align: center;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+  .join__img {
+    width: 30px;
+    height: 30px; }
+  .join .soc-list {
+    margin-top: 40px;
+    flex-direction: row; }
+
+footer .up {
+  height: 240px;
+  background-color: #434343;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex; }
+  footer .up .slogan {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column;
+    color: #fff; }
+  footer .up__up {
+    font-size: 36px; }
+  footer .up__down {
+    font-size: 24px; }
+  footer .up__inner {
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 20px; }
+    footer .up__inner .created {
+      font-size: 14px;
+      color: #fff; }
+    footer .up__inner .line {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.125); }
+    footer .up__inner ul {
+      margin: 0;
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex; }
+      footer .up__inner ul li {
+        display: -webkit-inline-flex;
+        display: -ms-inline-flex;
+        display: inline-flex;
+        margin-left: 7.5px;
+        margin-right: 7.5px; }
+        footer .up__inner ul li a {
+          color: #e9e9e9; }
+          footer .up__inner ul li a:hover {
+            text-decoration: none; }
+
+/*# sourceMappingURL=style.css.map */

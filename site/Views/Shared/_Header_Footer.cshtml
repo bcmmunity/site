@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+<header>
+    <div class="up">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <a href="tel:8999999999" class = "phone">+7-999-999-9999</a>
+                </div>
+                <div class="col-2 fl offset-7">
+                    <div class="socnet">
+                        <img src="img/logo_vk.svg" alt="" class = "socnet__icon">
+                        <img src="img/logo_yt.svg" alt="" class = "socnet__icon">
+                        <img src="img/logo_twitter.svg" alt="" class = "socnet__icon">
+                    </div>
+                </div>
+                <div class="col-1 fl">
+
+                    <div class="language">
+                        <img src="img/internet.svg" alt="" class = "language__img">
+                        <a href="">English</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="down">
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <div class="slogan">
+                        <span class = "down__up">Community</span>
+                        <span class = "down__down">Create whatever!</span>
+                    </div>
+
+                </div>
+                <div class="col-3 offset-6">
+                    <ul>
+                        <li><a href="">Главная</a></li>
+                        <li><a href="">Мы</a></li>
+                        <li><a href="">Сотрудничество</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    @RenderBody()
+</main>
+
+
+<footer>
+    <div class="up">
+        <div class="up__inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="slogan">
+                            <span class = "up__up">Community</span>
+                            <span class = "up__down">Create whatever!</span>
+                        </div>
+
+                    </div>
+                    <div class="col-3 offset-6">
+                        <ul>
+                            <li><a href="">Главная</a></li>
+                            <li><a href="">Мы</a></li>
+                            <li><a href="">Сотрудничество</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row line">
+                    <div class="col-2">
+                        <span class="created">Created by Community©</span>
+
+                    </div>
+                    <div class="col-2 offset-8">
+                        <span class="created">All rights Reserved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>
