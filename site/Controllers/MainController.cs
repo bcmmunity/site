@@ -4,7 +4,10 @@ using site.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.CodeAnalysis;
 using Project = site.Models.Project;
@@ -20,178 +23,207 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
-//			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=t13;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer(
+				"Server=localhost\\SQLEXPRESS;Database=t43;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
-//			TestAdd();
-//			TestAdd2();
-//			TestAdd3();
-			TestAdd5();
+
+			AddTags();
+			AddSpecialities();
+			AddUsers();
+			AddProjects();
+			AddTeams();
+			AddArticles();
+		}
+		
+		#region Test data
+		private static void AddTags()
+		{
+			string[] tagNames =
+			{
+				"AI", 
+				"ML",
+				"Unity", 
+				"announcement", 
+				"News", 
+				"DevBlog"
+			};
+			foreach (var name in tagNames)
+			{
+				Tag tag = new Tag
+				{
+					Name = name
+				};
+				db.Tags.Add(tag);
+				db.SaveChanges();
+			}
 		}
 
-		#region Тестовые данные
-		private static void TestAdd2()
+		private static void AddSpecialities()
 		{
-			
-			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
-			string body =
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-			string descr = body.Substring(0, 50);
-			Tag t1 = new Tag {Name = "C#"};
-			Tag t2 = new Tag {Name = "Java"};
-			List<Tag> tags = new List<Tag>();
-			tags.Add(t1);
-			tags.Add(t2);
-			
-			User auth = new User
+			string[] specs =
 			{
-				Name = "artem",
-				Surname = "kim"
+				"C#", 
+				"Python", 
+				"UX/UI", 
+				"React", 
+				"HTML/CSS"
 			};
-			
+
+			foreach (var sp in specs)
+			{
+				Speciality spec = new Speciality
+				{
+					Name = sp
+				};
+				db.Specialities.Add(spec);
+				db.SaveChanges();
+			}
+		}
+
+		public static void AddUsers()
+		{
+			string photo = "https://loremflickr.com/320/240";
+			string[] names =
+			{
+				"Лариса", "Любим", "Акулина", "Флорентин", "Измаил", "Серафим", "Федот", "Онуфрий", "Севастьян", "Владимир"
+			};
+			string[] surnames =
+			{
+				"Тарасов", "Крылова", "Потапова", "Попова", "Соколов", "Андреева", "Романова", "Кабанов", "Стрелкова", "Лукин"
+			};
+			string[] positions =
+			{
+				"Тимлид", "Сеньор", "Джун", "Миддл", "Редактор", "Гендир"
+			};
+			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
 			for (int i = 0; i < 20; i++)
 			{
-				Console.WriteLine("asdasdd");
-				Article temp = new Article
+				Random rand = new Random();
+				List<Speciality> sp = db.Specialities
+					.Take(rand.Next(1, db.Specialities.ToArray().Length))
+					.ToList();
+				Models.User user = new User
 				{
-					Name = names[i % 5],
-					Body = body,
-					Description = descr,
-					Author = auth,
-					Date = new DateTime(2019, 12, i + 1),
-					Tags = tags
+					Photo = photo,
+					Name = names[rand.Next(0, names.Length)],
+					Surname = surnames[rand.Next(0, surnames.Length)],
+					Position = positions[rand.Next(0, positions.Length)],
+					Description = descr
 				};
+
+				foreach (var s in sp)
+				{
+					user.Specialities.Add(s);
+				}
 				
-				
-				db.Articles.Add(temp);
+				db.Users.Add(user);
 				db.SaveChanges();
+				Thread.Sleep(50);
 			}
 
-			
 		}
 
-		private static void TestAdd()
+		public static void AddProjects()
 		{
-			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
-			string url = "https://loremflickr.com/320/245";
-			string surname = "deffind";
-			string[] pos = {"teamlad", "jun", "senior", "middle", "gen dir"};
-			Speciality sp1 = new Speciality
+			string photo = "https://loremflickr.com/320/240";
+			string[] names =
 			{
-				Name = "c#"
+				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал"
 			};
-			Speciality sp2 = new Speciality
-			{
-				Name = "front"
-			};
-			List<Speciality> spec = new List<Speciality>();
-			spec.Add(sp1);
-			spec.Add(sp2);
-			string body =
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-			string descr = body.Substring(0, 50);
-			List<User> kek = new List<User>();
+			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
 			for (int i = 0; i < 5; i++)
 			{
-				User temp = new User
+				Random rand = new Random();
+				List<Speciality> sp = db.Specialities
+					.Take(rand.Next(1, db.Specialities.ToArray().Length))
+					.ToList();
+				Project project = new Project
 				{
-					Photo = url,
-					Name = names[i % 5],
-					Surname = surname,
-					Position = pos[i % 5],
+					Img = photo,
+					Name = names[i],
 					Description = descr,
-					Specialities = spec
+					
 				};
-				db.Users.Add(temp);
+				project.Specialities.AddRange(sp);
+				
+				
+				db.Projects.Add(project);
 				db.SaveChanges();
+				Thread.Sleep(10);
 			}
 		}
 
-		private static List<Project> TestAdd3()
+		public static void AddTeams()
 		{
-			string[] names = { "kak pisat bota", "devblog 1", "dogovor", "1000000 userov", "spulat mulae" };
-			string url = "https://loremflickr.com/320/245";
-			string body =
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-			string descr = body.Substring(0, 50);
-			Speciality sp1 = new Speciality
+			string[] names =
 			{
-				Name = "c#"
+				"Команда разработки сайта", "Команда дизайнеров", "Команда фронт-энда", "Призраки", "Лень еще придумывать названик"
 			};
-			Speciality sp2 = new Speciality
-			{
-				Name = "front"
-			};
-			List<Speciality> spec = new List<Speciality>();
-			spec.Add(sp1);
-			spec.Add(sp2);
-			List<Project> kek = new List<Project>();
+			string descr =
+				"Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов";
 			for (int i = 0; i < 5; i++)
 			{
-				Project temp = new Project
-				{
-					Name = names[i % 4],
-					Img = url,
-					Description = descr,
-					Specialities = spec
-				};
-				kek.Add(temp);
-			}
-
-			return kek;
-
-		}
-
-		private static void TestAdd4()
-		{
-			string[] tags = { "devblog", "razrab", "vlog", "news" };
-			foreach (var t in tags) 
-			{
-				Tag temp = new Tag
-				{
-					Name = t
-				};
-				db.Tags.Add(temp);
-				db.SaveChanges();
-			}
-			
-		}
-
-		private static void TestAdd5()
-		{
-			string[] names = { "devblog", "razrab", "vlog", "news" };
-			string body =
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-			string descr = body.Substring(0, 30);
-			Project pr1 = new Project
-			{
-				Name = "1",
-				Img = "123"
-			};
-			Project pr2 = new Project
-			{
-				Name = "2",
-				Img = "d"
-			};
-			List<Project> kek = new List<Project>();
-			kek.Add(pr1);
-			kek.Add(pr2);
-			for (int i = 0; i < 20; i++)
-			{
+				Random rand = new Random();
+				List<Speciality> sp = db.Specialities
+					.Take(rand.Next(1, db.Specialities.ToArray().Length - 1))
+					.ToList();
+				List<User> mems = db.Users
+					.Take(rand.Next(1, db.Users.ToArray().Length - 2))
+					.ToList();
+				List<Project> prs = db.Projects
+					.Take(rand.Next(1, db.Projects.ToArray().Length - 2))
+					.ToList();
 				Team team = new Team
 				{
-					Name = names[i % 4],
-					Description = descr,
-					Projects = kek,
-					Specialities = null
+					Name = names[i],
+					Description = descr
 				};
+				team.Specialities.AddRange(sp);
+				team.Members.AddRange(mems);
+				team.Projects.AddRange(prs);
+
 				db.Teams.Add(team);
 				db.SaveChanges();
+				Thread.Sleep(15);
+			}
+		}
+
+		public static void AddArticles()
+		{
+			string[] names =
+			{
+				"Как написать сайт и не сойти с ума", "Пишем тестовые данные для сайта, чтобы правдоподобно",
+				"Чат-бот для маленьких и тупых (как автор)", "Столько всяких способов сделать одно и то же",
+				"Тайм-менеджемент для бедных и для тех у кого нет времени",
+				"Как бесполезно тратить деньги"
+				
+			};
+			string body = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
+			string descr = body.Substring(0, 30);
+			for (int i = 0; i < 6; i++)
+			{
+				Random rand = new Random();
+				List<Tag> tags = db.Tags
+					.Take(rand.Next(1, db.Tags.ToArray().Length))
+					.ToList();
+				Article art = new Article
+				{
+					Name = names[i],
+					Body = body,
+					Description = descr, 
+					Author = db.Users.ToList().GetRandomItem(),
+					Date = new DateTime(2019, 1, i + 1)
+				};
+				art.Tags.AddRange(tags);
+				db.Articles.Add(art);
+				db.SaveChanges();
+				Thread.Sleep(15);
 			}
 		}
 		
-		#endregion
+		#endregion		
+
 		[Route("getArticles")]
 		[HttpGet]
 		public JsonResult GetArticles(int? offset, int? count)
@@ -200,7 +232,6 @@ namespace site.Controllers
 			{
 				Article[] arts = db.Articles
 					.Include("Author")
-					.Include("Tags")
 					.Skip((int)offset)
 					.Take((int)count)
 					.ToArray();
@@ -208,8 +239,6 @@ namespace site.Controllers
 			}
 			throw new NullReferenceException();
 			
-			
-
 		}
 		
 
@@ -219,7 +248,6 @@ namespace site.Controllers
 		{
 			Article[] arts = db.Articles
 				.Include("Author")
-				.Include("Tags")
 				.OrderByDescending(d => d.Date)
 				.Take(3)
 				.ToArray();
@@ -235,7 +263,6 @@ namespace site.Controllers
 			{
 				Article art = db.Articles
 					.Include("Author")
-					.Include("Tags")
 					.FirstOrDefault(a => a.ArticleId == id) ;
 				if (art != null)
 				{
@@ -250,7 +277,7 @@ namespace site.Controllers
 		[HttpGet]
 		public JsonResult GetTeams()
 		{
-			Team[] teams = db.Teams.Include("Members").ToArray();
+			Team[] teams = db.Teams.ToArray();
 			return Json(teams);
 		}
 
@@ -261,9 +288,6 @@ namespace site.Controllers
 			if (id != null)
 			{
 				Team team = db.Teams
-					.Include("Projects")
-					.Include("Members")
-					.Include("Specialities")
 					.FirstOrDefault(t => t.TeamId == id);
 					
 				if (team != null)
@@ -282,9 +306,6 @@ namespace site.Controllers
 			if (id != null)
 			{
 				Team team = db.Teams
-					.Include("Projects")
-					.Include("Members")
-					.Include("Specialities")
 					.FirstOrDefault(t => t.TeamId == id);
 				if (team != null)
 				{
@@ -306,7 +327,7 @@ namespace site.Controllers
 			if (offset != null && count != null)
 			{
 				User[] users = db.Users
-					.Include("Specialities")
+//					.Include("Specialities")
 					.Skip((int) offset)
 					.Take((int) count)
 					.ToArray();
@@ -323,7 +344,6 @@ namespace site.Controllers
 			if (id != null)
 			{
 				User user = db.Users
-					.Include("Specialities")
 					.FirstOrDefault(u => u.Id == id);
 					
 				if (user != null)
@@ -344,7 +364,6 @@ namespace site.Controllers
 			if (offset != null && count != null)
 			{
 				Project[] projects = db.Projects
-					.Include("Specialities")
 					.Skip((int)offset)
 					.Take((int)count)
 					.ToArray();
@@ -363,9 +382,6 @@ namespace site.Controllers
 			if (id != null)
 			{
 				Team team = db.Teams
-					.Include("Team")
-					.Include("Members")
-					.Include("Projects")
 					.FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
 				if (team != null)
 				{
@@ -402,7 +418,6 @@ namespace site.Controllers
 			if (id != null)
 			{
 				Project pr = db.Projects
-					.Include("Specialities")
 					.FirstOrDefault(p => p.ProjectId == id);
 				if (pr != null)
 				{
@@ -413,6 +428,38 @@ namespace site.Controllers
 			throw new NullReferenceException();
 			
 		}
+
+		[Route("sendMail")]
+		[HttpPost]
+		public JsonResult SendMail([FromBody] Mail mail)
+		{
+			if (mail == null)
+			{
+				throw new NullReferenceException();
+			}
+
+			string mailFrom = mail.From;
+			string mailTo = "info@diffind.com";
+			string displayName = mail.Name;
+			string header = mail.Header;
+			string body = mail.Body;
+			MailAddress from = new MailAddress(mailFrom, displayName);
+			MailAddress to = new MailAddress(mailTo);
+			MailMessage m = new MailMessage();
+			m.From = from;
+			m.To.Add(to);
+			m.Subject = header;
+			m.Body = body;
+			SmtpClient smtp = new SmtpClient("wpl19.hosting.reg.ru", 587 );
+			smtp.Credentials = new NetworkCredential("info@diffind.com", "SuperInfo123!");
+			smtp.Send(m);
+			return Json(new
+			{
+				response = "Ваша заявка отправлена"
+			});
+		}
+
+		
 		
 	}
 }
