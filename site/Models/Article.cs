@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace site.Models
 {
@@ -11,7 +12,13 @@ namespace site.Models
 		public string Description { get; set; }
 		public User Author { get; set; }
 		public DateTime Date { get; set; }
+		[NotMapped]
 		public List<Tag> Tags { get; set; }
+
+		public Article()
+		{
+			Tags = new List<Tag>();
+		}
 
 	}
 }
