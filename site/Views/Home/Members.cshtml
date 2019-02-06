@@ -1,4 +1,79 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using site.Controllers
+@model IEnumerable<site.Models.User>
+
+@{
+    User[] users = Model.ToArray();
+
+}
+
+
+
+  
+      @for (int i = 0, len = users.Length; i < len; i += 2)
+      {
+        <div class="row">
+          @if (i < len)
+          {
+            <div class="col-6">
+              <div class="team__list__inner">
+                <div class="left">
+                  <img src="~/img/sample.jpg" alt="" class="photo">
+                  <div class="links">
+                    <a href="">
+                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
+                      </object>
+                    </a>
+                    <a href="">
+                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
+                      </object>
+                    </a>
+                    <a href="">
+                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
+                      </object>
+                    </a>
+                    <a href="">
+                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
+                      </object>
+                    </a>
+                  </div>
+                </div>
+                <div class="right">
+                  <span class="name">@users[i].Name</span>
+                  <span class="position">@users[i].Position | 8 years of experience</span>
+                  <span class="email">@users[i].Email</span>
+                  <p class="description">@users[i].Description</p>
+                  <a href="" class="more">Learn more</a>
+                </div>
+              </div>
+            </div>
+          }
+          @if (i + 1 < len)
+          {
+            <div class="col-6">
+              <div class="team__list__inner">
+                <div class="left">
+                  <img src="~/img/sample.jpg" alt="" class="photo">
+                  <div class="links">
+                    <a href="">
+                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
+                      </object>
+                    </a>
+                    
+                  </div>
+                </div>
+
+                <div class="right">
+                  <span class="name">@users[i + 1].Name</span>
+                  <span class="position">@users[i + 1].Position | 8 years of experience</span>
+                  <span class="email">@users[i + 1].Email</span>
+                  <p class="description">@users[i + 1].Description</p>
+                  <a href="" class="more">Learn more</a>
+                </div>
+              </div>
+            </div>
+          }
+          
+        </div>
+      }
+      
+

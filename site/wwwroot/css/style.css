@@ -39,6 +39,7 @@ a:hover {
 .bttn-dark:hover {
   background-color: #d63031;
   color: #fff;
+  cursor: pointer;
 }
 
 .bttn-light {
@@ -52,6 +53,7 @@ a:hover {
 .bttn-light:hover {
   border: 1px solid #d63031;
   color: #d63031;
+  cursor: pointer;
 }
 
 .header__top {
@@ -186,21 +188,6 @@ a:hover {
   font-size: 24px;
 }
 
-.team__selection {
-  margin-top: 60px;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  justify-content: center;
-}
-.team__selection a {
-  font-size: 24px;
-  margin: 0 10px;
-  color: #7d7d7d;
-}
-.team__selection a:active {
-  color: #434343;
-}
 .team__list {
   margin-top: 60px;
 }
@@ -266,6 +253,13 @@ a:hover {
 .team__list__inner .right .more {
   margin-right: 10px;
   font-size: 14px;
+}
+.team__load {
+  margin-top: 50px;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
 }
 
 .projects {

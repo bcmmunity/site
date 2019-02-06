@@ -19,13 +19,14 @@ namespace site.Controllers
 	public class MainController : Controller
 	{
 		public static ApplicationContext db;
-
+		
+		
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
 			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=t45;Trusted_Connection=True;");
+				"Server=localhost\\SQLEXPRESS;Database=t49;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 //			AddTags();
@@ -96,8 +97,12 @@ namespace site.Controllers
 			{
 				"Тимлид", "Сеньор", "Джун", "Миддл", "Редактор", "Гендир"
 			};
+			string[] mails =
+			{
+				"mcarter@nelson.net", "colemantaylor@joyce.org", "hbrown@gmail.com", "lisabowman@yahoo.com", "francisaustin@yahoo.com", "johnmanning@gonzalez.com", "paul89@lopez.info", "fgutierrez@gmail.com", "sheila06@chandler-gonzalez.com", "downsrenee@lee.org", "lambertcandice@ray-campos.com", "goodroger@hotmail.com", "lkelly@lewis-carr.biz", "brianrich@george.com", "cooleysue@smith.com", "gsherman@yahoo.com", "dchoi@cunningham.biz", "michaelgonzalez@walters-bryant.com", "marissamccormick@peters.info", "kimberlyrose@petersen-chapman.com", "stephanie96@gmail.com", "nelsonchristopher@savage.com", "rossjamie@hotmail.com", "oconnellevelyn@hotmail.com", "rnelson@stone.info", "melindaramos@kent.com", "scole@hotmail.com", "dlin@gmail.com", "timothybarrera@clarke.com", "hruiz@thomas-estes.com", "bradley63@gmail.com", "broberts@thompson.com", "christy54@vargas.info", "rfoster@yahoo.com", "edward23@yahoo.com", "qsutton@lewis.net", "nicholsshelia@hotmail.com", "tiffanycaldwell@houston-kaiser.org", "nelsoncory@lynch.com", "ericwilliams@king.biz"
+			};
 			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 40; i++)
 			{
 				Random rand = new Random();
 				List<Speciality> sp = db.Specialities
@@ -109,7 +114,9 @@ namespace site.Controllers
 					Name = names[rand.Next(0, names.Length)],
 					Surname = surnames[rand.Next(0, surnames.Length)],
 					Position = positions[rand.Next(0, positions.Length)],
-					Description = descr
+					Description = descr,
+					Email = mails[i]
+					
 				};
 
 				foreach (var s in sp)
@@ -119,7 +126,7 @@ namespace site.Controllers
 				
 				db.Users.Add(user);
 				db.SaveChanges();
-				Thread.Sleep(50);
+				Thread.Sleep(20);
 			}
 
 		}
@@ -129,10 +136,10 @@ namespace site.Controllers
 			string photo = "https://loremflickr.com/cache/resized/7890_46965722211_26f02453fd_h_1000_1000_nofilter.jpg";
 			string[] names =
 			{
-				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал"
+				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал", "Крутой проект 1", "Крутой проект 2", "Проект 3", "Проект 4"
 			};
 			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < names.Length * 2; i++)
 			{
 				Random rand = new Random();
 				List<Speciality> sp = db.Specialities
@@ -141,7 +148,7 @@ namespace site.Controllers
 				Project project = new Project
 				{
 					Img = photo,
-					Name = names[i],
+					Name = names[i % names.Length],
 					Description = descr,
 					
 				};
