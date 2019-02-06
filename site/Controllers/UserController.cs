@@ -7,11 +7,11 @@ using site.ViewModels;
 
 namespace CustomIdentityApp.Controllers
 {
-	public class UsersController : Controller
+	public class UserController : Controller
 	{
 		UserManager<User> _userManager;
 
-		public UsersController(UserManager<User> userManager)
+		public UserController(UserManager<User> userManager)
 		{
 			_userManager = userManager;
 		}
