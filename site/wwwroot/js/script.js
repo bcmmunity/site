@@ -11,7 +11,10 @@ window.onload = function() {
     icon_elem.style.fill = "#434343";
   });
 
-  let team_select = document.getElementsByClassName('team__selection')[0].children;
+  let team_select = document.getElementsByClassName('team__selection')[0];
+  if (team_select !== undefined) {
+    team_select = team_select.children;
+  }
   let kek = Array.from(team_select);
   kek.forEach(function(elem) {
     elem.addEventListener("click", function(event) {
