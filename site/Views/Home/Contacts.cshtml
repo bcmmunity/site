@@ -4,5 +4,53 @@
 	ViewBag.Title = "Сотрудничество";
 }
 
-<h2>Contacts</h2>
+<section class="contancts">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h2 class="h2-common">Контактная форма</h2>
+          <p class="contancts__text">
+              Если у вас интересные идеи, предложения о сотрудничестве или же вы просто хотите заказать у нас разработку сайта или приложения - заполните форму и мы ответим вам!
+          </p>
+          <ul>
+            <li class = "contancts__list__item">
+              <h4 class="contancts__list__title">Адрес</h4>
+              <p class="contancts__list__text">Страна Россия, город Москва</p>
+            </li>
+            <li class = "contancts__list__item">
+              <h4 class="contancts__list__title">Часы</h4>
+              <p class="contancts__list__text">Ежедневно с 8:00 до 24:00</p>
+            </li>
+            <li class = "contancts__list__item">
+              <h4 class="contancts__list__title">Контактные данные</h4>
+              <p class="contancts__list__text">Телефон, почта</p>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6">
+          <div class="contancts__form__container">
+
+            <form action="" class = "contancts__form" method = "post">
+
+              <label for="name">Имя<sup>*</sup></label>
+              <input type="text" placeholder="Введите ваше имя" id = "name" name = "name">
+
+              <label for="phone">Телефон<sup>*</sup></label>
+              <input type="text" placeholder="Введите ваше имя" id = "phone" name = "phone">
+
+              <label for="mail">E-mail<sup>*</sup></label>
+              <input type="text" placeholder="Введите ваше имя" id = "mail" name = "mail">
+
+              <label for="name">Ваше сообщение<sup>*</sup></label>
+              <textarea name="message" rows="8" cols="80" placeholder="Опишите вашу идею, предложение, заказ, чтобы мы могли подготовить для вас подробный ответ :)"></textarea>
+              <p>* - обязательные к заполнению поля</p>
+              <input type="submit" value = "Отправить" name = "send">
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 

@@ -16,6 +16,10 @@ a:hover {
   text-decoration: none;
 }
 
+sup {
+  top: -0.2em;
+}
+
 .h2-common {
   font-size: 32px;
   color: #434343;
@@ -66,12 +70,16 @@ a:hover {
   display: -ms-flex;
   display: flex;
 }
+.header__top__icons a {
+  width: 30px;
+  height: 30px;
+  margin-left: 7.5px;
+  margin-right: 7.5px;
+}
 .header__top__icons svg {
   width: 30px;
   height: 30px;
   fill: #434343;
-  margin-left: 7.5px;
-  margin-right: 7.5px;
 }
 .header__top__lang {
   display: -webkit-flex;
@@ -188,6 +196,21 @@ a:hover {
   font-size: 24px;
 }
 
+.team__selection {
+  margin-top: 60px;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
+}
+.team__selection a {
+  font-size: 24px;
+  margin: 0 10px;
+  color: #7d7d7d;
+}
+.team__selection a:active {
+  color: #434343;
+}
 .team__list {
   margin-top: 60px;
 }
@@ -357,6 +380,84 @@ a:hover {
   pointer-events: none;
 }
 
+.contancts {
+  padding-top: 75px;
+  padding-bottom: 75px;
+}
+.contancts .h2-common {
+  text-align: left;
+}
+.contancts__text {
+  font-size: 20px;
+}
+.contancts__list__item {
+  margin-top: 30px;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  align-items: center;
+}
+.contancts__list__title {
+  flex-basis: 180px;
+  margin: 0;
+  font-size: 24px;
+}
+.contancts__list__text {
+  margin: 0;
+  font-size: 16px;
+}
+.contancts__form {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.contancts__form__container {
+  background-color: #e9e9e9;
+  padding: 60px 90px 70px;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
+}
+.contancts__form__container p {
+  font-size: 14px;
+}
+.contancts__form input[type="text"] {
+  background-color: rgba(103, 103, 103, 0.2);
+  margin: 12px 0 15px;
+  border-radius: 4px;
+  border: 0;
+  font-size: 14px;
+  width: 100%;
+  padding: 10px 20px;
+}
+.contancts__form textarea {
+  background-color: rgba(103, 103, 103, 0.2);
+  margin: 12px 0 15px;
+  border-radius: 4px;
+  border: 0;
+  font-size: 14px;
+  width: 100%;
+  padding: 10px 20px;
+}
+.contancts__form input[type="submit"] {
+  font-size: 14px;
+  padding: 9px 24px;
+  background-color: #555;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s;
+}
+.contancts__form input[type="submit"]:hover {
+  background-color: #d63031;
+  color: #fff;
+  cursor: pointer;
+}
+
 .footer {
   padding-top: 40px;
   padding-bottom: 40px;
@@ -399,6 +500,20 @@ a:hover {
 }
 .footer__inner ul li a {
   color: #d9d9d9;
+  position: relative;
+}
+.footer__inner ul li a::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  width: 25%;
+  background-color: #fff;
+  transition: 0.3s;
+}
+.footer__inner ul li a:hover::before {
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */
