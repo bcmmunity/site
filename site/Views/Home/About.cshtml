@@ -1,5 +1,5 @@
 ﻿@using site.Controllers
-@model IEnumerable<site.Models.User>
+@model ApplicationContext;
 @{
 	Layout = "_Header_Footer";
 	
@@ -21,7 +21,7 @@
 
 				</div>
 				<div class="col-6">
-					<img src="https://loremflickr.com/1920/1080" alt="">
+					<img src="~/img/bg.jpg" alt="">
 				</div>
 			</div>
 		</div>
@@ -85,42 +85,25 @@
 	<h2 class = "h2-common">Наша команда</h2>
 	<div class="team__list">
 	<div class="container" id="teams">
-	@Html.Partial("Members");
+	@Html.Partial("Members", @Model.Users.Skip(0).Take(4).ToArray());
 		</div>
 	</div>
 	<div class="team__load">
 		<a  class="bttn-light" id = "team__load__button" >Загрузить еще</a>
 	</div>
 </section>
-@* <section class="projects" id = "pr"> *@
-	@* @Html.Partial("Projects"); *@
-@* </section> *@
+<section class="projects">
+	<h2 class="h2-сommon">Projects</h2>
+	<div class="container" id = "pr">
+	@Html.Partial("Projects", @Model.Projects.Skip(0).Take(4).ToArray());
+	</div>
+	<div class="projects__load" >
+		
+		<a  class="bttn-light" id = "projects__load__button" >Загрузить еще</a>
+		
+	</div>
+
+</section>
+
 @Html.Partial("JoinUs");
 
-
-<script>
-//	
-//	if (project_count >= @MainController.db.Projects.Count()) {
-//		project_count = @MainController.db.Projects.Count();
-//		$("#projects__load__button").hide();
-//	}
-//	
-//	function loadProjects() {
-//		project_count += 4;
-//		$("#pr").load("/Home/ProjectsLoad?count=" + project_count);
-//		
-//	}
-	
-//	if (team_count >= @MainController.db.Users.Count()) {
-//		team_count = @MainController.db.Users.Count();
-//		$("#team__load__button").hide();
-//	}
-//	
-//	function loadTeam() {
-//		
-//		team_count += 6;
-//		$("#teams").load("/Home/TeamsLoad?count=" + team_count);
-//		
-//	}
-	
-</script>

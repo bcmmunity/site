@@ -1,79 +1,80 @@
 ﻿@using site.Controllers
 @model IEnumerable<site.Models.User>
-
 @{
     User[] users = Model.ToArray();
-
 }
 
 
 
-  
-      @for (int i = 0, len = users.Length; i < len; i += 2)
-      {
-        <div class="row">
-          @if (i < len)
-          {
-            <div class="col-6">
-              <div class="team__list__inner">
-                <div class="left">
-                  <img src="~/img/sample.jpg" alt="" class="photo">
-                  <div class="links">
-                    <a href="">
-                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
-                      </object>
-                    </a>
-                    <a href="">
-                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
-                      </object>
-                    </a>
-                    <a href="">
-                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
-                      </object>
-                    </a>
-                    <a href="">
-                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
-                      </object>
-                    </a>
-                  </div>
-                </div>
-                <div class="right">
-                  <span class="name">@users[i].Name</span>
-                  <span class="position">@users[i].Position | 8 years of experience</span>
-                  <span class="email">@users[i].Email</span>
-                  <p class="description">@users[i].Description</p>
-                  <a href="" class="more">Learn more</a>
-                </div>
-              </div>
-            </div>
-          }
-          @if (i + 1 < len)
-          {
-            <div class="col-6">
-              <div class="team__list__inner">
-                <div class="left">
-                  <img src="~/img/sample.jpg" alt="" class="photo">
-                  <div class="links">
-                    <a href="">
-                      <object type="image/svg+xml" data="~/img/logo_vk.svg" class="join__img">
-                      </object>
-                    </a>
-                    
-                  </div>
-                </div>
 
-                <div class="right">
-                  <span class="name">@users[i + 1].Name</span>
-                  <span class="position">@users[i + 1].Position | 8 years of experience</span>
-                  <span class="email">@users[i + 1].Email</span>
-                  <p class="description">@users[i + 1].Description</p>
-                  <a href="" class="more">Learn more</a>
+@for (int i = 0, len = users.Length; i < len; i += 2)
+{
+    <div class="row">
+        @if (i < len)
+        {
+            <div class="col-6">
+                <div class="team__list__inner">
+                    <div class="left">
+                        <img src="~/img/sample.jpg" alt="" class="photo">
+                         <img src="img/sample.jpg" alt="" class="photo">
+                    <div class="links">
+                      <a href="">
+                      <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                      <a href="">
+                        <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                      <a href="">
+                        <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                      <a href="">
+                        <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                    </div>
+                    </div>
+                    <div class="right">
+                        <span class="name">@users[i].Name</span>
+                        <span class="position">@users[i].Position | 8 years of experience</span>
+                        <span class="email">@users[i].Email</span>
+                        <p class="description">@users[i].Description</p>
+                        <a href="" class="more">Learn more</a>
+                    </div>
                 </div>
-              </div>
             </div>
-          }
-          
-        </div>
-      }
-      
+        }
+        @if (i + 1 < len)
+        {
+            <div class="col-6">
+                <div class="team__list__inner">
+                    <div class="left">
+                        <img src="~/img/sample.jpg" alt="" class="photo">
+                          <img src="img/sample.jpg" alt="" class="photo">
+                    <div class="links">
+                      <a href="">
+                      <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                      <a href="">
+                        <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                      <a href="">
+                        <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                      <a href="">
+                        <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486" id = "Capa_1"><path d="M395 0H91C41 0 0 41 0 91v304c0 51 41 91 91 91h304c51 0 91-40 91-91V91c0-50-40-91-91-91zm-39 267l43 49c5 6 1 16-7 16h-49c-7 0-15-3-20-8l-15-13c-16-14-23-19-29-19-7 0-8 5-8 17 0 13-3 23-40 23s-66-28-99-71c-32-43-47-89-47-89-2-6 3-12 9-12h38c8 0 14 4 17 11l18 33c13 22 26 32 33 36 3 2 6 0 6-3v-53c0-7-2-14-7-19l-5-7c-2-1 0-4 2-4h61c9 0 17 8 17 17v62c0 4 5 6 7 2l44-66c4-5 9-9 16-9h52v1c7 0 11 7 7 13l-45 73c-4 6-4 14 1 20z"/></svg>
+                      </a>
+                    </div>
+                    </div>
 
+                    <div class="right">
+                        <span class="name">@users[i + 1].Name</span>
+                        <span class="position">@users[i + 1].Position | 8 years of experience</span>
+                        <span class="email">@users[i + 1].Email</span>
+                        <p class="description">@users[i + 1].Description</p>
+                        <a href="" class="more">Learn more</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
