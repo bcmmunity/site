@@ -80,7 +80,8 @@ namespace CustomIdentityApp.Controllers
 					var result = await _userManager.UpdateAsync(user);
 					if (result.Succeeded)
 					{
-						return RedirectToAction("Index");
+						return RedirectToAction("About");
+						//return RedirectToAction("Index");
 					}
 					else
 					{
