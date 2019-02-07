@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -48,19 +49,23 @@ namespace site.Controllers
 		}
 		
 		
-		public ActionResult ProjectsLoad(int count)
+		public ActionResult ProjectsLoad(int offset, int count)
 		{
-			
-			int offset = 0;
-			if (count > MainController.db.Projects.Count())
+			if (offset + count > MainController.db.Projects.Count())
 			{
-				count = MainController.db.Projects.Count();
+				count =	MainController.db.Projects.Count() - offset;
 			}
+
+			
 			return PartialView("Projects", MainController.db.Projects.Skip(offset).Take(count).ToArray());
 		}
 		
 		public ActionResult TeamsLoad(int offset, int count)
 		{
+			if (offset + count > MainController.db.Users.Count())
+			{
+				count =	MainController.db.Users.Count() - offset;
+			}
 			return PartialView("Members", MainController.db.Users.Skip(offset).Take(count).ToArray());
 		}
 		

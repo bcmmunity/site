@@ -220,6 +220,7 @@ sup {
   display: flex;
   flex-direction: row;
   width: 100%;
+  margin-top: 30px;
 }
 .team__list__inner .left {
   display: -webkit-flex;
