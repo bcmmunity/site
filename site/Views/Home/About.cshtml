@@ -63,29 +63,11 @@
 </section>
 
 
-
-
-
-
-
-
-
-
-
-@* @{ *@
-@* 		await Html.RenderPartialAsysnc("Members"); *@
-@* } *@
-@* *@
-@* @{ *@
-@* 	await Html.RenderPartialAsync("Projects"); *@
-@* } *@
-
-
 <section class="team">
 	<h2 class = "h2-common">Наша команда</h2>
 	<div class="team__list">
 	<div class="container" id="teams">
-	@Html.Partial("Members", @Model.Users.Skip(0).Take(4).ToArray());
+	@Html.Partial("Members", Model.Users.Skip(0).Take(4).ToArray())
 		</div>
 	</div>
 	<div class="team__load">
@@ -95,7 +77,7 @@
 <section class="projects">
 	<h2 class="h2-сommon">Projects</h2>
 	<div class="container" id = "pr">
-	@Html.Partial("Projects", @Model.Projects.Skip(0).Take(4).ToArray());
+	@Html.Partial("Projects", Model.Projects.Skip(0).Take(4).ToArray())
 	</div>
 	<div class="projects__load" >
 		
@@ -106,4 +88,46 @@
 </section>
 
 @Html.Partial("JoinUs");
+
+@section OnLoad {
+	<script>
+		$(function() {
+			var project_count = 4;
+			var team_count = 4;
+
+			$(this).on("click", "#projects__load__button", function() {    
+				$.ajax({
+					type: "GET",
+					url: "/Home/ProjectsLoad",
+					data: { offset: project_count, count: 4 },
+					success: function (result) {
+						$("#pr").append(result);
+						
+					}
+				});
+				project_count += 4;
+				if (project_count + 4 > @Model.Projects.Count()) {
+					$("#projects__load__button").hide();
+				}
+
+			});
+
+			$(this).on("click", "#team__load__button", function() {
+				$.ajax({
+					type: "GET",
+					url: "/Home/TeamsLoad",
+					data: { offset: team_count, count: 6},
+					success: function (result) {
+						$("#teams").append(result);
+					}
+				});
+				team_count += 6;
+				if (team_count + 6 > @Model.Users.Count()) {
+					$("#team__load__button").hide();
+				}
+			});
+
+		});
+	</script>
+}
 
