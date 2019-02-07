@@ -37,9 +37,9 @@ namespace site.Controllers
 		public ActionResult About()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q1;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=t49;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q12;Trusted_Connection=True;");
+//			optionsBuilder.UseSqlServer(
+//				"Server=localhost\\SQLEXPRESS;Database=t49;Trusted_Connection=True;");
 			var db = new ApplicationContext(optionsBuilder.Options);
 
 			return View(db);

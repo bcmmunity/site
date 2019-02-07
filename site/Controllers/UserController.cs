@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using site.Models;
 using site.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CustomIdentityApp.Controllers
 {
@@ -42,17 +47,19 @@ namespace CustomIdentityApp.Controllers
 			return View(model);
 		}
 
-		public async Task<IActionResult> Edit(string id)
+		[Authorize]
+		public async Task<IActionResult> Edit()
 		{
-			User user = await _userManager.FindByIdAsync(id);
+			User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
 			if (user == null)
 			{
 				return NotFound();
 			}
-			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email };
+			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Photo = user.Photo, Position = user.Position, Name = user.Name, Surname = user.Surname };
 			return View(model);
 		}
 
+		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> Edit(EditUserViewModel model)
 		{
@@ -63,6 +70,12 @@ namespace CustomIdentityApp.Controllers
 				{
 					user.Email = model.Email;
 					user.UserName = model.Email;
+					user.Description = model.Description;
+					user.Photo = model.Photo;
+					user.Position = model.Position;
+					user.Name = model.Name;
+					user.Surname = model.Surname;
+					
 
 					var result = await _userManager.UpdateAsync(user);
 					if (result.Succeeded)

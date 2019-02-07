@@ -8,6 +8,7 @@ using site.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using site.Controllers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace site
 {
@@ -37,7 +38,12 @@ namespace site
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-
+			// установка конфигурации подключения
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options => //CookieAuthenticationOptions
+				{
+					options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+				});
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
@@ -58,6 +64,8 @@ namespace site
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
+
+			app.UseAuthentication();
 
 			app.UseMvc(routes =>
 			{
