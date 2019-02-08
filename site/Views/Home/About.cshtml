@@ -2,7 +2,7 @@
 @model ApplicationContext;
 @{
 	Layout = "_Header_Footer";
-	
+	ViewBag.Title = "О нас";
 }
 <section class="about">
 	<div class="about__title">
@@ -14,17 +14,17 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
 					<div class="about__description__text">
-						<p>Diffind" - группа талантливых и амбициозных программистов, дизайнеров,
+						<p>"Diffind" - группа талантливых и амбициозных программистов, дизайнеров,
 							редакторов и не только, которых объединяет одна идея: каждый из нас способен изменить мир.
 							</br>
 							Именно поэтому, когда мы видим, что что-то может работать по-другому, или же когда есть
 							проблема, на которую все закрывают глаза, мы будем создавать новые проекты, решающие эту проблему</p>
-						<a href="" class="bttn-dark" asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
+						<a class="bttn-dark" asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
 					</div>
 
 				</div>
 				<div class="col-lg-6 col-md-12 order-first">
-					<img src="img/bg.jpg" alt="">
+					<img src="~/img/bg.jpg" alt="">
 				</div>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 
 </section>
 
-@Html.Partial("JoinUs");
+@Html.Partial("JoinUs")
 
 @section OnLoad {
 	<script>

@@ -30,12 +30,12 @@ namespace site.Controllers
 				"Server=localhost\\SQLEXPRESS;Database=t77;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
-				AddTags();
-				AddSpecialities();
-				AddUsers();
-				AddProjects();
-				AddTeams();
-				AddArticles();
+//				AddTags();
+//				AddSpecialities();
+//				AddUsers();
+//				AddProjects();
+//				AddTeams();
+//				AddArticles();
 		}
 		
 		#region Test data
