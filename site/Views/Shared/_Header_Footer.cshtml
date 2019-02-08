@@ -22,7 +22,7 @@
         </div>
         <div class="col-2 offset-7">
           <div class="header__top__icons">
-            <a href="">
+            <a href="https://vk.com/diffind">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 viewBox="0 0 486.4 486.4" xml:space="preserve" class = "socnet__icon">
                 <path  d="M395.2,0h-304C40.8,0,0,40.8,0,91.2v304c0,50.4,40.8,91.2,91.2,91.2h304c50.4,0,91.2-40.8,91.2-91.2v-304
@@ -34,7 +34,7 @@
                 C350.6,253.3,351.2,261.3,356,266.9z"/>
               </svg>
 
-              </a>
+              </a>@*
               <a href="">
 
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -54,7 +54,7 @@
                 c29.5,36.2,73.7,60.1,123.4,62.6c-1-4.4-1.6-9-1.6-13.6c0-33,26.8-59.9,59.9-59.9c17.2,0,32.8,7.3,43.7,18.9
                 c13.6-2.7,26.4-7.7,38-14.5c-4.5,14-14,25.7-26.3,33.1c12.1-1.4,23.7-4.7,34.4-9.4C386.1,169.7,375.9,180.2,364.2,188.6z"/>
               </svg>
-              </a>
+              </a>*@
           </div>
         </div>
         <div class="col-1">
@@ -63,7 +63,7 @@
             <object type="image/svg+xml" data="~/img/internet.svg" id = "lang_icon">
 
             </object>
-            <a href="">English</a>
+            <a href="">Русский</a>
           </div>
         </div>
       </div>
@@ -75,16 +75,27 @@
       <div class="row align-items-center">
         <div class="col-3">
           <div>
-            <span class = "header__bot__name">Community</span>
-            <span class = "header__bot__motto">Create whatever!</span>
+            <span class = "header__bot__name">Diffind</span></br>
+            <span class = "header__bot__motto">Change the world!</span>
           </div>
-
         </div>
         <div class="col-3 offset-6">
 			<ul>
 				<li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
 				<li><a asp-area="" asp-controller="Home" asp-action="About">Мы</a></li>
 				<li><a asp-area="" asp-controller="Home" asp-action="Contacts">Сотрудничество</a></li>
+				@if (User.Identity.IsAuthenticated)
+				{
+					<li><a asp-area="" asp-controller="User" asp-action="Edit">Профиль</a></li>
+					<form method="post" asp-controller="Account" asp-action="LogOff">
+						<input type="submit" value="Выход" />
+					</form>
+				}
+				else
+				{
+					<li><a asp-area="" asp-controller="Account" asp-action="Login">Войти</a></li>
+					<li><a asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a></li>
+				}
 			</ul>
         </div>
       </div>
@@ -100,8 +111,8 @@
       <div class="row align-items-center">
         <div class="col-3">
           <div>
-            <span class = "footer__name">Community</span>
-            <span class = "footer__motto">Create whatever!</span>
+            <span class = "footer__name">Diffind</span></br>
+			<span class="footer__motto">Change the world!</span>
           </div>
 
         </div>
@@ -115,7 +126,7 @@
       </div>
       <div class="row line">
         <div class="col-2">
-          <span class="created">Created by Community©</span>
+          <span class="created">Created by Diffint©</span>
 
         </div>
         <div class="col-2 offset-8">

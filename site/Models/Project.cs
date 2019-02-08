@@ -9,6 +9,8 @@ namespace site.Models
 		public string Name { get; set; }
 		public string Img { get; set; }
 		public string Description { get; set; }
+		public int Rang { get; set; }
+		public bool IsShowed { get; set; }
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
 

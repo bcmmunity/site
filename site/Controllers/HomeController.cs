@@ -23,22 +23,14 @@ namespace site.Controllers
 
 		public ActionResult Index()
 		{
-			User kek = new User();
-		
-			int offset = 0;
-			int count = 10;
-			Project[] projects = MainController.db.Projects
-				.Skip(offset)
-				.Take(count)
-				.ToArray();
-			ViewBag.p = projects;
-			return View();
+			return RedirectToAction("About");
 		}
 
 		public ActionResult About()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q12;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
+//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
 //			optionsBuilder.UseSqlServer(
 //				"Server=localhost\\SQLEXPRESS;Database=t49;Trusted_Connection=True;");
 			var db = new ApplicationContext(optionsBuilder.Options);
@@ -66,7 +58,7 @@ namespace site.Controllers
 			{
 				count =	MainController.db.Users.Count() - offset;
 			}
-			return PartialView("Members", MainController.db.Users.Skip(offset).Take(count).ToArray());
+			return PartialView("Members", MainController.db.Users.OrderByDescending(d => d.Rang).Skip(offset).Take(count).ToArray());
 		}
 		
 		

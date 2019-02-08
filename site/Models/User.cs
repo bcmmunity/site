@@ -11,6 +11,8 @@ namespace site.Models
 		public string Surname { get; set; }
 		public string Position { get; set; }
 		public string Description { get; set; }
+		public int Rang { get; set; }
+		public bool IsShowed { get; set; }
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
 
