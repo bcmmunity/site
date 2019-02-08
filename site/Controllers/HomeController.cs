@@ -29,10 +29,10 @@ namespace site.Controllers
 		public ActionResult About()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
+			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=t77;Trusted_Connection=True;");
+//			optionsBuilder.UseSqlServer(
+//				"Server=localhost\\SQLEXPRESS;Database=t77;Trusted_Connection=True;");
 			var db = new ApplicationContext(optionsBuilder.Options);
 
 			return View(db);
