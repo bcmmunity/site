@@ -14,13 +14,20 @@
 </head>
 <body>
   <div class="overlay">
-    <ul>
-      <li><a asp-controller="Home" asp-action="About">Главная</a></li>
-      <li><a asp-controller="Home" asp-action="About">Мы</a></li>
-      <li><a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
-      <li><a href="">Войти</a></li>
-      <li><a href="">Регистрация</a></li>
-    </ul>
+	  <ul>
+	  	<li><a asp-controller="Home" asp-action="About">Главная</a></li>
+	  	<li><a asp-controller="Home" asp-action="About">Мы</a></li>
+	  	<li><a asp-controller="Home" asp-action="Contacts">Сотрудничество</a></li>
+	  	@if (User.Identity.IsAuthenticated)
+		{
+	  	<li><a asp-controller="User" asp-action="Edit">Профиль</a></li>
+	  	@*<li><a asp-controller="Account" asp-action="Register">Регистрация</a></li>*@
+  }
+  else
+  {
+	  <li><a asp-controller="Account" asp-action="Login">Войти</a></li>
+  }
+	  </ul>
   </div>
   <header сlass = "header">
     <div class="header__top">
@@ -80,13 +87,20 @@
                 </div>
               </div>
 
-              <ul>
-                <li><a asp-controller="Home" asp-action="About">Главная</a></li>
-                <li><a asp-controller="Home" asp-action="About">Мы</a></li>
-                <li><a asp-controller="Home" asp-action="Contacts">Сотрудничество</a></li>
-                <li><a href="">Войти</a></li>
-                <li><a href="">Регистрация</a></li>
-              </ul>
+			  <ul>
+			  	<li><a asp-controller="Home" asp-action="About">Главная</a></li>
+			  	<li><a asp-controller="Home" asp-action="About">Мы</a></li>
+			  	<li><a asp-controller="Home" asp-action="Contacts">Сотрудничество</a></li>
+			  	@if (User.Identity.IsAuthenticated)
+				{
+			  	<li><a asp-controller="User" asp-action="Edit">Профиль</a></li>
+			  	@*<li><a asp-controller="Account" asp-action="Register">Регистрация</a></li>*@
+		  }
+		  else
+		  {
+			  <li><a asp-controller="Account" asp-action="Login">Войти</a></li>
+		  }
+			  </ul>
             </div>
           </div>
         </div>
@@ -108,13 +122,20 @@
 
         </div>
         <div class="col-md-6 offset-md-3 col-12">
-          <ul>
-            <li><a asp-controller="Home" asp-action="About">Главная</a></li>
-            <li><a asp-controller="Home" asp-action="About">Мы</a></li>
-            <li><a asp-controller="Home" asp-action="Contacts">Сотрудничество</a></li>
-            <li><a href="">Войти</a></li>
-            <li><a href="">Регистрация</a></li>
-          </ul>
+			<ul>
+				<li><a asp-controller="Home" asp-action="About">Главная</a></li>
+				<li><a asp-controller="Home" asp-action="About">Мы</a></li>
+				<li><a asp-controller="Home" asp-action="Contacts">Сотрудничество</a></li>
+				@if (User.Identity.IsAuthenticated)
+				{
+					<li><a asp-controller="User" asp-action="Edit">Профиль</a></li>
+					@*<li><a asp-controller="Account" asp-action="Register">Регистрация</a></li>*@
+				}
+				else
+				{
+					<li><a asp-controller="Account" asp-action="Login">Войти</a></li>
+				}
+			</ul>
         </div>
       </div>
       <div class="row line">
