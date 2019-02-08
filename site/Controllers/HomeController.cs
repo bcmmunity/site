@@ -58,7 +58,7 @@ namespace site.Controllers
 			{
 				count =	MainController.db.Users.Count() - offset;
 			}
-			return PartialView("Members", MainController.db.Users.OrderByDescending(d => d.Rang).Skip(offset).Take(count).ToArray());
+			return PartialView("Members", MainController.db.Users.OrderBy(d => d.Rang).Skip(offset).Take(count).ToArray());
 		}
 		
 		

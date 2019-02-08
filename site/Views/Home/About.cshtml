@@ -73,7 +73,7 @@
 	<h2 class = "h2-common">Наша команда</h2>
 	<div class="team__list">
 	<div class="container" id="teams">
-	@Html.Partial("Members", Model.Users.OrderByDescending(d => d.Rang).Skip(0).Take(4).ToArray())
+	@Html.Partial("Members", Model.Users.OrderBy(d => d.Rang).Skip(0).Take(4).ToArray())
 		</div>
 	</div>
 	<div class="team__load">
