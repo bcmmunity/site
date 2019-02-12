@@ -2,64 +2,27 @@
 @model IEnumerable<site.Models.Project>
 
 @{
-	Project[]	pr = Model.ToArray();
-
-	
+    Project[] pr = Model.ToArray();
 }
 
+@for (int i = 0, len = pr.Length; i < len; i += 1)
+{
+    <div class="projects__item">
+        <div class="left">
+            @* <img class="left__img" alt=""> *@
+           <img class = "left__img" src="https://loremflickr.com/1280/720" alt="">
+        </div>
+        <div class="right">
+            <div class="projects__title">
+                <span class="type">@pr[i].Name</span>
+                <span class="date">2019 год</span>
+            </div>
+            <span class="name">@pr[i].Name</span>
+            <div class="comp-more">
+                <span class="company">Diffind</span>
+                <a href="">Learn more</a>
+            </div>
 
-
-	
-		@for (int i = 0, len = pr.Length; i < len; i += 2)
-		{
-			<div class="row">
-				@if (i < len)
-				{
-					<div class="col-lg-6 col-md-12">
-						<div class="projects__item">
-							<div class="left">
-								<img class="left__img" src="@pr[i].Img" alt="">
-							</div>
-							<div class="right">
-								<div class="projects__title">
-									<span class="type">@pr[i].Name</span>
-									<span class="date">2019 год</span>
-								</div>
-								<span class="name">@pr[i].Name</span>
-								<div class="comp-more">
-									<span class="company">Diffind</span>
-									<a href="">Подробности</a>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				}
-
-				@if (i + 1 < len)
-				{
-					<div class="col-lg-6 col-md-12">
-						<div class="projects__item">
-							<div class="left">
-								<img class="left__img" src="@pr[i + 1].Img" alt="">
-							</div>
-							<div class="right">
-								<div class="projects__title">
-									<span class="type">@pr[i + 1].Name</span>
-									<span class="date">2019 год</span>
-								</div>
-
-								<span class="name">@pr[i + 1].Name</span>
-								<div class="comp-more">
-									<span class="company">Diffind</span>
-									<a href="">Подробности</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				}
-
-			</div>
-		}
-
-	
+        </div>
+    </div>
+}

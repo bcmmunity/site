@@ -1,0 +1,45 @@
+@model IEnumerable<site.Models.Article>
+@{
+    Article[] ar = Model.ToArray();  
+}
+<div class="news__block__latest"  style = "background-image: url('@ar[0].PhotoCover')">
+                <div class="news__block__latest__text">
+                    <span class="category">@ar[0].Name</span>
+                    <a href="#" class="title">
+                        @ar[0].Name
+                    </a>
+                    <div class = "auth-name">
+
+                        <a class="author" href = ""><img src="@ar[0].Author.Photo" alt="" class="author__img">@ar[0].Author.Name @ar[0].Author.Surname</a>
+                        <span class="time">@ar[0].Time</span>
+                    </div>
+                </div>
+            </div>
+            <div class="news__block__prev">
+                <div class="news__block__prev__art" style = "background-image: url('@ar[1].PhotoCover')">
+                    <div class="news__block__prev__text">
+                        <span class="category">@ar[1].Name</span>
+                        <a href="#" class="title">
+                            @ar[1].Name
+                        </a>
+                        <div class = "auth-name">
+
+                            <a class="author" href = ""><img src="@ar[1].Author.Photo" alt="" class="author__img">@ar[1].Author.Name @ar[1].Author.Surname</a>
+                            <span class="time">@ar[1].Time</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="news__block__prev__art" style = "background-image: url('@ar[2].PhotoCover')">
+                    <div class="news__block__prev__text">
+                        <span class="category">@ar[2].Name</span>
+                        <a href="#" class="title">
+                            @ar[2].Name
+                        </a>
+                        <div class = "auth-name">
+
+                            <a class="author" href = ""><img src="@ar[1].Author.Photo" alt="" class="author__img">@ar[2].Author.Name @ar[2].Author.Surname</a>
+                            <span class="time">@ar[2].Time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>

@@ -3,59 +3,50 @@
 	Layout = "_Header_Footer";
 	ViewBag.Title = "Сотрудничество";
 }
-
-<section class="contancts">
+<section class="contacts">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 col-md-12">
-				<h2 class="h2-common">Контактная форма</h2>
-				<p class="contancts__text">
-					Если у вас интересные идеи, предложения о сотрудничестве или же вы просто хотите заказать у нас разработку сайта или приложения - заполните форму и мы ответим вам!
-				</p>
-				<ul>
-					<li class="contancts__list__item">
-						<h4 class="contancts__list__title">Адрес</h4>
-						<p class="contancts__list__text">Страна Россия, город Москва</p>
-					</li>
-					<li class="contancts__list__item">
-						<h4 class="contancts__list__title">Часы</h4>
-						<p class="contancts__list__text">Ежедневно с 10:00 до 22:00</p>
-					</li>
-					<li class="contancts__list__item">
-						<h4 class="contancts__list__title">Контактные данные</h4>
-						<p class="contancts__list__text">+7(925)046-33-64, contact@diffind.com</p>
-					</li>
-				</ul>
+		<div class="contacts__text">
+			<h2 class="h2-common">Контактная форма</h2>
+			<p>Если у вас интересные идеи, предложения о сотрудничестве или же вы просто хотите заказать у нас разработку сайта или приложения - заполните форму и мы ответим вам!</p>
+			<div class="contacts__text__data">
+				<h4>Адрес</h4>
+				<span>Страна Россия, город Москва</span>
 			</div>
-			<div class="col-lg-6 col-md-12">
-				<div class="contancts__form__container">
-					<form method="post" asp-controller="Main" asp-action="SendMail"
-						  asp-route-returnUrl="" class="contancts__form">
-						<div asp-validation-summary="ModelOnly"></div>
-						<label for="name">Имя<sup>*</sup></label>
-						<input asp-for="Name" placeholder="Введите ваше имя" />
-						<span asp-validation-for="Name"></span>
-
-						<label for="mail">E-mail<sup>*</sup></label>
-						<input asp-for="From" placeholder="Введите вашу почту" />
-						<span asp-validation-for="From"></span>
-
-						<label for="Header">Заголовок<sup>*</sup></label>
-						<input asp-for="Header" placeholder="Введите заголовок письма" />
-						<span asp-validation-for="Header"></span>
-
-						<label for="name">Ваше сообщение<sup>*</sup></label>
-						@Html.TextAreaFor(n => n.Body, new { rows = "8", cols = "80", placeholder = "Опишите вашу идею, предложение, заказ, чтобы мы могли подготовить для вас подробный ответ :)" })
-						<span asp-validation-for="Body"></span>
-
-						<p>* - обязательные к заполнению поля</p>
-						<input type="submit" value="Отправить" />
-					</form>
-
-
-				</div>
+			<div class="contacts__text__data">
+				<h4>Часы</h4>
+				<span>Ежедневно с 10:00 до 22:00</span>
+			</div>
+			<div class="contacts__text__data">
+				<h4>Контактные данные</h4>
+				<span>+7(925)046-33-64, contact@diffind.com</span>
+			</div>
+		</div>
+		<div class="contacts__form__container">
+			<div class="contacts__form">
+				<form method="post" asp-controller="Main" asp-action="SendMail"
+				      asp-route-returnUrl="" class="contancts__form">
+					<div asp-validation-summary="ModelOnly"></div>
+					<label for="name">Имя*</label>
+					<input asp-for="Name" placeholder="Введите ваше имя" id="name" type="text"/>
+					<span asp-validation-for="Name"></span>
+					
+					<label for="email">E-mail*</label>
+					<input asp-for="From" type="text" placeholder="example@mail.ru" id="email"/>
+					<span asp-validation-for="From"></span>
+					
+					<label asp-for="Header"></label><br />
+					<input asp-for="Header" placeholder="Введите заголовок письма" type="text" id="header"/>
+					<span asp-validation-for="Header"></span>
+					
+					<label for="name">Ваше сообщение*</label>
+					@Html.TextAreaFor(n => n.Body, new { rows = "8", cols = "80", placeholder = "Опишите вашу идею, предложение, заказ, чтобы мы могли подготовить для вас подробный ответ :)" })
+					<span asp-validation-for="Body"></span>
+					
+					<p>* - обязательные к заполнению поля</p>
+					<input type="submit" value="Отправить">
+				</form>
 			</div>
 		</div>
 	</div>
-</section>
 
+</section>
