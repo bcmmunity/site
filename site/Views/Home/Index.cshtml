@@ -1,21 +1,52 @@
-﻿@using site.Controllers
+﻿@using Microsoft.EntityFrameworkCore
+@using site.Controllers
+@model ApplicationContext
 @{
 	Layout = "_Header_Footer";
 	ViewBag.Title = "Главная";
 }
 
-@* @Html.Partial("Articles"); *@
+<section class="news">
+    <div class="container">
+        <h2 class="h2-common">Новости</h2>
+        <div class="news__block">
+            @Html.Partial("TopArticles", Model.Articles.Include("Author").OrderByDescending(d => d.Date).Skip(0).Take(3).ToArray())
+        </div>
+    </div>
+</section>
 
-@if (User.Identity.IsAuthenticated)
-{
-	<p>@User.Identity.Name</p>
 
-	<form method="post" asp-controller="Account" asp-action="LogOff">
-		<input type="submit" value="Выход" />
-	</form>
-}
-else
-{
-	<a asp-controller="Account" asp-action="Login">Вход</a>
-	<a asp-controller="Account" asp-action="Register">Регистрация</a>
+<section class="all">
+    <div class="container" id = "ar">
+        @Html.Partial("Articles", Model.Articles.Skip(0).Take(6).ToArray())
+    
+    </div>
+    <button id="article__load" class="bttn-dark">Загрузить еще</button>
+</section>
+
+
+@section OnLoad {
+    <script>
+        $(function() {
+            var art_count = 6;
+
+            $(this).on("click",
+                "#article__load",
+                function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Home/ArticlesLoad",
+                        data: { offset: art_count, count: 6 },
+                        success: function(result) {
+                            $("#ar").append(result);
+                        }
+                    });
+                    art_count += 6;
+                    if (art_count + 6 > @Model.Articles.Count()) {
+                        $("#article__load").hide();
+                    }
+                });
+
+        });
+    </script>
 }
