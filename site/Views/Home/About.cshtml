@@ -58,7 +58,7 @@
 <section class="team">
     <h2 class="h2-common">Наша команда</h2>
     <div class="team__list">
-        <div class="container">
+        <div class="container" id ="mems">
             @Html.Partial("Members", Model.Users.OrderBy(d => d.Rang).Skip(0).Take(4).ToArray())
         </div>
     </div>
@@ -72,7 +72,7 @@
     <h2 class="h2-common">Projects</h2>
     <div class="projects__list">
         <div class="container" id="pr">
-            @Html.Partial("Projects", Model.Projects.Skip(0).Take(4).ToArray())
+            @Html.Partial("Projects", Model.Projects.Skip(0).Take(6).ToArray())
         </div>
 
     </div>
@@ -86,7 +86,7 @@
 @section OnLoad {
     <script>
         $(function() {
-            var project_count = 4;
+            var project_count = 6;
             var team_count = 4;
 
             $(this).on("click",
@@ -95,14 +95,14 @@
                     $.ajax({
                         type: "GET",
                         url: "/Home/ProjectsLoad",
-                        data: { offset: project_count, count: 4 },
+                        data: { offset: project_count, count: 3 },
                         success: function(result) {
                             $("#pr").append(result);
 
                         }
                     });
-                    project_count += 4;
-                    if (project_count + 4 > @Model.Projects.Count()) {
+                    project_count += 3;
+                    if (project_count + 3 > @Model.Projects.Count()) {
                         $("#projects__load__button").hide();
                     }
 
@@ -114,13 +114,13 @@
                     $.ajax({
                         type: "GET",
                         url: "/Home/TeamsLoad",
-                        data: { offset: team_count, count: 6 },
+                        data: { offset: team_count, count: 1 },
                         success: function(result) {
-                            $("#teams").append(result);
+                            $("#mems").append(result);
                         }
                     });
-                    team_count += 6;
-                    if (team_count + 6 > @Model.Users.Count()) {
+                    team_count += 1;
+                    if (team_count + 1 > @Model.Users.Count()) {
                         $("#team__load__button").hide();
                     }
                 });
