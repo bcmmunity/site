@@ -27,7 +27,7 @@ namespace site.Controllers
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
 			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=a9;Trusted_Connection=True;");
+				"Server=localhost\\SQLEXPRESS;Database=a13;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 				AddTags();
@@ -36,6 +36,7 @@ namespace site.Controllers
 				AddProjects();
 				AddTeams();
 				AddArticles();
+			AddTeamToProject();
 		}
 		
 		#region Test data
@@ -234,7 +235,20 @@ namespace site.Controllers
 				Thread.Sleep(15);
 			}
 		}
-		
+
+		public static void AddTeamToProject()
+		{
+			List<Project> pr = db.Projects.ToList();
+			foreach (var p in pr)
+			{
+				p.Team = db.Teams.ToList().GetRandomItem();
+				p.Team.Projects = null;
+				db.Update(p);
+				db.SaveChanges();
+			}
+			
+			
+		}
 		#endregion		
 
 		[Route("getArticles")]
