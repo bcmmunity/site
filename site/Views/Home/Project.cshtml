@@ -7,26 +7,6 @@
    Project project = Model;
    ViewBag.Title = project.Name;
 
-//  string GetTechnologies()
-//  {
-//    string techs = "";
-//    Console.WriteLine("\n\n\n");
-//    Console.WriteLine(project.Specialities.Count);
-//    Console.WriteLine("\n\n\n");
-//    foreach (var spec in project.Specialities)
-//    {
-//      Console.WriteLine("\n\n\n");
-//      Console.WriteLine(spec.Name);
-//      Console.WriteLine("\n\n\n");
-//      techs += $"{spec.Name}, ";
-//    }
-//    Console.WriteLine("\n\n\n");
-//    Console.WriteLine(techs);
-//    Console.WriteLine("\n\n\n");
-//    techs = techs.Remove(techs.Length - 2, 2);
-//    return techs;
-//  }
-  
 }
 
 <section class="project">
@@ -47,7 +27,6 @@
           <div class="owl-carousel owl-theme">
             @foreach (string img in project.SliderImages)
             {
-              Console.WriteLine(img);
                <img src="@img" alt="">
             }
             
