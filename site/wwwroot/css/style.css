@@ -390,7 +390,7 @@ sup {
 }
 .projects__list .container {
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .projects__load {
   margin-top: 50px;
@@ -406,8 +406,8 @@ sup {
 }
 .projects__item {
   margin-top: 40px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 6px;
+  margin-right: 6px;
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
@@ -589,7 +589,7 @@ sup {
 .all .container {
   margin-bottom: 50px;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .all .article {
   display: -webkit-flex;
@@ -600,6 +600,8 @@ sup {
   width: 32%;
   height: 600px;
   margin-top: 35px;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 .all .article__cover {
   width: 100%;
@@ -712,6 +714,51 @@ sup {
 .contacts__form input[type=submit]:hover {
   background-color: #d63031;
   cursor: pointer;
+}
+
+.project {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+.project > .container {
+  flex-direction: column;
+}
+.project__cover {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
+}
+.project__cover img {
+  width: 80%;
+  height: 80%;
+}
+.project__title {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 30px;
+}
+.project__info {
+  width: 100%;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-wrap: wrap;
+}
+.project__slider, .project__text {
+  width: 49%;
+}
+.project__text h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+.project__text p {
+  margin-bottom: 20px;
+  line-height: 1.5em;
+  font-size: 18px;
+}
+.project .item {
+  background-color: #000;
 }
 
 .footer {
@@ -857,6 +904,8 @@ sup {
 
   .all .article {
     width: 49%;
+    margin-left: 0;
+    margin-right: auto;
   }
 
   .footer__text {

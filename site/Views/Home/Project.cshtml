@@ -1,9 +1,115 @@
 @using site.Controllers
 @* @model IEnumerable<site.Models.Project> *@
-@model int
+@model Project
 @{
    Layout = "_Header_Footer";
 //    Project[] pr = Model.ToArray();
-   int id = Model;
+   Project project = Model;
+   ViewBag.Title = project.Name;
+
+//  string GetTechnologies()
+//  {
+//    string techs = "";
+//    Console.WriteLine("\n\n\n");
+//    Console.WriteLine(project.Specialities.Count);
+//    Console.WriteLine("\n\n\n");
+//    foreach (var spec in project.Specialities)
+//    {
+//      Console.WriteLine("\n\n\n");
+//      Console.WriteLine(spec.Name);
+//      Console.WriteLine("\n\n\n");
+//      techs += $"{spec.Name}, ";
+//    }
+//    Console.WriteLine("\n\n\n");
+//    Console.WriteLine(techs);
+//    Console.WriteLine("\n\n\n");
+//    techs = techs.Remove(techs.Length - 2, 2);
+//    return techs;
+//  }
+  
 }
-@id
+
+<section class="project">
+  <div class="container">
+    <div class="project__cover">
+      <img src="@project.Img" alt="">
+      </div>
+      <h1 class = "project__title">@project.Name</h1>
+      <div class="project__info">
+        <div class="project__text">
+          <h2>Описание</h2>
+          <p>@project.Description</p>
+          <h2>Технологии</h2>
+          
+          <p>@String.Join(", ", project.Specialities)</p>
+        </div>
+        <div class="project__slider">
+          <div class="owl-carousel owl-theme">
+            @foreach (string img in project.SliderImages)
+            {
+              Console.WriteLine(img);
+               <img src="@img" alt="">
+            }
+            
+       
+          </div>
+        </div>
+      </div>
+@*       <div class="team"> *@
+@*                   <h2 class = "h2-common">Наша команда</h2> *@
+@*                   <div class="team__list"> *@
+@*                     <div class="container"> *@
+@*                       @for (int i = 0, len = project.Length; i < len; i += 1) *@
+@*                       { *@
+@*                         <div class="projects__item"> *@
+@*                           <div class="left"> *@
+@*                             $1$ <img class="left__img" alt=""> #1# *@
+@*                             <img class = "left__img" src="https://loremflickr.com/1280/720" alt=""> *@
+@*                           </div> *@
+@*                           <div class="right"> *@
+@*                             <div class="projects__title"> *@
+@*                               <span class="type">@pr[i].Name</span> *@
+@*                               <span class="date">2019 год</span> *@
+@*                             </div> *@
+@*                             <span class="name">@pr[i].Name</span> *@
+@*                             <div class="comp-more"> *@
+@*                               <span class="company">Diffind</span> *@
+@*                               @Html.ActionLink("Learn more", "Projects", new {id=@pr[i].ProjectId} ) *@
+@*                             </div> *@
+@* *@
+@*                           </div> *@
+@*                         </div> *@
+@*                       } *@
+@*                        *@
+@*                 *@
+@*                     </div> *@
+@*                   </div> *@
+@*        *@
+@*       </div> *@
+
+
+
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+@section OwlCSS
+{
+ 
+   <link rel="stylesheet" href="~/css/owl-min.css">
+   <link rel="stylesheet" href="~/css/owl-theme.css">
+}
+
+@section OwlJs
+{
+   <script src="../../js/owl.carousel.min.js"></script>
+}

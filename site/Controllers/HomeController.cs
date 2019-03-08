@@ -20,7 +20,7 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=t83;Trusted_Connection=True;";
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=a7;Trusted_Connection=True;";
 		public ActionResult Index()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
@@ -91,7 +91,16 @@ namespace site.Controllers
 
 		public ActionResult Projects(int id)
 		{
-			return View("Project", id);
+			Project proj = MainController.db.Projects.Find(id);
+			if (proj != null)
+			{
+				return View("Project", proj);	
+			}
+			else
+			{
+				return View("Error");
+			}
+			
 		}
 		
 		public ActionResult Contacts()

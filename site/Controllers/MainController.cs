@@ -27,7 +27,7 @@ namespace site.Controllers
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
 			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=t83;Trusted_Connection=True;");
+				"Server=localhost\\SQLEXPRESS;Database=a7;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 //				AddTags();
@@ -136,11 +136,12 @@ namespace site.Controllers
 
 		public static void AddProjects()
 		{
-			string photo = "https://loremflickr.com/cache/resized/7890_46965722211_26f02453fd_h_1000_1000_nofilter.jpg";
+			string photo = "https://loremflickr.com/1280/720";
 			string[] names =
 			{
 				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал", "Крутой проект 1", "Крутой проект 2", "Проект 3", "Проект 4"
 			};
+			string[] images = {"https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720"};
 			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
 			for (int i = 0; i < names.Length * 2; i++)
 			{
@@ -153,10 +154,11 @@ namespace site.Controllers
 					Img = photo,
 					Name = names[i % names.Length],
 					Description = descr,
-					
+					Specialities = sp,
+					SliderImages = images.ToList(),
+                    							
 				};
-				project.Specialities.AddRange(sp);
-				
+
 				
 				db.Projects.Add(project);
 				db.SaveChanges();
