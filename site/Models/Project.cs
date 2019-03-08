@@ -11,6 +11,7 @@ namespace site.Models
 		public string Description { get; set; }
 		public int Rang { get; set; }
 		public bool IsShowed { get; set; }
+		public string[] SliderImages { get; set; }
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
 
