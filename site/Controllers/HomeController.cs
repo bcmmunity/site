@@ -20,7 +20,7 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=a13;Trusted_Connection=True;";
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=a23;Trusted_Connection=True;";
 		public ActionResult Index()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
@@ -101,6 +101,19 @@ namespace site.Controllers
 				return View("Error");
 			}
 			
+		}
+
+		public ActionResult Profile(string id)
+		{
+			User user = MainController.db.Users.FirstOrDefault(u => u.Id == id);
+			if (user != null)
+			{
+				return View("Profile", user);
+			}
+			else
+			{
+				return View("Error");
+			}
 		}
 		
 		public ActionResult Contacts()

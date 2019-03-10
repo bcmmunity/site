@@ -27,7 +27,7 @@ namespace site.Controllers
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
 			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=a13;Trusted_Connection=True;");
+				"Server=localhost\\SQLEXPRESS;Database=a23;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 				AddTags();
@@ -37,6 +37,7 @@ namespace site.Controllers
 				AddTeams();
 				AddArticles();
 			AddTeamToProject();
+			AddProjectsToUser();
 		}
 		
 		#region Test data
@@ -242,12 +243,25 @@ namespace site.Controllers
 			foreach (var p in pr)
 			{
 				p.Team = db.Teams.ToList().GetRandomItem();
-				p.Team.Projects = null;
 				db.Update(p);
 				db.SaveChanges();
 			}
 			
 			
+		}
+
+
+		public static void AddProjectsToUser()
+		{
+			List<User> users = db.Users.ToList();
+			foreach (var u in users)
+			{
+				u.Projects.Add(db.Projects.ToList().GetRandomItem());
+				u.Projects.Add(db.Projects.ToList().GetRandomItem());
+				u.Projects.Add(db.Projects.ToList().GetRandomItem());
+				db.Update(u);
+				db.SaveChanges();
+			}
 		}
 		#endregion		
 
@@ -299,162 +313,162 @@ namespace site.Controllers
 			}
 			throw new NullReferenceException();
 		}
-
-		[Route("getTeams")]
-		[HttpGet]
-		public JsonResult GetTeams()
-		{
-			Team[] teams = db.Teams.ToArray();
-			return Json(teams);
-		}
-
-		[Route("getTeamInfo")]
-		[HttpGet]
-		public JsonResult GetTeamInfo(int? id)
-		{
-			if (id != null)
-			{
-				Team team = db.Teams
-					.FirstOrDefault(t => t.TeamId == id);
-					
-				if (team != null)
-				{
-					return Json(team);
-				}
-				throw new NullReferenceException();
-			}
-			throw new NullReferenceException();
-		}
-
-		[Route("getTeamMembers")]
-		[HttpGet]
-		public JsonResult GetTeamMembers(int? id)
-		{
-			if (id != null)
-			{
-				Team team = db.Teams
-					.FirstOrDefault(t => t.TeamId == id);
-				if (team != null)
-				{
-					List<User> mems = team.Members;
-					return Json(mems);
-				}
-				throw new NullReferenceException();
-			}
-			throw new NullReferenceException();
-			
-
-			
-		}
-
-		[Route("getMembers")]
-		[HttpGet]
-		public JsonResult GetMembers(int? offset, int? count)
-		{
-			if (offset != null && count != null)
-			{
-				User[] users = db.Users
-//					.Include("Specialities")
-					.Skip((int) offset)
-					.Take((int) count)
-					.ToArray();
-				return Json(users);
-			}
-			throw new NullReferenceException();
-			
-		}
-		
-		[Route("getMemberInfo")]
-		[HttpGet]
-		public JsonResult GetMemberInfo(string id)
-		{
-			if (id != null)
-			{
-				User user = db.Users
-					.FirstOrDefault(u => u.Id == id);
-					
-				if (user != null)
-				{
-					return Json(user);
-					
-				}
-				throw new NullReferenceException();
-			}
-
-			throw new NullReferenceException();
-		}
-		
-		[Route("getProjects")]
-		[HttpGet]
-		public JsonResult GetProjects(int? offset, int? count)
-		{
-			if (offset != null && count != null)
-			{
-				Project[] projects = db.Projects
-					.Skip((int)offset)
-					.Take((int)count)
-					.ToArray();
-				return Json(projects);
-			}
-			throw new NullReferenceException();
-			
-			
-		}
-
-		
-
-		[Route("getTeam")]
-		public JsonResult GetTeam(int? id)
-		{
-			if (id != null)
-			{
-				Team team = db.Teams
-					.FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
-				if (team != null)
-				{
-					return Json(team);
-					
-				}
-				throw new NullReferenceException();
-			}
-
-			throw new NullReferenceException();
-		}
-
-		[Route("getTags")]
-		[HttpGet]
-		public JsonResult GetTags()
-		{
-			Tag[] tags = db.Tags.ToArray();
-			return Json(tags);
-		}
-
-		[Route("getSpecialities")]
-		[HttpGet]
-		public JsonResult GetSpecialities()
-		{
-			Speciality[] specs = db.Specialities.ToArray();
-			return Json(specs);
-		}
-
-
-		[Route("getProjectInfo")]
-		[HttpGet]
-		public JsonResult GetProjectInfo(int? id)
-		{
-			if (id != null)
-			{
-				Project pr = db.Projects
-					.FirstOrDefault(p => p.ProjectId == id);
-				if (pr != null)
-				{
-					return Json(pr);
-				}
-				throw new NullReferenceException();
-			}
-			throw new NullReferenceException();
-			
-		}
+//
+//		[Route("getTeams")]
+//		[HttpGet]
+//		public JsonResult GetTeams()
+//		{
+//			Team[] teams = db.Teams.ToArray();
+//			return Json(teams);
+//		}
+//
+//		[Route("getTeamInfo")]
+//		[HttpGet]
+//		public JsonResult GetTeamInfo(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Team team = db.Teams
+//					.FirstOrDefault(t => t.TeamId == id);
+//					
+//				if (team != null)
+//				{
+//					return Json(team);
+//				}
+//				throw new NullReferenceException();
+//			}
+//			throw new NullReferenceException();
+//		}
+//
+//		[Route("getTeamMembers")]
+//		[HttpGet]
+//		public JsonResult GetTeamMembers(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Team team = db.Teams
+//					.FirstOrDefault(t => t.TeamId == id);
+//				if (team != null)
+//				{
+//					List<User> mems = team.Members;
+//					return Json(mems);
+//				}
+//				throw new NullReferenceException();
+//			}
+//			throw new NullReferenceException();
+//			
+//
+//			
+//		}
+//
+//		[Route("getMembers")]
+//		[HttpGet]
+//		public JsonResult GetMembers(int? offset, int? count)
+//		{
+//			if (offset != null && count != null)
+//			{
+//				User[] users = db.Users
+////					.Include("Specialities")
+//					.Skip((int) offset)
+//					.Take((int) count)
+//					.ToArray();
+//				return Json(users);
+//			}
+//			throw new NullReferenceException();
+//			
+//		}
+//		
+//		[Route("getMemberInfo")]
+//		[HttpGet]
+//		public JsonResult GetMemberInfo(string id)
+//		{
+//			if (id != null)
+//			{
+//				User user = db.Users
+//					.FirstOrDefault(u => u.Id == id);
+//					
+//				if (user != null)
+//				{
+//					return Json(user);
+//					
+//				}
+//				throw new NullReferenceException();
+//			}
+//
+//			throw new NullReferenceException();
+//		}
+//		
+//		[Route("getProjects")]
+//		[HttpGet]
+//		public JsonResult GetProjects(int? offset, int? count)
+//		{
+//			if (offset != null && count != null)
+//			{
+//				Project[] projects = db.Projects
+//					.Skip((int)offset)
+//					.Take((int)count)
+//					.ToArray();
+//				return Json(projects);
+//			}
+//			throw new NullReferenceException();
+//			
+//			
+//		}
+//
+//		
+//
+//		[Route("getTeam")]
+//		public JsonResult GetTeam(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Team team = db.Teams
+//					.FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
+//				if (team != null)
+//				{
+//					return Json(team);
+//					
+//				}
+//				throw new NullReferenceException();
+//			}
+//
+//			throw new NullReferenceException();
+//		}
+//
+//		[Route("getTags")]
+//		[HttpGet]
+//		public JsonResult GetTags()
+//		{
+//			Tag[] tags = db.Tags.ToArray();
+//			return Json(tags);
+//		}
+//
+//		[Route("getSpecialities")]
+//		[HttpGet]
+//		public JsonResult GetSpecialities()
+//		{
+//			Speciality[] specs = db.Specialities.ToArray();
+//			return Json(specs);
+//		}
+//
+//
+//		[Route("getProjectInfo")]
+//		[HttpGet]
+//		public JsonResult GetProjectInfo(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Project pr = db.Projects
+//					.FirstOrDefault(p => p.ProjectId == id);
+//				if (pr != null)
+//				{
+//					return Json(pr);
+//				}
+//				throw new NullReferenceException();
+//			}
+//			throw new NullReferenceException();
+//			
+//		}
 
 		[Route("sendMail")]
 		[HttpPost]

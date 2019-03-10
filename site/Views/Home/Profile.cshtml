@@ -1,0 +1,64 @@
+@model User
+@{
+  User u = Model;
+    Layout = "_Header_Footer";
+}
+
+<section class="user">
+  <div class="container">
+    <div class="user__group">
+      @if (User.Identity.IsAuthenticated)
+      {
+        <a asp-controller="User" asp-action="Edit">Редактирование профиля</a>
+      }
+      
+    </div>
+    <div class="user__group">
+      <div class="user__group-img">
+        <img src="@u.Photo" alt="">
+      </div>
+      <div class="user__group-text">
+        <span class="name">@u.Name @u.Surname</span>
+        <p>@u.Description</p>
+      </div>
+    </div>
+    <h3>Навыки</h3>
+    <p>@String.Join(", ", u.Specialities)</p>
+
+  <div class="projects">
+        <h2 class="h2-common">Мои проекты</h2>
+        <div class="projects__list">
+        <div class="container">
+            @foreach (var pr in u.Projects)
+            {
+              <div class="projects__item">
+                <div class="left">
+                  <img class = "left__img" src="@pr.Img" alt="">
+                  <!-- <img class = "left__img" src="https://loremflickr.com/1000/1000" alt=""> -->
+                </div>
+                <div class="right">
+                  <div class="projects__title">
+                    <span class="type">@pr.Name</span>
+                    <span class="date">September, 12, 2017</span>
+                  </div>
+                  <span class="name">@pr.Name</span>
+                  <div class="comp-more">
+                    <span class="company">Diffind</span>
+                    <a href="">Подробнее</a>
+                  </div>
+
+                </div>
+              </div>
+            }
+            
+        
+            
+          
+           
+          </div>
+
+        </div>
+
+  </div>
+  </div>
+</section>
