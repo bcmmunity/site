@@ -19,5 +19,7 @@ namespace site.Models
 		public DbSet<Link> Links { get; set; }
 		public DbSet<Social> Socials { get; set; }
 		public DbSet<SN> SNs { get; set; }
+		public DbSet<Experience> Experiences { get; set; }
+		public DbSet<Learning> Learnings { get; set; }
 	}
 }
