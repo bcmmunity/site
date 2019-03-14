@@ -55,6 +55,7 @@ namespace CustomIdentityApp.Controllers
 			{
 				return NotFound();
 			}
+
 			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Photo = user.Photo, Position = user.Position, Name = user.Name, Surname = user.Surname };
 			return View(model);
 		}

@@ -25,9 +25,8 @@ namespace site.Controllers
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer(
-				"Server=localhost\\SQLEXPRESS;Database=a23;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
+//			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a23;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 				AddTags();
@@ -179,23 +178,15 @@ namespace site.Controllers
 			for (int i = 0; i < 5; i++)
 			{
 				Random rand = new Random();
-				List<Speciality> sp = db.Specialities
-					.Take(rand.Next(1, db.Specialities.ToArray().Length - 1))
-					.ToList();
 				List<User> mems = db.Users
 					.Take(rand.Next(1, db.Users.ToArray().Length - 2))
-					.ToList();
-				List<Project> prs = db.Projects
-					.Take(rand.Next(1, db.Projects.ToArray().Length - 2))
 					.ToList();
 				Team team = new Team
 				{
 					Name = names[i],
 					Description = descr
 				};
-				team.Specialities.AddRange(sp);
 				team.Members.AddRange(mems);
-				team.Projects.AddRange(prs);
 
 				db.Teams.Add(team);
 				db.SaveChanges();
