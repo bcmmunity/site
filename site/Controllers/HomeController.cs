@@ -20,12 +20,13 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=t84;Trusted_Connection=True;";
+//		private string _bd = "Server=localhost\\SQLEXPRESS;Database=t84;Trusted_Connection=True;";
+		private string _bd = "Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;";
+
 		public ActionResult Index()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
 			optionsBuilder.UseSqlServer(_bd);
 			var db = new ApplicationContext(optionsBuilder.Options);
 
