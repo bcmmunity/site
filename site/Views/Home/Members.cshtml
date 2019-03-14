@@ -21,7 +21,7 @@
             <span class="position">@users[i].Position @*| 8 years of experience*@</span>
             <span class="email">@users[i].Email</span>
             <p class="description">@users[i].Description</p>
-            <a href="" class="more">Подробнее</a>
+            @Html.ActionLink("Подробнее", "Profile",new {id=@users[i].Id} )
         </div>
     </div>
 }

@@ -13,5 +13,12 @@ $(function() {
       $(this).toggleClass("hamburger__active");
       $(this).attr("data-active", "false");
     }
-  })
-})
+  });
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        items: 1,
+        center: true,
+        margin:20,
+        nav:true
+    })
+});

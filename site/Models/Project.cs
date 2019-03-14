@@ -11,12 +11,18 @@ namespace site.Models
 		public string Description { get; set; }
 		public int Rang { get; set; }
 		public bool IsShowed { get; set; }
+		public User Leader { get; set; }
+		[NotMapped]
+		public List<string> SliderImages { get; set; }
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
+		[NotMapped]
+		public Team Team { get; set; }
 
 		public Project()
 		{
 			Specialities = new List<Speciality>();
+			SliderImages = new List<string>();
 		}
 	}
 }

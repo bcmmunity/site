@@ -20,7 +20,7 @@
             <span class="name">@pr[i].Name</span>
             <div class="comp-more">
                 <span class="company">Diffind</span>
-                <a href="">Learn more</a>
+                @Html.ActionLink("Learn more", "Projects", new {id=@pr[i].ProjectId} )
             </div>
 
         </div>

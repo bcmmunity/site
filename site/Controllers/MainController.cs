@@ -35,6 +35,8 @@ namespace site.Controllers
 				AddProjects();
 				AddTeams();
 				AddArticles();
+			AddTeamToProject();
+			AddProjectsToUser();
 		}
 		
 		#region Test data
@@ -102,7 +104,7 @@ namespace site.Controllers
 				"mcarter@nelson.net", "colemantaylor@joyce.org", "hbrown@gmail.com", "lisabowman@yahoo.com", "francisaustin@yahoo.com", "johnmanning@gonzalez.com", "paul89@lopez.info", "fgutierrez@gmail.com", "sheila06@chandler-gonzalez.com", "downsrenee@lee.org", "lambertcandice@ray-campos.com", "goodroger@hotmail.com", "lkelly@lewis-carr.biz", "brianrich@george.com", "cooleysue@smith.com", "gsherman@yahoo.com", "dchoi@cunningham.biz", "michaelgonzalez@walters-bryant.com", "marissamccormick@peters.info", "kimberlyrose@petersen-chapman.com", "stephanie96@gmail.com", "nelsonchristopher@savage.com", "rossjamie@hotmail.com", "oconnellevelyn@hotmail.com", "rnelson@stone.info", "melindaramos@kent.com", "scole@hotmail.com", "dlin@gmail.com", "timothybarrera@clarke.com", "hruiz@thomas-estes.com", "bradley63@gmail.com", "broberts@thompson.com", "christy54@vargas.info", "rfoster@yahoo.com", "edward23@yahoo.com", "qsutton@lewis.net", "nicholsshelia@hotmail.com", "tiffanycaldwell@houston-kaiser.org", "nelsoncory@lynch.com", "ericwilliams@king.biz"
 			};
 			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				Random rand = new Random();
 				List<Speciality> sp = db.Specialities
@@ -117,7 +119,7 @@ namespace site.Controllers
 					Surname = surnames[rand.Next(0, surnames.Length)],
 					Position = positions[rand.Next(0, positions.Length)],
 					Description = descr,
-					Email = mails[i % 30]
+					Email = mails[i % 8]
 					
 				};
 
@@ -135,11 +137,12 @@ namespace site.Controllers
 
 		public static void AddProjects()
 		{
-			string photo = "https://loremflickr.com/cache/resized/7890_46965722211_26f02453fd_h_1000_1000_nofilter.jpg";
+			string photo = "https://loremflickr.com/1280/720";
 			string[] names =
 			{
 				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал", "Крутой проект 1", "Крутой проект 2", "Проект 3", "Проект 4"
 			};
+			string[] images = {"https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720"};
 			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
 			for (int i = 0; i < names.Length * 2; i++)
 			{
@@ -152,10 +155,11 @@ namespace site.Controllers
 					Img = photo,
 					Name = names[i % names.Length],
 					Description = descr,
-					
+					Specialities = sp,
+					SliderImages = images.ToList(),
+                    							
 				};
-				project.Specialities.AddRange(sp);
-				
+
 				
 				db.Projects.Add(project);
 				db.SaveChanges();
@@ -174,23 +178,15 @@ namespace site.Controllers
 			for (int i = 0; i < 5; i++)
 			{
 				Random rand = new Random();
-				List<Speciality> sp = db.Specialities
-					.Take(rand.Next(1, db.Specialities.ToArray().Length - 1))
-					.ToList();
 				List<User> mems = db.Users
 					.Take(rand.Next(1, db.Users.ToArray().Length - 2))
-					.ToList();
-				List<Project> prs = db.Projects
-					.Take(rand.Next(1, db.Projects.ToArray().Length - 2))
 					.ToList();
 				Team team = new Team
 				{
 					Name = names[i],
 					Description = descr
 				};
-				team.Specialities.AddRange(sp);
 				team.Members.AddRange(mems);
-				team.Projects.AddRange(prs);
 
 				db.Teams.Add(team);
 				db.SaveChanges();
@@ -231,7 +227,33 @@ namespace site.Controllers
 				Thread.Sleep(15);
 			}
 		}
-		
+
+		public static void AddTeamToProject()
+		{
+			List<Project> pr = db.Projects.ToList();
+			foreach (var p in pr)
+			{
+				p.Team = db.Teams.ToList().GetRandomItem();
+				db.Update(p);
+				db.SaveChanges();
+			}
+			
+			
+		}
+
+
+		public static void AddProjectsToUser()
+		{
+			List<User> users = db.Users.ToList();
+			foreach (var u in users)
+			{
+				u.Projects.Add(db.Projects.ToList().GetRandomItem());
+				u.Projects.Add(db.Projects.ToList().GetRandomItem());
+				u.Projects.Add(db.Projects.ToList().GetRandomItem());
+				db.Update(u);
+				db.SaveChanges();
+			}
+		}
 		#endregion		
 
 		[Route("getArticles")]
@@ -282,162 +304,162 @@ namespace site.Controllers
 			}
 			throw new NullReferenceException();
 		}
-
-		[Route("getTeams")]
-		[HttpGet]
-		public JsonResult GetTeams()
-		{
-			Team[] teams = db.Teams.ToArray();
-			return Json(teams);
-		}
-
-		[Route("getTeamInfo")]
-		[HttpGet]
-		public JsonResult GetTeamInfo(int? id)
-		{
-			if (id != null)
-			{
-				Team team = db.Teams
-					.FirstOrDefault(t => t.TeamId == id);
-					
-				if (team != null)
-				{
-					return Json(team);
-				}
-				throw new NullReferenceException();
-			}
-			throw new NullReferenceException();
-		}
-
-		[Route("getTeamMembers")]
-		[HttpGet]
-		public JsonResult GetTeamMembers(int? id)
-		{
-			if (id != null)
-			{
-				Team team = db.Teams
-					.FirstOrDefault(t => t.TeamId == id);
-				if (team != null)
-				{
-					List<User> mems = team.Members;
-					return Json(mems);
-				}
-				throw new NullReferenceException();
-			}
-			throw new NullReferenceException();
-			
-
-			
-		}
-
-		[Route("getMembers")]
-		[HttpGet]
-		public JsonResult GetMembers(int? offset, int? count)
-		{
-			if (offset != null && count != null)
-			{
-				User[] users = db.Users
-//					.Include("Specialities")
-					.Skip((int) offset)
-					.Take((int) count)
-					.ToArray();
-				return Json(users);
-			}
-			throw new NullReferenceException();
-			
-		}
-		
-		[Route("getMemberInfo")]
-		[HttpGet]
-		public JsonResult GetMemberInfo(string id)
-		{
-			if (id != null)
-			{
-				User user = db.Users
-					.FirstOrDefault(u => u.Id == id);
-					
-				if (user != null)
-				{
-					return Json(user);
-					
-				}
-				throw new NullReferenceException();
-			}
-
-			throw new NullReferenceException();
-		}
-		
-		[Route("getProjects")]
-		[HttpGet]
-		public JsonResult GetProjects(int? offset, int? count)
-		{
-			if (offset != null && count != null)
-			{
-				Project[] projects = db.Projects
-					.Skip((int)offset)
-					.Take((int)count)
-					.ToArray();
-				return Json(projects);
-			}
-			throw new NullReferenceException();
-			
-			
-		}
-
-		
-
-		[Route("getTeam")]
-		public JsonResult GetTeam(int? id)
-		{
-			if (id != null)
-			{
-				Team team = db.Teams
-					.FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
-				if (team != null)
-				{
-					return Json(team);
-					
-				}
-				throw new NullReferenceException();
-			}
-
-			throw new NullReferenceException();
-		}
-
-		[Route("getTags")]
-		[HttpGet]
-		public JsonResult GetTags()
-		{
-			Tag[] tags = db.Tags.ToArray();
-			return Json(tags);
-		}
-
-		[Route("getSpecialities")]
-		[HttpGet]
-		public JsonResult GetSpecialities()
-		{
-			Speciality[] specs = db.Specialities.ToArray();
-			return Json(specs);
-		}
-
-
-		[Route("getProjectInfo")]
-		[HttpGet]
-		public JsonResult GetProjectInfo(int? id)
-		{
-			if (id != null)
-			{
-				Project pr = db.Projects
-					.FirstOrDefault(p => p.ProjectId == id);
-				if (pr != null)
-				{
-					return Json(pr);
-				}
-				throw new NullReferenceException();
-			}
-			throw new NullReferenceException();
-			
-		}
+//
+//		[Route("getTeams")]
+//		[HttpGet]
+//		public JsonResult GetTeams()
+//		{
+//			Team[] teams = db.Teams.ToArray();
+//			return Json(teams);
+//		}
+//
+//		[Route("getTeamInfo")]
+//		[HttpGet]
+//		public JsonResult GetTeamInfo(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Team team = db.Teams
+//					.FirstOrDefault(t => t.TeamId == id);
+//					
+//				if (team != null)
+//				{
+//					return Json(team);
+//				}
+//				throw new NullReferenceException();
+//			}
+//			throw new NullReferenceException();
+//		}
+//
+//		[Route("getTeamMembers")]
+//		[HttpGet]
+//		public JsonResult GetTeamMembers(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Team team = db.Teams
+//					.FirstOrDefault(t => t.TeamId == id);
+//				if (team != null)
+//				{
+//					List<User> mems = team.Members;
+//					return Json(mems);
+//				}
+//				throw new NullReferenceException();
+//			}
+//			throw new NullReferenceException();
+//			
+//
+//			
+//		}
+//
+//		[Route("getMembers")]
+//		[HttpGet]
+//		public JsonResult GetMembers(int? offset, int? count)
+//		{
+//			if (offset != null && count != null)
+//			{
+//				User[] users = db.Users
+////					.Include("Specialities")
+//					.Skip((int) offset)
+//					.Take((int) count)
+//					.ToArray();
+//				return Json(users);
+//			}
+//			throw new NullReferenceException();
+//			
+//		}
+//		
+//		[Route("getMemberInfo")]
+//		[HttpGet]
+//		public JsonResult GetMemberInfo(string id)
+//		{
+//			if (id != null)
+//			{
+//				User user = db.Users
+//					.FirstOrDefault(u => u.Id == id);
+//					
+//				if (user != null)
+//				{
+//					return Json(user);
+//					
+//				}
+//				throw new NullReferenceException();
+//			}
+//
+//			throw new NullReferenceException();
+//		}
+//		
+//		[Route("getProjects")]
+//		[HttpGet]
+//		public JsonResult GetProjects(int? offset, int? count)
+//		{
+//			if (offset != null && count != null)
+//			{
+//				Project[] projects = db.Projects
+//					.Skip((int)offset)
+//					.Take((int)count)
+//					.ToArray();
+//				return Json(projects);
+//			}
+//			throw new NullReferenceException();
+//			
+//			
+//		}
+//
+//		
+//
+//		[Route("getTeam")]
+//		public JsonResult GetTeam(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Team team = db.Teams
+//					.FirstOrDefault(t => t.Projects.Any(p => p.ProjectId == id));
+//				if (team != null)
+//				{
+//					return Json(team);
+//					
+//				}
+//				throw new NullReferenceException();
+//			}
+//
+//			throw new NullReferenceException();
+//		}
+//
+//		[Route("getTags")]
+//		[HttpGet]
+//		public JsonResult GetTags()
+//		{
+//			Tag[] tags = db.Tags.ToArray();
+//			return Json(tags);
+//		}
+//
+//		[Route("getSpecialities")]
+//		[HttpGet]
+//		public JsonResult GetSpecialities()
+//		{
+//			Speciality[] specs = db.Specialities.ToArray();
+//			return Json(specs);
+//		}
+//
+//
+//		[Route("getProjectInfo")]
+//		[HttpGet]
+//		public JsonResult GetProjectInfo(int? id)
+//		{
+//			if (id != null)
+//			{
+//				Project pr = db.Projects
+//					.FirstOrDefault(p => p.ProjectId == id);
+//				if (pr != null)
+//				{
+//					return Json(pr);
+//				}
+//				throw new NullReferenceException();
+//			}
+//			throw new NullReferenceException();
+//			
+//		}
 
 		[Route("sendMail")]
 		[HttpPost]

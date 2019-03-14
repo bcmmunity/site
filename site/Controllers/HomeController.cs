@@ -89,6 +89,33 @@ namespace site.Controllers
 				.Take(count)
 				.ToArray());
 		}
+
+		public ActionResult Projects(int id)
+		{
+			Project proj = MainController.db.Projects.Find(id);
+			if (proj != null)
+			{
+				return View("Project", proj);	
+			}
+			else
+			{
+				return View("Error");
+			}
+			
+		}
+
+		public ActionResult Profile(string id)
+		{
+			User user = MainController.db.Users.Find(id);
+			if (user != null)
+			{
+				return View("Profile", user);
+			}
+			else
+			{
+				return View("Error");
+			}
+		}
 		
 		public ActionResult Contacts()
 		{
