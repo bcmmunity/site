@@ -19,12 +19,15 @@ namespace site.Models
 		[NotMapped]
 		public List<Link> Links { get; set; }
 		[NotMapped]
+		public List<Social> Socials { get; set; }
+		[NotMapped]
 		public Team Team { get; set; }
 
 		public Project()
 		{
 			Specialities = new List<Speciality>();
 			Links = new List<Link>();
+			Socials = new List<Social>();
 			SliderImages = new List<string>();
 		}
 	}
