@@ -16,5 +16,8 @@ namespace site.Models
 		public DbSet<Team> Teams { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<Speciality> Specialities { get; set; }
+		public DbSet<Link> Links { get; set; }
+		public DbSet<Social> Socials { get; set; }
+		public DbSet<SN> SNs { get; set; }
 	}
 }

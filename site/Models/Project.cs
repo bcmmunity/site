@@ -17,11 +17,14 @@ namespace site.Models
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
 		[NotMapped]
+		public List<Link> Links { get; set; }
+		[NotMapped]
 		public Team Team { get; set; }
 
 		public Project()
 		{
 			Specialities = new List<Speciality>();
+			Links = new List<Link>();
 			SliderImages = new List<string>();
 		}
 	}
