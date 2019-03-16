@@ -26,10 +26,11 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa26;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa36;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 				AddTags();
+			AddSN();
 				AddSpecialities();
 				AddUsers();
 				AddProjects();
@@ -38,7 +39,9 @@ namespace site.Controllers
 			AddTeamToProject();
 			AddProjectsToUser();
 		}
+
 		
+
 		#region Test data
 		private static void AddTags()
 		{
@@ -58,6 +61,26 @@ namespace site.Controllers
 					Name = name
 				};
 				db.Tags.Add(tag);
+				db.SaveChanges();
+			}
+		}
+		private static void AddSN()
+		{
+			string[] tagNames =
+			{
+				"twitter",
+				"facebook",
+				"vk",
+				"inst"
+			};
+			foreach (var name in tagNames)
+			{
+				SN tag = new SN
+				{
+					Title = name,
+					Pic = "https://loremflickr.com/64/64"
+				};
+				db.SNs.Add(tag);
 				db.SaveChanges();
 			}
 		}
@@ -110,11 +133,11 @@ namespace site.Controllers
 				List<Speciality> sp = db.Specialities
 					.Take(rand.Next(1, db.Specialities.ToArray().Length))
 					.ToList();
-				Models.User user = new User
+				User user = new User
 				{
 					Rang = i,
 					Photo = photo,
-					
+					Specialities = sp,
 					Name = names[rand.Next(0, names.Length)],
 					Surname = surnames[rand.Next(0, surnames.Length)],
 					Position = positions[rand.Next(0, positions.Length)],
@@ -123,10 +146,6 @@ namespace site.Controllers
 					
 				};
 
-				foreach (var s in sp)
-				{
-					user.Specialities.Add(s);
-				}
 				
 				db.Users.Add(user);
 				db.SaveChanges();
@@ -150,6 +169,17 @@ namespace site.Controllers
 				List<Speciality> sp = db.Specialities
 					.Take(rand.Next(1, db.Specialities.ToArray().Length))
 					.ToList();
+				Link link = new Link
+				{
+					Pic = "https://loremflickr.com/64/64",
+					Title = "HUI",
+					Href = "https://vk.com"
+				};
+				Social soc = new Social
+				{
+					Href = "https://youtube.com",
+					Type = db.SNs.ToList().GetRandomItem()
+				};
 				Project project = new Project
 				{
 					Img = photo,
@@ -157,6 +187,8 @@ namespace site.Controllers
 					Description = descr,
 					Specialities = sp,
 					SliderImages = images.ToList(),
+					Links = {link, link},
+					Socials = {soc, soc, soc}
                     							
 				};
 

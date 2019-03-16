@@ -6,6 +6,7 @@
 //    Project[] pr = Model.ToArray();
    Project project = Model;
    ViewBag.Title = project.Name;
+  
   User[] users = project.Team.Members.ToArray();
 }
 
@@ -22,6 +23,23 @@
           <h2>Технологии</h2>
           
           <p>@String.Join(", ", project.Specialities)</p>
+          <h2>Ссылки на проект</h2>
+          <div class="project__links">
+            @foreach (var pr in project.Links)
+            {
+              <div class="project__links-item">
+                <img src="@pr.Pic" alt="">
+                <a href="@pr.Href">@pr.Title</a>
+              </div>
+            }
+            @foreach (var pr in project.Socials)
+            {
+              <div class="project__links-item">
+                <img src="@pr.Type.Pic" alt="">
+                <a href="@pr.Href">@pr.Type.Title</a>
+              </div>
+            }
+          </div>
         </div>
         <div class="project__slider">
           <div class="owl-carousel owl-theme">

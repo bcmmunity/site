@@ -623,6 +623,27 @@ sup {
     font-size: 18px; }
   .project .item {
     background-color: #000; }
+  .project__links {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; }
+    .project__links-item {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 150px;
+      margin-right: 20px;
+      margin-bottom: 20px; }
+      .project__links-item img {
+        width: 64px;
+        height: 64px;
+        border-radius: 10%; }
+      .project__links-item a {
+        margin-top: 10px; }
 
 .edit {
   padding-top: 70px;

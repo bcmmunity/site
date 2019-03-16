@@ -20,7 +20,7 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa26;Trusted_Connection=True;";
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa36;Trusted_Connection=True;";
 //		private string _bd = "Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;";
 
 		public ActionResult Index()
@@ -106,6 +106,7 @@ namespace site.Controllers
 
 		public ActionResult Profile(string id)
 		{
+
 			User user = MainController.db.Users.Find(id);
 			if (user != null)
 			{
