@@ -785,6 +785,10 @@ sup {
       .user__group-text .name {
         font-size: 30px;
         margin-bottom: 20px; }
+      .user__group-text h2 {
+        font-size: 26px;
+        margin-bottom: 10px;
+        margin-top: 10px; }
   .user h3 {
     font-size: 26px;
     margin-bottom: 20px; }
@@ -792,6 +796,29 @@ sup {
     font-size: 20px; }
   .user .team {
     margin-top: 40px; }
+  .user__links {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px; }
+    .user__links-item {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 150px;
+      margin-left: 15px;
+      margin-right: 15px;
+      margin-bottom: 20px; }
+      .user__links-item img {
+        width: 64px;
+        height: 64px;
+        border-radius: 10%; }
+      .user__links-item a {
+        margin-top: 10px; }
 
 @media only screen and (max-width: 960px) {
   .about__description {

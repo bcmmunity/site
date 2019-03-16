@@ -26,7 +26,7 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa36;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa38;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 				AddTags();
@@ -133,6 +133,11 @@ namespace site.Controllers
 				List<Speciality> sp = db.Specialities
 					.Take(rand.Next(1, db.Specialities.ToArray().Length))
 					.ToList();
+				Social soc = new Social
+				{
+					Href = "https://youtube.com",
+					Type = db.SNs.ToList().GetRandomItem()
+				};
 				User user = new User
 				{
 					Rang = i,
@@ -142,7 +147,8 @@ namespace site.Controllers
 					Surname = surnames[rand.Next(0, surnames.Length)],
 					Position = positions[rand.Next(0, positions.Length)],
 					Description = descr,
-					Email = mails[i % 8]
+					Email = mails[i % 8],
+					Socials = {soc, soc, soc}
 					
 				};
 

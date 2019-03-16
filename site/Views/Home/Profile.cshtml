@@ -20,6 +20,17 @@
       <div class="user__group-text">
         <span class="name">@u.Name @u.Surname</span>
         <p>@u.Description</p>
+        <h2>Соц. сети</h2>
+        <div class="user__links">
+          @foreach (var soc in u.Socials)
+          {
+            <div class="user__links-item">
+              <img src="@soc.Type.Pic" alt="">
+              <a href="@soc.Href">@soc.Type.Title</a>
+            </div>
+          }
+          
+        </div>
       </div>
     </div>
     <h3>Навыки</h3>
