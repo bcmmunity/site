@@ -29,33 +29,10 @@
         <h2 class="h2-common">Мои проекты</h2>
         <div class="projects__list">
         <div class="container">
-            @foreach (var pr in u.Projects)
-            {
-              <div class="projects__item">
-                <div class="left">
-                  <img class = "left__img" src="@pr.Img" alt="">
-                  <!-- <img class = "left__img" src="https://loremflickr.com/1000/1000" alt=""> -->
-                </div>
-                <div class="right">
-                  <div class="projects__title">
-                    <span class="type">@pr.Name</span>
-                    <span class="date">September, 12, 2017</span>
-                  </div>
-                  <span class="name">@pr.Name</span>
-                  <div class="comp-more">
-                    <span class="company">Diffind</span>
-                    <a href="">Подробнее</a>
-                  </div>
-
-                </div>
-              </div>
-            }
-            
-        
-            
-          
-           
-          </div>
+          @{
+            Html.RenderPartial("Projects", u.Projects);          
+          }
+        </div>
 
         </div>
 
