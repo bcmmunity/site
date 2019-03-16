@@ -758,6 +758,40 @@ sup {
   .user > .container {
     flex-direction: column;
     align-items: flex-start; }
+  .user .job-list {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-wrap: wrap; }
+    .user .job-list-item {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 20px; }
+      .user .job-list-item p {
+        font-size: 16px; }
+      .user .job-list-item span {
+        font-size: 18px;
+        margin-bottom: 20px; }
+      .user .job-list-item a {
+        color: #5ea3e9;
+        position: relative; }
+        .user .job-list-item a::before {
+          content: "";
+          position: absolute;
+          bottom: -3px;
+          height: 1px;
+          transform: scale(0);
+          background-color: #5ea3e9;
+          transition: 0.2s;
+          transform-origin: center;
+          width: 100%; }
+        .user .job-list-item a:hover::before {
+          background-color: #5ea3e9;
+          transform: scale(1);
+          width: 100%; }
   .user__group {
     display: -webkit-flex;
     display: -ms-flex;
@@ -768,7 +802,6 @@ sup {
       height: 500px;
       border-radius: 50%; }
     .user__group p {
-      margin-left: 30px;
       line-height: 1.5em;
       font-size: 20px; }
     .user__group-img {
@@ -793,7 +826,8 @@ sup {
     font-size: 26px;
     margin-bottom: 20px; }
   .user p {
-    font-size: 20px; }
+    font-size: 20px;
+    margin-bottom: 15px; }
   .user .team {
     margin-top: 40px; }
   .user__links {

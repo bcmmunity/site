@@ -26,7 +26,7 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa38;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa40;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 				AddTags();
@@ -138,6 +138,22 @@ namespace site.Controllers
 					Href = "https://youtube.com",
 					Type = db.SNs.ToList().GetRandomItem()
 				};
+				Experience exp = new Experience
+				{
+					Title = "Название",
+					Description = "Какое то крутое описание того где я когда то работал, помогите",
+					Link = "https://vk.com",
+					StartDate = new DateTime(2016, 10, 10),
+					FinishDate = new DateTime(rand.Next(2016, 2018), 10, 10)
+				};
+				Learning lrn = new Learning
+				{
+					Title = "Название",
+					Description = "Какое то крутое описание того где я когда то работал, помогите",
+					Link = "https://vk.com",
+					StartDate = new DateTime(2016, 10, 10),
+					FinishDate = new DateTime(2016, 10, 10)
+				};
 				User user = new User
 				{
 					Rang = i,
@@ -148,7 +164,9 @@ namespace site.Controllers
 					Position = positions[rand.Next(0, positions.Length)],
 					Description = descr,
 					Email = mails[i % 8],
-					Socials = {soc, soc, soc}
+					Socials = {soc, soc, soc},
+					Experiences = {exp, exp, exp},
+					Learnings = {lrn, lrn, lrn}
 					
 				};
 

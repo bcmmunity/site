@@ -13,5 +13,18 @@ namespace site.Models
 		public string Link { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime FinishDate { get; set; }
+
+		private string _year;
+		public string Year
+		{
+			get
+			{
+				if (FinishDate.Year == StartDate.Year)
+					_year = FinishDate.Year.ToString();
+				else
+					_year = $"{StartDate.Year}-{FinishDate.Year}";
+				return _year;
+			}
+		}
 	}
 }

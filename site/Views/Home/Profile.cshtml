@@ -35,7 +35,27 @@
     </div>
     <h3>Навыки</h3>
     <p>@String.Join(", ", u.Specialities)</p>
-
+    <h3>Опыт работы</h3>
+    <div class="job-list">
+      @foreach (var exp in u.Experiences)
+      {
+        <div class="job-list-item">
+          <span>@exp.Title (<a href="@exp.Link">Сайт</a>) @exp.Year</span>
+          <p>@exp.Description</p>
+        </div>
+      }
+    </div>
+    
+    <h3>Курсы/интенсивы и т.д.</h3>
+    <div class="job-list">
+      @foreach (var lrn in u.Learnings)
+      {
+        <div class="job-list-item">
+          <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
+          <p>@lrn.Description</p>
+        </div>
+      }
+    </div>
   <div class="projects">
         <h2 class="h2-common">Мои проекты</h2>
         <div class="projects__list">
