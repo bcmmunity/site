@@ -26,18 +26,18 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa40;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa42;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
-				AddTags();
-			AddSN();
-				AddSpecialities();
-				AddUsers();
-				AddProjects();
-				AddTeams();
-				AddArticles();
-			AddTeamToProject();
-			AddProjectsToUser();
+//				AddTags();
+//			AddSN();
+//				AddSpecialities();
+//				AddUsers();
+//				AddProjects();
+//				AddTeams();
+//				AddArticles();
+//			AddTeamToProject();
+//			AddProjectsToUser();
 		}
 
 		
@@ -187,7 +187,7 @@ namespace site.Controllers
 			};
 			string[] images = {"https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720"};
 			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
-			for (int i = 0; i < names.Length * 2; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				Random rand = new Random();
 				List<Speciality> sp = db.Specialities
@@ -218,6 +218,9 @@ namespace site.Controllers
 
 				
 				db.Projects.Add(project);
+				db.SaveChanges();
+				project.Specialities = sp;
+				db.Update(project);
 				db.SaveChanges();
 				Thread.Sleep(10);
 			}
@@ -290,6 +293,7 @@ namespace site.Controllers
 			foreach (var p in pr)
 			{
 				p.Team = db.Teams.ToList().GetRandomItem();
+//				p.Specialities = db.Specialities.ToList();
 				db.Update(p);
 				db.SaveChanges();
 			}

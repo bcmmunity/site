@@ -1,0 +1,58 @@
+@using site.Controllers
+@model site.ViewModels.AddProjectViewModel;
+@{
+    Layout = "_Header_Footer";
+}
+
+<section class="add-project">
+    <div class="container">
+        <h2 class="h2-common">Добавление нового проекта</h2>
+        <form asp-action="Add" asp-controller="Project">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <label >Название проекта</label>
+            <input type="text" asp-for="Title" required>
+
+            <label >Обложка проекта</label>
+            <input type="text" asp-for="Cover" required>
+
+            <label >Описание проекта</label>
+            @Html.TextAreaFor(n => n.Description)
+            <label >Изображения для слайдера (через пробел)</label>
+            <input type="text" asp-for="SliderImages" required>
+
+            <label>Технологии</label>
+
+            @foreach (var spec in MainController.db.Specialities)
+            {
+                string _id = $"spec{spec.SpecialityId}";
+                <div class="group">
+                    <input type="checkbox" value="@spec.SpecialityId" name="Specs" id="@_id" >
+                    <label for="@_id">@spec.Name</label>
+                </div>
+            }
+            
+            
+
+            <label>Ссылки на проект</label>
+            <div class="group-col">
+                <input type="text">
+                <input type="text">
+            </div>
+
+            <label>Команда проекта</label>
+
+            @foreach (var u in MainController.db.Users)
+            {
+                string _id = $"u{u.Id}";
+                <div class="group">
+                    <input type="checkbox" value = "@u.Id" id = "@_id" name = "Members" >
+                    <label for = "@_id">@u.Name @u.Surname</label>
+                </div>
+            }
+            
+         
+            <input type="submit" class="bttn-dark">
+        </form>
+    </div>
+</section>
