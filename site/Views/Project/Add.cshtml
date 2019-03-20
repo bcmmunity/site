@@ -1,10 +1,10 @@
 @using site.Controllers
-@model site.ViewModels.AddProjectViewModel;
+@model site.ViewModels.ProjectViewModel;
 @{
     Layout = "_Header_Footer";
 }
 
-<section class="add-project">
+<section class="add">
     <div class="container">
         <h2 class="h2-common">Добавление нового проекта</h2>
         <form asp-action="Add" asp-controller="Project">
@@ -26,7 +26,7 @@
             @foreach (var spec in MainController.db.Specialities)
             {
                 string _id = $"spec{spec.SpecialityId}";
-                <div class="group">
+                <div class="checkbox">
                     <input type="checkbox" value="@spec.SpecialityId" name="Specs" id="@_id" >
                     <label for="@_id">@spec.Name</label>
                 </div>
@@ -45,7 +45,7 @@
             @foreach (var u in MainController.db.Users)
             {
                 string _id = $"u{u.Id}";
-                <div class="group">
+                <div class="checkbox">
                     <input type="checkbox" value = "@u.Id" id = "@_id" name = "Members" >
                     <label for = "@_id">@u.Name @u.Surname</label>
                 </div>

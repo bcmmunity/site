@@ -3,7 +3,7 @@ using site.Models;
 
 namespace site.ViewModels
 {
-    public class AddProjectViewModel
+    public class ProjectViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

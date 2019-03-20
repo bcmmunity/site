@@ -854,23 +854,29 @@ sup {
       .user__links-item a {
         margin-top: 10px; }
 
-.add-project {
+.add {
   padding-top: 50px;
-  padding-bottom: 50px; }
-  .add-project > .container {
+  padding-bottom: 50px;
+  min-height: calc(100vh - 410px); }
+  .add > .container {
     flex-direction: column; }
-  .add-project form {
+  .add .bttn-light {
+    margin-top: 10px; }
+  .add .bttn-dark {
+    margin-top: 50px; }
+  .add form {
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    margin-top: 30px; }
-    .add-project form > label {
+    margin-top: 30px;
+    width: 30%; }
+    .add form > label {
       margin-top: 15px;
       font-size: 18px; }
-    .add-project form input[type='text'], .add-project form textarea {
+    .add form input[type='text'], .add form textarea {
       font-family: "Montserrat", sans-serif;
       background-color: rgba(103, 103, 103, 0.2);
       font-size: 14px;
@@ -879,14 +885,22 @@ sup {
       margin-top: 10px;
       padding: 10px 20px;
       width: 100%; }
-    .add-project form .group {
+    .add form .group {
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      width: 100%; }
+    .add form .checkbox {
       display: -webkit-flex;
       display: -ms-flex;
       display: flex;
       align-items: center;
       margin-top: 15px;
       width: 100%; }
-      .add-project form .group label::before {
+      .add form .checkbox label::before {
         content: "";
         display: inline-block;
         width: 20px;
@@ -895,21 +909,11 @@ sup {
         background-color: #fff;
         border: 2px solid #434343;
         vertical-align: middle; }
-      .add-project form .group-col {
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap; }
-        .add-project form .group-col input {
-          width: 45%; }
-    .add-project form textarea {
+    .add form textarea {
       resize: none; }
-    .add-project form input[type="checkbox"] {
+    .add form input[type="checkbox"] {
       display: none; }
-      .add-project form input[type="checkbox"]:checked + label::before {
+      .add form input[type="checkbox"]:checked + label::before {
         background-color: #434343; }
 
 @media only screen and (max-width: 960px) {

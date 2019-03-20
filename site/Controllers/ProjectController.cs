@@ -11,14 +11,14 @@ namespace site.Controllers
     public class ProjectController : Controller
     {
         // GET
-        private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa42;Trusted_Connection=True;";
+        private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;";
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(AddProjectViewModel model)
+        public IActionResult Add(ProjectViewModel model)
         {
             if (ModelState.IsValid)
             {
