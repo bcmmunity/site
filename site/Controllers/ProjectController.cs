@@ -10,8 +10,14 @@ namespace site.Controllers
 {
     public class ProjectController : Controller
     {
-        // GET
-        private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;";
+
+		public ProjectController(ApplicationContext db)
+		{
+
+		}
+
+		// GET
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;";
         public IActionResult Add()
         {
             return View();
