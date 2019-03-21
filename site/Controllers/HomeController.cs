@@ -20,7 +20,7 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f1;Trusted_Connection=True;";
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f2;Trusted_Connection=True;";
 //		private string _bd = "Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;";
 
 		public ActionResult Index()

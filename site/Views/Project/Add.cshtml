@@ -8,7 +8,13 @@
     <div class="container">
         <h2 class="h2-common">Добавление нового проекта</h2>
         <form asp-action="Add" asp-controller="Project" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger">
+                @if (ViewBag.ImageError != "")
+                {
+                    <span>@ViewBag.ImageError</span>
+                    ViewBag.ImageError = "";
+                }
+            </div>
             
             <label >Название проекта</label>
             <input type="text" asp-for="Title" required>

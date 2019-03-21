@@ -16,14 +16,13 @@ namespace site.Controllers
 {
     public class ProjectController : Controller
     {
+        public ProjectController(ApplicationContext db)
+        {
+        }
 
-		public ProjectController(ApplicationContext db)
-		{
+        // GET
+        private string _bd = "Server=localhost\\SQLEXPRESS;Database=f1;Trusted_Connection=True;";
 
-		}
-
-		// GET
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f1;Trusted_Connection=True;";
         public IActionResult Add()
         {
             return View();
@@ -32,105 +31,82 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProjectViewModel model)
         {
+            string path = "";
+            List<string> paths = new List<string>();
             if (ModelState.IsValid)
             {
                 Console.WriteLine(model.Cover.ContentType);
-                    if (model.Cover != null)
-                    {
-                        if (model.Cover.ContentType.StartsWith("image"))
-                        {
-                            SavePhoto(model.Cover);    
-                        }
-                        else
-                        {
-                            throw new ArgumentException();
-                        }
-                        
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException();
-                    }
-                if (model.SliderImages != null)
+
+                if (model.Cover == null || model.SliderImages == null)
                 {
-                    foreach (var image in model.SliderImages)
+                    ViewBag.ImageError += " Изображение(я) не загружено(ы)";
+                    return View(model);
+                }
+
+                if (model.Cover.ContentType.StartsWith("image"))
+                {
+                    path = "/img/" + model.Cover.FileName;
+
+                    using (var fileStream = new FileStream("wwwroot" + path, FileMode.Create))
                     {
-                        if (!image.ContentType.StartsWith("image"))
-                        {
-                            throw new ArgumentException();
-                        }
+                        await model.Cover.CopyToAsync(fileStream);
                     }
-                    SavePhoto(model.SliderImages);
                 }
                 else
                 {
-                    throw new ArgumentNullException();
+                    ViewBag.ImageError += "Загружено не изображение";
                 }
 
-//                Project proj = new Project
-//                {
-//                    Name = model.Title,
-//                    Img = model.Cover.Name,
-//                    Description = model.Description,
-//                    Rang = MainController.db.Projects.ToList().Count + 1,
-//
-//                    SliderImages = model.SliderImages.Split(" ").ToList(),
-//                };
-//                List<Speciality> sps = new  List<Speciality>();
-//                foreach (var id in model.Specs)
-//                {
-//                    sps.Add(MainController.db.Specialities.Find(id));
-//                }
-//                Team team = new Team();
-//                foreach (var id in model.Members)
-//                {
-//                    team.Members.Add(MainController.db.Users.Find(id));
-//                }
-//                proj.Specialities.AddRange(sps);
-//                proj.Team = team;
-//                MainController.db.Projects.Add(proj);
-//                MainController.db.SaveChanges();
-//                MainController.db.Teams.Add(team);
-//                MainController.db.SaveChanges();   
-            }
-            
-            
-                
-            
-            return View(model);
-            
-        }
-
-        
-        private async void SavePhoto(IFormFile file) 
-        {
-            if (file != null)
-            {
-                string path = "/img/" + file.FileName;
-
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream("wwwroot" + path, FileMode.Create))
+                foreach (var image in model.SliderImages)
                 {
-                    await file.CopyToAsync(fileStream);
-                }
-            }
-        }
-
-        private async void SavePhoto(IFormFileCollection collection)
-        {
-            if (collection != null)
-            {
-                foreach (var item in collection)
-                {
-                    string path = "/img/" + item.FileName;
-
-                    // сохраняем файл в папку Files в каталоге wwwroot
-                    using (var fileStream = new FileStream("wwwroot" + path, FileMode.Create))
+                    if (!image.ContentType.StartsWith("image"))
                     {
-                        await item.CopyToAsync(fileStream);
+                        ViewBag.ImageError += " Не все загруженные фаилы являются изображениями";
+                        return View(model);
                     }
                 }
+                
+                foreach (var image in model.SliderImages)
+                {
+                    string localPath = "/img/" + model.Cover.FileName;
+                    paths.Add(localPath);
+                    using (var fileStream = new FileStream("wwwroot" + localPath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+                }
+                
+               
+                Project proj = new Project
+                {
+                    Name = model.Title,
+                    Img = path,
+                    Description = model.Description,
+                    Rang = MainController.db.Projects.ToList().Count + 1,
+
+                    SliderImages = paths,
+                };
+                List<Speciality> sps = new  List<Speciality>();
+                foreach (var id in model.Specs)
+                {
+                    sps.Add(MainController.db.Specialities.Find(id));
+                }
+                Team team = new Team();
+                foreach (var id in model.Members)
+                {
+                    team.Members.Add(MainController.db.Users.Find(id));
+                }
+                proj.Specialities.AddRange(sps);
+                proj.Team = team;
+                await MainController.db.Projects.AddAsync(proj);
+                await MainController.db.Teams.AddAsync(team);
+                MainController.db.SaveChanges();   
             }
+
+
+            return View(model);
         }
+
+
     }
 }
