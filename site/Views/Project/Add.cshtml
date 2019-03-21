@@ -7,19 +7,19 @@
 <section class="add">
     <div class="container">
         <h2 class="h2-common">Добавление нового проекта</h2>
-        <form asp-action="Add" asp-controller="Project">
+        <form asp-action="Add" asp-controller="Project" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            
             <label >Название проекта</label>
             <input type="text" asp-for="Title" required>
 
             <label >Обложка проекта</label>
-            <input type="text" asp-for="Cover" required>
+            <input type="file" asp-for="Cover" required>
 
             <label >Описание проекта</label>
             @Html.TextAreaFor(n => n.Description)
             <label >Изображения для слайдера (через пробел)</label>
-            <input type="text" asp-for="SliderImages" required>
+            <input type="file" asp-for="SliderImages" multiple>
 
             <label>Технологии</label>
 
