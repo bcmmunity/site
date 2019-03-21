@@ -29,9 +29,11 @@ namespace site.Controllers
         }
 
         [HttpPost]
+        // TODO: Поправить стили в верстке
         public async Task<IActionResult> Add(ProjectViewModel model)
         {
             string path = "";
+            string templatePhotoPath = "";
             List<string> paths = new List<string>();
             if (ModelState.IsValid)
             {
@@ -68,7 +70,7 @@ namespace site.Controllers
                 
                 foreach (var image in model.SliderImages)
                 {
-                    string localPath = "/img/" + model.Cover.FileName;
+                    string localPath = "/img/" + image.FileName;
                     paths.Add(localPath);
                     using (var fileStream = new FileStream("wwwroot" + localPath, FileMode.Create))
                     {
@@ -95,12 +97,20 @@ namespace site.Controllers
                 foreach (var id in model.Members)
                 {
                     team.Members.Add(MainController.db.Users.Find(id));
-                }
+                }    
                 proj.Specialities.AddRange(sps);
                 proj.Team = team;
+                foreach (var id in model.Members)
+                {
+                    User user = MainController.db.Users.Find(id);
+                    user.Projects.Add(proj);
+                    MainController.db.Update(user);
+                    await MainController.db.SaveChangesAsync();
+                }
                 await MainController.db.Projects.AddAsync(proj);
+                await MainController.db.SaveChangesAsync();   
                 await MainController.db.Teams.AddAsync(team);
-                MainController.db.SaveChanges();   
+                await MainController.db.SaveChangesAsync();   
             }
 
 
