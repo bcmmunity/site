@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Identity
+@using site.Controllers
 @model User
 @{
   User u = Model;
@@ -24,10 +26,14 @@
         <div class="user__links">
           @foreach (var soc in u.Socials)
           {
-            <div class="user__links-item">
-              <img src="@soc.Type.Pic" alt="">
-              <a href="@soc.Href">@soc.Type.Title</a>
-            </div>
+            if (soc != null && soc.Type != null)
+            {
+              <div class="user__links-item">
+                <img src="@soc.Type.Pic" alt="">
+                <a href="@soc.Href">@soc.Type.Title</a>
+              </div>
+            }
+            
           }
           
         </div>
@@ -37,6 +43,13 @@
     <p>@String.Join(", ", u.Specialities)</p>
     <h3>Опыт работы</h3>
     <div class="job-list">
+      
+       @* @if (User.Identity.IsAuthenticated && User.Identity.Name == u.Email) *@
+@*       { *@
+@*         <form asp-action="Keki" asp-controller="Experience" enctype="multipart/form-data"> *@
+@*           <input type="submit" class="bttn-dark"> *@
+@*         </form> *@
+@*       } *@
       @foreach (var exp in u.Experiences)
       {
         <div class="job-list-item">

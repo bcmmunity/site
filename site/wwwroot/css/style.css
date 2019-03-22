@@ -301,7 +301,7 @@ sup {
           line-height: 1.6rem;
           font-size: 16px;
           margin-top: 10px;
-          margin-bottom: 20px;  }
+          margin-bottom: 20px; }
         .team__list__inner .right .more {
           margin-right: 10px;
           font-size: 14px; }
@@ -346,9 +346,9 @@ sup {
     .projects__item .left {
       background-color: #bababa; }
       .projects__item .left__img {
-        width: 100%; 
+        width: 100%;
         max-height: 200px;
-        object-fit: cover;}
+        object-fit: cover; }
     .projects__item .right {
       display: -webkit-flex;
       display: -ms-flex;
@@ -601,7 +601,8 @@ sup {
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
-    justify-content: center; }
+    justify-content: center;
+    max-height: 500px; }
     .project__cover img {
       width: 80%;
       height: 80%; }
@@ -685,6 +686,17 @@ sup {
       min-height: 300px; }
       .edit form textarea:focus {
         outline: 2px solid #222222; }
+  .edit__social__group {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    width: 100%; }
+    .edit__social__group img {
+      width: 48px;
+      height: 48px;
+      flex-basis: 48px;
+      margin-right: 40px; }
   .edit__group {
     width: 100%;
     display: -webkit-flex;
@@ -875,7 +887,7 @@ sup {
     flex-direction: column;
     justify-content: center;
     margin-top: 30px;
-    width: 30%; }
+    width: 500px; }
     .add form > label {
       margin-top: 15px;
       font-size: 18px; }
@@ -913,7 +925,8 @@ sup {
         border: 2px solid #434343;
         vertical-align: middle; }
     .add form textarea {
-      resize: none; }
+      resize: none;
+      min-height: 300px; }
     .add form input[type="checkbox"] {
       display: none; }
       .add form input[type="checkbox"]:checked + label::before {

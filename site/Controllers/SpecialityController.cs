@@ -14,7 +14,7 @@ namespace site.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Add(SpecialityViewModel model)
+        public IActionResult Add(SpecialityViewModel model)
         {
             foreach (var specialityViewModel in model.Names)
             {
@@ -28,8 +28,8 @@ namespace site.Controllers
                     {
                         Name = name
                     };
-                    await MainController.db.Specialities.AddAsync(spec);
-                    await MainController.db.SaveChangesAsync();
+                    MainController.db.Specialities.Add(spec);
+                    MainController.db.SaveChanges();
                 }
                 
 

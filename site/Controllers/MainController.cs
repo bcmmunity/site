@@ -26,7 +26,7 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=f3;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=f48;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
 //				AddTags();
@@ -66,19 +66,23 @@ namespace site.Controllers
 		}
 		private static void AddSN()
 		{
-			string[] tagNames =
+			string[] snNames =
 			{
-				"twitter",
-				"facebook",
-				"vk",
-				"inst"
+				"Twitter",
+				"Facebook",
+				"Vk",
+				"Instagram",
+				"Whatsapp",
+				"Behance",
+				"Github",
+				"Youtube"
 			};
-			foreach (var name in tagNames)
+			for (int i = 0; i < snNames.Length; i++)
 			{
 				SN tag = new SN
 				{
-					Title = name,
-					Pic = "https://loremflickr.com/64/64"
+					Title = snNames[i],
+					Pic = $"../../img/{snNames[i].ToLower()}.svg"
 				};
 				db.SNs.Add(tag);
 				db.SaveChanges();

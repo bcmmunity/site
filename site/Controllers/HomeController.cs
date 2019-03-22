@@ -20,7 +20,7 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f3;Trusted_Connection=True;";
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f48;Trusted_Connection=True;";
 //		private string _bd = "Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;";
 
 		public ActionResult Index()
@@ -101,10 +101,17 @@ namespace site.Controllers
 			
 		}
 
-		public ActionResult Profile(string id)
+		public async Task<ActionResult> Profile(string id)
 		{
-
 			User user = MainController.db.Users.Find(id);
+//			Console.WriteLine("\n\n\n\n");
+//			Console.WriteLine("ANIME");
+//			Console.WriteLine(user.Socials.Count);
+//			foreach (var userSocial in user.Socials)
+//			{
+//				Console.WriteLine(userSocial.Href);
+//			}
+//			Console.WriteLine("\n\n\n\n");
 			if (user != null)
 			{
 				return View("Profile", user);

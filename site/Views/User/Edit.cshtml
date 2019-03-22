@@ -1,6 +1,8 @@
-﻿@model site.ViewModels.EditUserViewModel
+﻿@using site.Controllers
+@model site.ViewModels.EditUserViewModel
 @{
 	ViewBag.Title = "Редактирование пользователя";
+	List<SN> Socials = MainController.db.SNs.ToList();
 }
 @{
 	Layout = "_Header_Footer";
@@ -10,38 +12,6 @@
 <section class="edit">
 	<div class="container">
 		<div class="h2-common">Редактирование профиля</div>
-		@* <form asp-action="Edit" asp-controller="User" class="edit-form"> *@
-		@* 	<div asp-validation-summary="All" class="text-danger"></div> *@
-		@* 	<input type="hidden" asp-for="Id"/> *@
-		@* 	<div class="edit__group"> *@
-		@* 		<label for="">Email</label> *@
-		@* 		<input type="text"> *@
-		@* 	</div> *@
-		@* 	<div class="edit__group"> *@
-		@* 		<label for="">Ссылка на аватарку</label> *@
-		@* 		<input type="text"> *@
-		@* 	</div> *@
-		@* 	<div class="edit__group"> *@
-		@* 		<label for="">Имя</label> *@
-		@* 		<input type="text"> *@
-		@* 	</div> *@
-		@* 	<div class="edit__group"> *@
-		@* 		<label for="">Фамилия</label> *@
-		@* 		<input type="text"> *@
-		@* 	</div> *@
-		@* 	<div class="edit__group"> *@
-		@* 		<label for="">Должность</label> *@
-		@* 		<input type="text"> *@
-		@* 	</div> *@
-		@* *@
-		@* 	<div class="edit__group"> *@
-		@* 		<label for="">О себе</label> *@
-		@* 		<textarea name="" id="" cols="30" rows="10"> *@
-		@* *@
-  @*       </textarea> *@
-		@* 	</div> *@
-		@* 	<input type="submit" value="Сохранить" class="bttn-dark"/> *@
-		@* </form> *@
 		<form asp-action="Edit" asp-controller="User">
 			<div asp-validation-summary="All" class="text-danger"></div>
 			<div class="edit__group">
@@ -76,6 +46,27 @@
 				<label for="aboutyou" class="control-label">О себе</label>
 				@Html.TextAreaFor(n => n.Description, new { @class = "anime", @id="aboutyou" })
 	
+			</div>
+			@for (var i = 0; i < Socials.Count; i++)
+			{
+				<div class="edit__group">
+					@if (i == 0)
+					{
+						<label for="">Ссылки на социальные сети</label>
+					}
+					
+					<div class="edit__social__group">
+						<img src="@Socials[i].Pic" alt="">
+						<input type="text" name = "Socials" >
+					</div>
+				</div>
+			}
+			<div class="edit__group">
+				<label asp-for="Position" class="control-label">Тест</label>
+				<input type="text" asp-for="Test1" class="form-control" />
+				<input type="text" asp-for="Test2" class="form-control" />
+				<input type="text" asp-for="Test3" class="form-control" />
+				<input type="text" asp-for="Test4" class="form-control" />
 			</div>
 			<input type="submit" value="Сохранить" class="bttn-dark" />
 		</form>

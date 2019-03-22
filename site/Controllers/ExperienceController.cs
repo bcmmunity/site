@@ -11,7 +11,7 @@ namespace site.Controllers
         }
         // GET
         [HttpPost]
-        public void Keki()
+        public void Keki(ExperienceController model)
         {
             Console.WriteLine("\n\n\n\n");
             Console.WriteLine("anime");

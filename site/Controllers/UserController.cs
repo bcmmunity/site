@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -9,18 +10,22 @@ using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using site.Controllers;
 
 namespace CustomIdentityApp.Controllers
 {
 	public class UserController : Controller
 	{
 		UserManager<User> _userManager;
-
+		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f48;Trusted_Connection=True;";
 		public UserController(UserManager<User> userManager)
 		{
 			_userManager = userManager;
 		}
-
+		
+		
+		
 		public IActionResult Index() => View(_userManager.Users.ToList());
 
 		public IActionResult Create() => View();
@@ -56,7 +61,7 @@ namespace CustomIdentityApp.Controllers
 				return NotFound();
 			}
 
-			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Photo = user.Photo, Position = user.Position, Name = user.Name, Surname = user.Surname };
+			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Photo = user.Photo, Position = user.Position, Name = user.Name, Surname = user.Surname};
 			return View(model);
 		}
 
@@ -64,8 +69,15 @@ namespace CustomIdentityApp.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(EditUserViewModel model)
 		{
+			
 			if (ModelState.IsValid)
 			{
+				var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+				optionsBuilder.UseSqlServer(_bd);
+				var db = new ApplicationContext(optionsBuilder.Options);
+
+				List<SN> socials = await MainController.db.SNs.ToListAsync();
+				List<Social> links = new List<Social>();
 				User user = await _userManager.FindByIdAsync(model.Id);
 				if (user != null)
 				{
@@ -76,8 +88,36 @@ namespace CustomIdentityApp.Controllers
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
-					
 
+					Experience exp = new Experience
+					{
+						Title = model.Test1,
+						Description = model.Test2,
+						Link = model.Test3,
+						StartDate = DateTime.Now,
+						FinishDate = DateTime.Now
+					};
+				
+					MainController.db.Experiences.Add(exp);
+					
+					
+					user.Experiences.Add(exp);
+					
+					for (var i = 0; i < socials.Count; i++)
+					{
+
+						if (model.Socials[i] == null) continue;
+						Social soc = new Social
+						{
+							Href = model.Socials[i]
+						};
+						soc.Type = socials[i];
+						user.Socials.Add(soc);
+					}
+					db.Users.Update(user);
+					await MainController.db.SaveChangesAsync();
+
+					
 					var result = await _userManager.UpdateAsync(user);
 					if (result.Succeeded)
 					{
