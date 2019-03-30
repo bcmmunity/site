@@ -10,7 +10,9 @@ namespace site.Models
 	{
 		public int SocialId { get; set; }
 		public string Href { get; set; }
-		[NotMapped]
-		public SN Type { get; set; }
+//		[NotMapped]
+//		public SN Type { get; set; }
+		public string Title { get; set; }
+		public string Pic { get; set; }
 	}
 }

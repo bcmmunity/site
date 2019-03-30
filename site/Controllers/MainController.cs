@@ -24,20 +24,17 @@ namespace site.Controllers
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=f48;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
-//				AddTags();
-//			AddSN();
-//				AddSpecialities();
-//				AddUsers();
-//				AddProjects();
-//				AddTeams();
-//				AddArticles();
-//			AddTeamToProject();
-//			AddProjectsToUser();
+				AddTags();
+			AddSN();
+				AddSpecialities();
+				AddUsers();
+				AddProjects();
+				AddTeams();
+				AddArticles();
+			AddTeamToProject();
+			AddProjectsToUser();
 		}
 
 		
@@ -140,7 +137,7 @@ namespace site.Controllers
 				Social soc = new Social
 				{
 					Href = "https://youtube.com",
-					Type = db.SNs.ToList().GetRandomItem()
+//					Type = db.SNs.ToList().GetRandomItem()
 				};
 				Experience exp = new Experience
 				{
@@ -206,7 +203,7 @@ namespace site.Controllers
 				Social soc = new Social
 				{
 					Href = "https://youtube.com",
-					Type = db.SNs.ToList().GetRandomItem()
+//					Type = db.SNs.ToList().GetRandomItem()
 				};
 				Project project = new Project
 				{

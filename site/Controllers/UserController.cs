@@ -17,10 +17,12 @@ namespace CustomIdentityApp.Controllers
 {
 	public class UserController : Controller
 	{
-		UserManager<User> _userManager;
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f48;Trusted_Connection=True;";
+		private UserManager<User> _userManager;
+		private ApplicationContext db;
 		public UserController(UserManager<User> userManager)
 		{
+			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+			db = new ApplicationContext(optionsBuilder.Options);
 			_userManager = userManager;
 		}
 		
@@ -72,11 +74,9 @@ namespace CustomIdentityApp.Controllers
 			
 			if (ModelState.IsValid)
 			{
-				var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-				optionsBuilder.UseSqlServer(_bd);
-				var db = new ApplicationContext(optionsBuilder.Options);
+				
 
-				List<SN> socials = await MainController.db.SNs.ToListAsync();
+				List<SN> socials = MainController.db.SNs.ToList();
 				List<Social> links = new List<Social>();
 				User user = await _userManager.FindByIdAsync(model.Id);
 				if (user != null)
@@ -88,7 +88,6 @@ namespace CustomIdentityApp.Controllers
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
-
 					Experience exp = new Experience
 					{
 						Title = model.Test1,
@@ -109,29 +108,35 @@ namespace CustomIdentityApp.Controllers
 						if (model.Socials[i] == null) continue;
 						Social soc = new Social
 						{
-							Href = model.Socials[i]
+							Href = model.Socials[i],
+							Pic = "123",
+							Title = "Hui"
 						};
-						soc.Type = socials[i];
+						
 						user.Socials.Add(soc);
+						MainController.db.Users.Update(user);
+						await MainController.db.SaveChangesAsync();
 					}
-					db.Users.Update(user);
-					await MainController.db.SaveChangesAsync();
 
 					
-					var result = await _userManager.UpdateAsync(user);
-					if (result.Succeeded)
-					{
-						//return Redirect("/Home/About");
-						return RedirectToAction("About", "Home");
-						//return RedirectToActi	on("Index");
-					}
-					else
-					{
-						foreach (var error in result.Errors)
-						{
-							ModelState.AddModelError(string.Empty, error.Description);
-						}
-					}
+//					db.Users.Update(user);
+
+					
+//					var result = await _userManager.UpdateAsync(user);
+//
+//					if (result.Succeeded)
+//					{
+//						//return Redirect("/Home/About");
+//						return RedirectToAction("About", "Home");
+//						//return RedirectToActi	on("Index");
+//					}
+//					else
+//					{
+//						foreach (var error in result.Errors)
+//						{
+//							ModelState.AddModelError(string.Empty, error.Description);
+//						}
+//					}
 				}
 			}
 			return View(model);

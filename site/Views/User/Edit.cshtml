@@ -47,6 +47,7 @@
 				@Html.TextAreaFor(n => n.Description, new { @class = "anime", @id="aboutyou" })
 	
 			</div>
+		
 			@for (var i = 0; i < Socials.Count; i++)
 			{
 				<div class="edit__group">
@@ -57,7 +58,8 @@
 					
 					<div class="edit__social__group">
 						<img src="@Socials[i].Pic" alt="">
-						<input type="text" name = "Socials" >
+						@* <input type="text" name = "Socials" > *@
+						@Html.TextBoxFor(u => u.Socials)
 					</div>
 				</div>
 			}

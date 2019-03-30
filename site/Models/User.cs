@@ -20,7 +20,6 @@ namespace site.Models
 		public List<Speciality> Specialities { get; set; }
 		[NotMapped]
 		public List<Project> Projects { get; set; }
-		[NotMapped]
 		public List<Social> Socials { get; set; }
 		[NotMapped]
 		public List<Experience> Experiences { get; set; }

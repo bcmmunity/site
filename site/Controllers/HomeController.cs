@@ -20,13 +20,11 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=f48;Trusted_Connection=True;";
-//		private string _bd = "Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;";
+		
 
 		public ActionResult Index()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer(_bd);
 			var db = new ApplicationContext(optionsBuilder.Options);
 
 			return View(db);
@@ -35,7 +33,6 @@ namespace site.Controllers
 		public ActionResult About()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer(_bd);
 			var db = new ApplicationContext(optionsBuilder.Options);
 
 			return View(db);
@@ -103,7 +100,7 @@ namespace site.Controllers
 
 		public async Task<ActionResult> Profile(string id)
 		{
-			User user = MainController.db.Users.Find(id);
+			User user = MainController.db.Users.Include(u => u.Socials).FirstOrDefault(u => u.Id == id);
 //			Console.WriteLine("\n\n\n\n");
 //			Console.WriteLine("ANIME");
 //			Console.WriteLine(user.Socials.Count);

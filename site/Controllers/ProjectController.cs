@@ -20,8 +20,6 @@ namespace site.Controllers
         {
         }
 
-        // GET
-        private string _bd = "Server=localhost\\SQLEXPRESS;Database=f9;Trusted_Connection=True;";
 
         public IActionResult Add()
         {
