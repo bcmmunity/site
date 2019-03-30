@@ -18,11 +18,8 @@ namespace CustomIdentityApp.Controllers
 	public class UserController : Controller
 	{
 		private UserManager<User> _userManager;
-		private ApplicationContext db;
 		public UserController(UserManager<User> userManager)
 		{
-			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			db = new ApplicationContext(optionsBuilder.Options);
 			_userManager = userManager;
 		}
 		
@@ -71,14 +68,23 @@ namespace CustomIdentityApp.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(EditUserViewModel model)
 		{
-			
 			if (ModelState.IsValid)
 			{
-				
 
 				List<SN> socials = MainController.db.SNs.ToList();
-				List<Social> links = new List<Social>();
+				
+				// Выглядит как мега костыль но он работает
+				// TODO: Исправить костыль, если он является костылем	
+
+				#region Удаление предыдущих ссылок
+				User tempUser = MainController.db.Users.Find(model.Id);
+				tempUser.Links.Clear();
+				MainController.db.Update(tempUser);
+				MainController.db.SaveChanges();
+				#endregion
+				
 				User user = await _userManager.FindByIdAsync(model.Id);
+				
 				if (user != null)
 				{
 					user.Email = model.Email;
@@ -88,55 +94,46 @@ namespace CustomIdentityApp.Controllers
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
-					Experience exp = new Experience
-					{
-						Title = model.Test1,
-						Description = model.Test2,
-						Link = model.Test3,
-						StartDate = DateTime.Now,
-						FinishDate = DateTime.Now
-					};
-				
-					MainController.db.Experiences.Add(exp);
-					
-					
-					user.Experiences.Add(exp);
-					
-					for (var i = 0; i < socials.Count; i++)
+//					Experience exp = new Experience
+//					{
+//						Title = model.Test1,
+//						Description = model.Test2,
+//						Link = model.Test3,
+//						StartDate = DateTime.Now,
+//						FinishDate = DateTime.Now
+//					};
+//				
+//					MainController.db.Experiences.Add(exp);
+//					user.Links.Clear();
+						
+					for (var i = 0; i < model.Socials.Count; i++)
 					{
 
 						if (model.Socials[i] == null) continue;
-						Social soc = new Social
+						Link soc = new Link
 						{
+							IsSocial = true,
 							Href = model.Socials[i],
-							Pic = "123",
-							Title = "Hui"
+							Pic = socials[i].Pic,
+							Title = socials[i].Title 
 						};
-						
-						user.Socials.Add(soc);
-						MainController.db.Users.Update(user);
-						await MainController.db.SaveChangesAsync();
+						user.Links.Add(soc);
+								
 					}
-
+			
+					var result = await _userManager.UpdateAsync(user);
 					
-//					db.Users.Update(user);
-
-					
-//					var result = await _userManager.UpdateAsync(user);
-//
-//					if (result.Succeeded)
-//					{
-//						//return Redirect("/Home/About");
-//						return RedirectToAction("About", "Home");
-//						//return RedirectToActi	on("Index");
-//					}
-//					else
-//					{
-//						foreach (var error in result.Errors)
-//						{
-//							ModelState.AddModelError(string.Empty, error.Description);
-//						}
-//					}
+					if (result.Succeeded)
+					{
+						return RedirectToAction("About", "Home");
+					}
+					else
+					{
+						foreach (var error in result.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+					}
 				}
 			}
 			return View(model);

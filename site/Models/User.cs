@@ -20,7 +20,7 @@ namespace site.Models
 		public List<Speciality> Specialities { get; set; }
 		[NotMapped]
 		public List<Project> Projects { get; set; }
-		public List<Social> Socials { get; set; }
+		public List<Link> Links { get; set; }
 		[NotMapped]
 		public List<Experience> Experiences { get; set; }
 		[NotMapped]
@@ -30,8 +30,8 @@ namespace site.Models
 		{
 			Learnings = new List<Learning>();
 			Experiences = new List<Experience>();
-			Socials = new List<Social>();
 			Specialities = new List<Speciality>();
+			Links = new List<Link>();
 			Projects = new List<Project>();
 		}
 	}

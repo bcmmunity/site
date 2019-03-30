@@ -114,6 +114,20 @@ namespace site.Controllers
 
             return View(model);
         }
+        
+        public ActionResult View(int id)
+        {
+            Project proj = MainController.db.Projects.Find(id);
+            if (proj != null)
+            {
+                return View("Project", proj);	
+            }
+            else
+            {
+                return View("Error");
+            }
+			
+        }
 
 
     }

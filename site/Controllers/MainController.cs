@@ -26,15 +26,15 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 			db = new ApplicationContext(optionsBuilder.Options);
 
-				AddTags();
-			AddSN();
-				AddSpecialities();
-				AddUsers();
-				AddProjects();
-				AddTeams();
-				AddArticles();
-			AddTeamToProject();
-			AddProjectsToUser();
+//				AddTags();
+//			AddSN();
+//				AddSpecialities();
+//				AddUsers();
+//				AddProjects();
+//				AddTeams();
+//				AddArticles();
+//			AddTeamToProject();
+//			AddProjectsToUser();
 		}
 
 		
@@ -61,18 +61,19 @@ namespace site.Controllers
 				db.SaveChanges();
 			}
 		}
+		
 		private static void AddSN()
 		{
 			string[] snNames =
 			{
-				"Twitter",
-				"Facebook",
-				"Vk",
-				"Instagram",
-				"Whatsapp",
-				"Behance",
-				"Github",
-				"Youtube"
+				"twitter",
+				"facebook",
+				"vk",
+				"instagram",
+				"whatsapp",
+				"behance",
+				"github",
+				"youtube"
 			};
 			for (int i = 0; i < snNames.Length; i++)
 			{
@@ -85,7 +86,7 @@ namespace site.Controllers
 				db.SaveChanges();
 			}
 		}
-
+		
 		private static void AddSpecialities()
 		{
 			string[] specs =
@@ -134,10 +135,9 @@ namespace site.Controllers
 				List<Speciality> sp = db.Specialities
 					.Take(rand.Next(1, db.Specialities.ToArray().Length))
 					.ToList();
-				Social soc = new Social
+				Link soc = new Link
 				{
 					Href = "https://youtube.com",
-//					Type = db.SNs.ToList().GetRandomItem()
 				};
 				Experience exp = new Experience
 				{
@@ -165,7 +165,7 @@ namespace site.Controllers
 					Position = positions[rand.Next(0, positions.Length)],
 					Description = descr,
 					Email = mails[i % 8],
-					Socials = {soc, soc, soc},
+					Links = {soc, soc, soc},
 					Experiences = {exp, exp, exp},
 					Learnings = {lrn, lrn, lrn}
 					
@@ -196,12 +196,6 @@ namespace site.Controllers
 					.ToList();
 				Link link = new Link
 				{
-					Pic = "https://loremflickr.com/64/64",
-					Title = "HUI",
-					Href = "https://vk.com"
-				};
-				Social soc = new Social
-				{
 					Href = "https://youtube.com",
 //					Type = db.SNs.ToList().GetRandomItem()
 				};
@@ -213,7 +207,6 @@ namespace site.Controllers
 					Specialities = sp,
 					SliderImages = images.ToList(),
 					Links = {link, link},
-					Socials = {soc, soc, soc}
                     							
 				};
 

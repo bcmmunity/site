@@ -15,7 +15,7 @@ namespace site.Models
 		{
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=h23;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=h27;Trusted_Connection=True;");
 		}
 
 		public DbSet<Article> Articles { get; set; }
@@ -23,7 +23,7 @@ namespace site.Models
 		public DbSet<Team> Teams { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<Speciality> Specialities { get; set; }
-		public DbSet<Link> Links { get; set; }
+//		public DbSet<Link> Links { get; set; }
 //		public DbSet<Social> Socials { get; set; }
 		public DbSet<SN> SNs { get; set; }
 		public DbSet<Experience> Experiences { get; set; }

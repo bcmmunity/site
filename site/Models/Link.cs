@@ -11,5 +11,6 @@ namespace site.Models
 		public string Href { get; set; }
 		public string Title { get; set; }
 		public string Pic { get; set; }
+		public bool IsSocial { get; set; }
 	}
 }

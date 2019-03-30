@@ -83,42 +83,7 @@ namespace site.Controllers
 				.Take(count)
 				.ToArray());
 		}
-
-		public ActionResult Projects(int id)
-		{
-			Project proj = MainController.db.Projects.Find(id);
-			if (proj != null)
-			{
-				return View("Project", proj);	
-			}
-			else
-			{
-				return View("Error");
-			}
-			
-		}
-
-		public async Task<ActionResult> Profile(string id)
-		{
-			User user = MainController.db.Users.Include(u => u.Socials).FirstOrDefault(u => u.Id == id);
-//			Console.WriteLine("\n\n\n\n");
-//			Console.WriteLine("ANIME");
-//			Console.WriteLine(user.Socials.Count);
-//			foreach (var userSocial in user.Socials)
-//			{
-//				Console.WriteLine(userSocial.Href);
-//			}
-//			Console.WriteLine("\n\n\n\n");
-			if (user != null)
-			{
-				return View("Profile", user);
-			}
-			else
-			{
-				return View("Error");
-			}
-		}
-		
+					
 		public ActionResult Contacts()
 		{
 			return View();

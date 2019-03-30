@@ -26,7 +26,7 @@
 				<label asp-for="Photo" class="control-label">Ссылка на аватарку</label>
 				<input type="text" asp-for="Photo" class="form-control" />
 			</div>
-			</br>
+			<br>
 			<div class="edit__group">
 				<label asp-for="Name" class="control-label">Имя</label>
 				<input type="text" asp-for="Name" class="form-control" />
@@ -35,40 +35,30 @@
 				<label asp-for="Surname" class="control-label">Фамилия</label>
 				<input type="text" asp-for="Surname" class="form-control" />
 			</div>
-			</br>
+			<br>
 			<div class="edit__group">
 				<label asp-for="Position" class="control-label">Должность</label>
 				<input type="text" asp-for="Position" class="form-control" />
 			</div>
-			</br>
+			<br>
 
 			<div class="edit__group">
 				<label for="aboutyou" class="control-label">О себе</label>
 				@Html.TextAreaFor(n => n.Description, new { @class = "anime", @id="aboutyou" })
 	
 			</div>
-		
-			@for (var i = 0; i < Socials.Count; i++)
-			{
-				<div class="edit__group">
-					@if (i == 0)
-					{
-						<label for="">Ссылки на социальные сети</label>
-					}
-					
+			<div class="edit__group">
+				<label for="">Ссылки на социальные сети</label>
+				@for (var i = 0; i < Socials.Count; i++)
+				{
+
+
 					<div class="edit__social__group">
 						<img src="@Socials[i].Pic" alt="">
-						@* <input type="text" name = "Socials" > *@
 						@Html.TextBoxFor(u => u.Socials)
 					</div>
-				</div>
-			}
-			<div class="edit__group">
-				<label asp-for="Position" class="control-label">Тест</label>
-				<input type="text" asp-for="Test1" class="form-control" />
-				<input type="text" asp-for="Test2" class="form-control" />
-				<input type="text" asp-for="Test3" class="form-control" />
-				<input type="text" asp-for="Test4" class="form-control" />
+
+				}
 			</div>
 			<input type="submit" value="Сохранить" class="bttn-dark" />
 		</form>

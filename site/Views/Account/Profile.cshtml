@@ -8,13 +8,13 @@
 
 <section class="user">
   <div class="container">
-	  <div class="user__group">
+	  @* <div class="user__group"> *@
 	  	@*@if (User.Identity.IsAuthenticated)
 		{
 		  <a asp-controller="User" asp-action="Edit">Редактирование профиля</a>
 		}*@
 
-	  </div>
+	  @* </div> *@
     <div class="user__group">
       <div class="user__group-img">
         <img src="@u.Photo" alt="">
@@ -35,7 +35,17 @@
 @*             } *@
 @*              *@
 @*           } *@
-          
+          @foreach (var soc in u.Links)
+          {
+            if (soc != null)
+            {
+              <div class="user__links-item">
+                
+                <img src="@soc.Pic" alt="">
+                <a href="@soc.Href">@soc.Title</a>
+              </div>
+            }
+          }
         </div>
       </div>
     </div>
@@ -73,9 +83,7 @@
         <h2 class="h2-common">Мои проекты</h2>
         <div class="projects__list">
         <div class="container">
-          @{
-            Html.RenderPartial("Projects", u.Projects);          
-          }
+            @Html.Partial("Projects", u.Projects)      
         </div>
 
         </div>
