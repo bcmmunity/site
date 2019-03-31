@@ -95,12 +95,14 @@ namespace site.Controllers
 			// удаляем аутентификационные куки
 			await _signInManager.SignOutAsync();
 			return RedirectToAction("Index", "Home");
+		
 		}
 		
 		public async Task<ActionResult> Profile(string id)
 		{
 			User user = MainController.db.Users
 				.Include(s => s.Links)
+				.Include(s => s.Experiences)
 				.FirstOrDefault(u => u.Id == id);
 			if (user != null)
 			{

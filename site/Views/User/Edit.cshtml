@@ -2,13 +2,12 @@
 @model site.ViewModels.EditUserViewModel
 @{
 	ViewBag.Title = "Редактирование пользователя";
-	List<SN> Socials = MainController.db.SNs.ToList();
-}
-@{
+	List<SN> socials = MainController.db.SNs.ToList();
+	List<string> kek = new List<string>();
+	string id = Model.Id;
+	List<Link> links = MainController.db.Users.Find(id).Links;
 	Layout = "_Header_Footer";
-
 }
-
 <section class="edit">
 	<div class="container">
 		<div class="h2-common">Редактирование профиля</div>
@@ -18,9 +17,10 @@
 				<input type="hidden" asp-for="Id" />
 			</div>
 			<div class="edit__group">
+				<p>@id</p>
 				<label asp-for="Email" class="control-label">Email</label>
 
-				<input type="text" asp-for="Email" class="form-control" />
+				<input type="text" asp-for="Email" class="form-control"/>
 			</div>
 			<div class="edit__group">
 				<label asp-for="Photo" class="control-label">Ссылка на аватарку</label>
@@ -48,17 +48,53 @@
 	
 			</div>
 			<div class="edit__group">
+				<label for="">Опыт работы/Курсы/Интенсивы</label>
+				<div id="work">
+					<div class="edit__courses__group">
+						<div class="edit__group">
+							<label for="" class = "second_label">Название</label>
+							<input type="text" asp-for="Titles">
+						</div>
+						<div class="edit__group">
+							<label for="" class = "second_label">Ссылка на сайт (если есть)</label>
+							<input type="text" asp-for="Links">
+						</div>
+
+						<label for="" class = "second_label">Краткое описание</label>
+						@Html.TextAreaFor(n => n.Descriptions)
+						<label for="" class = "second_label">Дата начала</label>
+						<input type="date" asp-for="StartDates"> 
+						<label for="" class = "second_label">Дата конца</label>
+						<input type="date" asp-for="FinishDates">
+						<label for="" class = "second_label">Работа</label>
+						@Html.CheckBox("IsWorks", false )
+
+					</div>
+				</div>
+				@* <input type="button" class = "bttn-light" value = "Добавить еще" id = "addWWork"> *@
+        
+
+
+			</div>
+			
+			<div class="edit__group">
 				<label for="">Ссылки на социальные сети</label>
-				@for (var i = 0; i < Socials.Count; i++)
+				@for (var i = 0; i < socials.Count; i++)
 				{
-
-
 					<div class="edit__social__group">
-						<img src="@Socials[i].Pic" alt="">
-						@Html.TextBoxFor(u => u.Socials)
+						<img src="@socials[i].Pic" alt="">
+						@{
+							string anime = "";
+							if (i < links.Count)
+							{
+								anime = @links[i].Href ?? "";
+							}	
+						}
+						<input type="text" asp-for="Socials" value = "@anime">
 					</div>
 
 				}
+				
 			</div>
 			<input type="submit" value="Сохранить" class="bttn-dark" />
 		</form>

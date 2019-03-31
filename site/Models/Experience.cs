@@ -13,16 +13,15 @@ namespace site.Models
 		public string Link { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime FinishDate { get; set; }
-
+		public bool IsWork { get; set; }
 		private string _year;
 		public string Year
 		{
 			get
 			{
-				if (FinishDate.Year == StartDate.Year)
-					_year = FinishDate.Year.ToString();
-				else
-					_year = $"{StartDate.Year}-{FinishDate.Year}";
+				string tempMonthStart = StartDate.Month.ToString().Length == 1 ? $"0{StartDate.Month}" : StartDate.Month.ToString();
+				string tempMonthFinish = FinishDate.Month.ToString().Length == 1 ? $"0{FinishDate.Month}" : FinishDate.Month.ToString();
+				_year = $"{tempMonthStart}.{StartDate.Year}-{tempMonthFinish}.{FinishDate.Year}";
 				return _year;
 			}
 		}

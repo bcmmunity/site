@@ -26,15 +26,15 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 			db = new ApplicationContext(optionsBuilder.Options);
 
-//				AddTags();
-//			AddSN();
-//				AddSpecialities();
-//				AddUsers();
-//				AddProjects();
-//				AddTeams();
-//				AddArticles();
-//			AddTeamToProject();
-//			AddProjectsToUser();
+				AddTags();
+			AddSN();
+				AddSpecialities();
+				AddUsers();
+				AddProjects();
+				AddTeams();
+				AddArticles();
+			AddTeamToProject();
+			AddProjectsToUser();
 		}
 
 		
@@ -147,14 +147,6 @@ namespace site.Controllers
 					StartDate = new DateTime(2016, 10, 10),
 					FinishDate = new DateTime(rand.Next(2016, 2018), 10, 10)
 				};
-				Learning lrn = new Learning
-				{
-					Title = "Название",
-					Description = "Какое то крутое описание того где я когда то работал, помогите",
-					Link = "https://vk.com",
-					StartDate = new DateTime(2016, 10, 10),
-					FinishDate = new DateTime(2016, 10, 10)
-				};
 				User user = new User
 				{
 					Rang = i,
@@ -167,7 +159,6 @@ namespace site.Controllers
 					Email = mails[i % 8],
 					Links = {soc, soc, soc},
 					Experiences = {exp, exp, exp},
-					Learnings = {lrn, lrn, lrn}
 					
 				};
 

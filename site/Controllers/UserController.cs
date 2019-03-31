@@ -78,9 +78,12 @@ namespace CustomIdentityApp.Controllers
 
 				#region Удаление предыдущих ссылок
 				User tempUser = MainController.db.Users.Find(model.Id);
-				tempUser.Links.Clear();
-				MainController.db.Update(tempUser);
-				MainController.db.SaveChanges();
+				if (tempUser.Links.Count != 0)
+				{
+					tempUser.Links.Clear();
+					MainController.db.Users.Update(tempUser);
+					MainController.db.SaveChanges();
+				}			
 				#endregion
 				
 				User user = await _userManager.FindByIdAsync(model.Id);
@@ -94,18 +97,31 @@ namespace CustomIdentityApp.Controllers
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
-//					Experience exp = new Experience
-//					{
-//						Title = model.Test1,
-//						Description = model.Test2,
-//						Link = model.Test3,
-//						StartDate = DateTime.Now,
-//						FinishDate = DateTime.Now
-//					};
-//				
-//					MainController.db.Experiences.Add(exp);
-//					user.Links.Clear();
-						
+
+					for (var i = 0; i < model.Links.Count; i++)
+					{
+						Experience exp = new Experience();
+						if (model.Links[i] != null)
+						{
+							exp.Link = model.Links[i];
+						}
+						if (model.Descriptions[i] != null)
+						{
+							exp.Description = model.Descriptions[i];
+						}
+						if (model.Titles[i] != null)
+						{
+							exp.Title = model.Titles[i];
+						}
+
+						exp.StartDate = model.StartDates[i];
+						exp.FinishDate = model.FinishDates[i];
+						exp.IsWork = model.IsWorks[i];
+						user.Experiences.Add(exp);
+					}
+
+					
+					
 					for (var i = 0; i < model.Socials.Count; i++)
 					{
 

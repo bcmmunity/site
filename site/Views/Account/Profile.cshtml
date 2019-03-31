@@ -3,7 +3,9 @@
 @model User
 @{
   User u = Model;
-    Layout = "_Header_Footer";
+  Layout = "_Header_Footer";
+  var Work = Model.Experiences.Where(l => l.IsWork).ToList();
+  var NotWork = Model.Experiences.Where(k => k.IsWork == false).ToList();
 }
 
 <section class="user">
@@ -24,17 +26,6 @@
         <p>@u.Description</p>
         <h2>Соц. сети</h2>
         <div class="user__links">
-@*           @foreach (var soc in u.Socials) *@
-@*           { *@
-@*             if (soc != null && soc.Type != null) *@
-@*             { *@
-@*               <div class="user__links-item"> *@
-@*                 <img src="@soc.Type.Pic" alt=""> *@
-@*                 <a href="@soc.Href">@soc.Type.Title</a> *@
-@*               </div> *@
-@*             } *@
-@*              *@
-@*           } *@
           @foreach (var soc in u.Links)
           {
             if (soc != null)
@@ -60,7 +51,7 @@
 @*           <input type="submit" class="bttn-dark"> *@
 @*         </form> *@
 @*       } *@
-      @foreach (var exp in u.Experiences)
+      @foreach (var exp in Work)
       {
         <div class="job-list-item">
           <span>@exp.Title (<a href="@exp.Link">Сайт</a>) @exp.Year</span>
@@ -70,15 +61,15 @@
     </div>
     
     <h3>Курсы/интенсивы и т.д.</h3>
-    <div class="job-list">
-      @foreach (var lrn in u.Learnings)
-      {
-        <div class="job-list-item">
-          <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
-          <p>@lrn.Description</p>
-        </div>
-      }
-    </div>
+     <div class="job-list">
+       @foreach (var lrn in NotWork)
+       {
+         <div class="job-list-item">
+           <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
+           <p>@lrn.Description</p>
+         </div>
+       }
+     </div>
   <div class="projects">
         <h2 class="h2-common">Мои проекты</h2>
         <div class="projects__list">
