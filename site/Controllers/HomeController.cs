@@ -27,8 +27,6 @@ namespace site.Controllers
 		public ActionResult Index()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
-			optionsBuilder.UseSqlServer(_bd);
 			var db = new ApplicationContext(optionsBuilder.Options);
 			return RedirectToAction("About");
 			return View(db);
@@ -37,9 +35,6 @@ namespace site.Controllers
 		public ActionResult About()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer(_bd);
 			var db = new ApplicationContext(optionsBuilder.Options);
 
 			return View(db);
@@ -90,35 +85,7 @@ namespace site.Controllers
 				.Take(count)
 				.ToArray());
 		}
-
-		public ActionResult Projects(int id)
-		{
-			Project proj = MainController.db.Projects.Find(id);
-			if (proj != null)
-			{
-				return View("Project", proj);	
-			}
-			else
-			{
-				return View("Error");
-			}
-			
-		}
-
-		public ActionResult Profile(string id)
-		{
-
-			User user = MainController.db.Users.Find(id);
-			if (user != null)
-			{
-				return View("Profile", user);
-			}
-			else
-			{
-				return View("Error");
-			}
-		}
-		
+					
 		public ActionResult Contacts()
 		{
 			return View();

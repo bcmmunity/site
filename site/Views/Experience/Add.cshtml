@@ -1,0 +1,18 @@
+@model site.ViewModels.ExperienceViewModel
+@{
+    Layout = "_Header_Footer";
+}
+<section class="add">
+    <div class="container">
+        <h2 class="h2-common">Добавление нового проекта</h2>
+        <form asp-action="Keki" asp-controller="Experience" enctype="multipart/form-data">
+            <input type="text" asp-for="Link">
+            <input type="text" asp-for="Description">
+            @Html.DropDownListFor(u => u.Title, new SelectList(new string[]{"2019", "2018"}))
+            @Html.TextBoxFor(m => m.Link)
+            @Html.TextBoxFor(m => m.Description)
+            @Html.TextBoxFor(m => m.Title)
+            <input type="submit" class="bttn-dark">
+        </form>
+    </div>
+</section>

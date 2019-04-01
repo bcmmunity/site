@@ -5,6 +5,8 @@ using site.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace site.Controllers
 {
@@ -93,8 +95,24 @@ namespace site.Controllers
 			// удаляем аутентификационные куки
 			await _signInManager.SignOutAsync();
 			return RedirectToAction("Index", "Home");
+		
 		}
-
+		
+		public async Task<ActionResult> Profile(string id)
+		{
+			User user = MainController.db.Users
+				.Include(s => s.Links)
+				.Include(s => s.Experiences)
+				.FirstOrDefault(u => u.Id == id);
+			if (user != null)
+			{
+				return View("Profile", user);
+			}
+			else
+			{
+				return View("Error");
+			}
+		}
 
 
 		//[Route("register")]

@@ -10,10 +10,10 @@
         <div class="left">
             <img src="@users[i].Photo" alt="" class="photo">
             <div class="links">
-                @foreach (var social in users[i].Socials)
+                @foreach (var social in users[i].Links)
                 {
                     <a href="@social.Href">
-                        <img src = "@social.Type.Pic">
+                        @* <img src = "@social.Type.Pic"> *@
                     </a>
                 }
                
@@ -24,7 +24,7 @@
             <span class="position">@users[i].Position @*| 8 years of experience*@</span>
             <span class="email">@users[i].Email</span>
             <p class="description">@users[i].Description</p>
-            @Html.ActionLink("Подробнее", "Profile",new {id=@users[i].Id} )
+            @Html.ActionLink("Подробнее", "Profile", "Account", new {id=@users[i].Id} )
         </div>
     </div>
 }

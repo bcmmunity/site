@@ -28,9 +28,16 @@ namespace site
 			services.AddDbContext<ApplicationContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddIdentity<User, IdentityRole>()
-				.AddEntityFrameworkStores<ApplicationContext>();
-
+			services.AddIdentity<User, IdentityRole>(opts =>
+				{
+					opts.Password.RequiredLength = 8;
+					opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+					opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+					opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+					opts.Password.RequireDigit = false; // требуются ли цифры
+				})
+				.AddEntityFrameworkStores<ApplicationContext>()
+				.AddDefaultTokenProviders();
 
 			services.Configure<CookiePolicyOptions>(options =>
 			{
@@ -45,6 +52,8 @@ namespace site
 					options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
 				});
 
+			
+			
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
 

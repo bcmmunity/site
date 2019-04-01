@@ -9,7 +9,7 @@
 {
     <div class="projects__item">
         <div class="left">
-            @* <img class=пleft__img" alt=""> *@
+            @* <img class="left__img" alt=""> *@
            <img class = "left__img" src="@pr[i].Img" alt="">
         </div>
         <div class="right">
@@ -21,6 +21,7 @@
             <div class="comp-more">
                 <span class="company">Diffind</span>
                 @Html.ActionLink("Подробнее", "Projects", new {id=@pr[i].ProjectId} )
+                @Html.ActionLink("Learn more", "View", "Project", new {id=@pr[i].ProjectId} )
             </div>
 
         </div>

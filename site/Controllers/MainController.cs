@@ -29,15 +29,15 @@ namespace site.Controllers
 //			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
-//				AddTags();
-//			AddSN();
-//				AddSpecialities();
-//				AddUsers();
-//				AddProjects();
-//				AddTeams();
-//				AddArticles();
-//			AddTeamToProject();
-//			AddProjectsToUser();
+				AddTags();
+			AddSN();
+				AddSpecialities();
+				AddUsers();
+				AddProjects();
+				AddTeams();
+				AddArticles();
+			AddTeamToProject();
+			AddProjectsToUser();
 		}
 
 		
@@ -64,27 +64,32 @@ namespace site.Controllers
 				db.SaveChanges();
 			}
 		}
+		
 		private static void AddSN()
 		{
-			string[] tagNames =
+			string[] snNames =
 			{
 				"twitter",
 				"facebook",
 				"vk",
-				"inst"
+				"instagram",
+				"whatsapp",
+				"behance",
+				"github",
+				"youtube"
 			};
-			foreach (var name in tagNames)
+			for (int i = 0; i < snNames.Length; i++)
 			{
 				SN tag = new SN
 				{
-					Title = name,
-					Pic = "https://loremflickr.com/64/64"
+					Title = snNames[i],
+					Pic = $"../../img/{snNames[i].ToLower()}.svg"
 				};
 				db.SNs.Add(tag);
 				db.SaveChanges();
 			}
 		}
-
+		
 		private static void AddSpecialities()
 		{
 			string[] specs =
@@ -133,10 +138,9 @@ namespace site.Controllers
 				List<Speciality> sp = db.Specialities
 					.Take(rand.Next(1, db.Specialities.ToArray().Length))
 					.ToList();
-				Social soc = new Social
+				Link soc = new Link
 				{
 					Href = "https://youtube.com",
-					Type = db.SNs.ToList().GetRandomItem()
 				};
 				Experience exp = new Experience
 				{
@@ -145,14 +149,6 @@ namespace site.Controllers
 					Link = "https://vk.com",
 					StartDate = new DateTime(2016, 10, 10),
 					FinishDate = new DateTime(rand.Next(2016, 2018), 10, 10)
-				};
-				Learning lrn = new Learning
-				{
-					Title = "Название",
-					Description = "Какое то крутое описание того где я когда то работал, помогите",
-					Link = "https://vk.com",
-					StartDate = new DateTime(2016, 10, 10),
-					FinishDate = new DateTime(2016, 10, 10)
 				};
 				User user = new User
 				{
@@ -164,9 +160,8 @@ namespace site.Controllers
 					Position = positions[rand.Next(0, positions.Length)],
 					Description = descr,
 					Email = mails[i % 8],
-					Socials = {soc, soc, soc},
+					Links = {soc, soc, soc},
 					Experiences = {exp, exp, exp},
-					Learnings = {lrn, lrn, lrn}
 					
 				};
 
@@ -195,14 +190,8 @@ namespace site.Controllers
 					.ToList();
 				Link link = new Link
 				{
-					Pic = "https://loremflickr.com/64/64",
-					Title = "HUI",
-					Href = "https://vk.com"
-				};
-				Social soc = new Social
-				{
 					Href = "https://youtube.com",
-					Type = db.SNs.ToList().GetRandomItem()
+//					Type = db.SNs.ToList().GetRandomItem()
 				};
 				Project project = new Project
 				{
@@ -212,7 +201,6 @@ namespace site.Controllers
 					Specialities = sp,
 					SliderImages = images.ToList(),
 					Links = {link, link},
-					Socials = {soc, soc, soc}
                     							
 				};
 

@@ -20,19 +20,14 @@ namespace site.Models
 		public List<Speciality> Specialities { get; set; }
 		[NotMapped]
 		public List<Project> Projects { get; set; }
-		[NotMapped]
-		public List<Social> Socials { get; set; }
-		[NotMapped]
+		public List<Link> Links { get; set; }
 		public List<Experience> Experiences { get; set; }
-		[NotMapped]
-		public List<Learning> Learnings { get; set; }
 
 		public User()
 		{
-			Learnings = new List<Learning>();
 			Experiences = new List<Experience>();
-			Socials = new List<Social>();
 			Specialities = new List<Speciality>();
+			Links = new List<Link>();
 			Projects = new List<Project>();
 		}
 	}

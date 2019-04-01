@@ -1,0 +1,84 @@
+@using Microsoft.AspNetCore.Identity
+@using site.Controllers
+@model User
+@{
+  User u = Model;
+  Layout = "_Header_Footer";
+  var Work = Model.Experiences.Where(l => l.IsWork).ToList();
+  var NotWork = Model.Experiences.Where(k => k.IsWork == false).ToList();
+}
+
+<section class="user">
+  <div class="container">
+	  @* <div class="user__group"> *@
+	  	@*@if (User.Identity.IsAuthenticated)
+		{
+		  <a asp-controller="User" asp-action="Edit">Редактирование профиля</a>
+		}*@
+
+	  @* </div> *@
+    <div class="user__group">
+      <div class="user__group-img">
+        <img src="@u.Photo" alt="">
+      </div>
+      <div class="user__group-text">
+        <span class="name">@u.Name @u.Surname</span>
+        <p>@u.Description</p>
+        <h2>Соц. сети</h2>
+        <div class="user__links">
+          @foreach (var soc in u.Links)
+          {
+            if (soc != null && !soc.IsEmpty)
+            {
+              <div class="user__links-item">
+                
+                <img src="@soc.Pic" alt="">
+                <a href="@soc.Href">@soc.Title</a>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+    <h3>Навыки</h3>
+    <p>@String.Join(", ", u.Specialities)</p>
+    <h3>Опыт работы</h3>
+    <div class="job-list">
+      
+       @* @if (User.Identity.IsAuthenticated && User.Identity.Name == u.Email) *@
+@*       { *@
+@*         <form asp-action="Keki" asp-controller="Experience" enctype="multipart/form-data"> *@
+@*           <input type="submit" class="bttn-dark"> *@
+@*         </form> *@
+@*       } *@
+      @foreach (var exp in Work)
+      {
+        <div class="job-list-item">
+          <span>@exp.Title (<a href="@exp.Link">Сайт</a>) @exp.Year</span>
+          <p>@exp.Description</p>
+        </div>
+      }
+    </div>
+    
+    <h3>Курсы/интенсивы и т.д.</h3>
+     <div class="job-list">
+       @foreach (var lrn in NotWork)
+       {
+         <div class="job-list-item">
+           <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
+           <p>@lrn.Description</p>
+         </div>
+       }
+     </div>
+  <div class="projects">
+        <h2 class="h2-common">Мои проекты</h2>
+        <div class="projects__list">
+        <div class="container">
+            @Html.Partial("Projects", u.Projects)      
+        </div>
+
+        </div>
+
+  </div>
+  </div>
+</section>

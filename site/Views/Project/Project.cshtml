@@ -3,11 +3,14 @@
 @model Project
 @{
    Layout = "_Header_Footer";
-//    Project[] pr = Model.ToArray();
    Project project = Model;
    ViewBag.Title = project.Name;
-  
-  User[] users = project.Team.Members.ToArray();
+   List<User> users = new List<User>();
+  if (project.Team != null)
+  {
+    users = project.Team.Members.ToList();
+  }
+    
 }
 
 <section class="project">
@@ -32,11 +35,11 @@
                 <a href="@pr.Href">@pr.Title</a>
               </div>
             }
-            @foreach (var pr in project.Socials)
+            @foreach (var pr in project.Links)
             {
               <div class="project__links-item">
-                <img src="@pr.Type.Pic" alt="">
-                <a href="@pr.Href">@pr.Type.Title</a>
+                @* <img src="@pr.Type.Pic" alt=""> *@
+                @* <a href="@pr.Href">@pr.Type.Title</a> *@
               </div>
             }
           </div>
