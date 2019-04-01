@@ -29,15 +29,15 @@ namespace site.Controllers
 //			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;");
 			db = new ApplicationContext(optionsBuilder.Options);
 
-				AddTags();
-			AddSN();
-				AddSpecialities();
-				AddUsers();
-				AddProjects();
-				AddTeams();
-				AddArticles();
-			AddTeamToProject();
-			AddProjectsToUser();
+//				AddTags();
+//			AddSN();
+//				AddSpecialities();
+//				AddUsers();
+//				AddProjects();
+//				AddTeams();
+//				AddArticles();
+//			AddTeamToProject();
+//			AddProjectsToUser();
 		}
 
 		
