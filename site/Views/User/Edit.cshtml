@@ -11,7 +11,7 @@
 <section class="edit">
 	<div class="container">
 		<div class="h2-common">Редактирование профиля</div>
-		<form asp-action="Edit" asp-controller="User">
+		<form asp-action="Edit" asp-controller="User" enctype="multipart/form-data">
 			<div asp-validation-summary="All" class="text-danger"></div>
 			<div class="edit__group">
 				<input type="hidden" asp-for="Id" />
@@ -22,8 +22,8 @@
 				<input type="text" asp-for="Email" class="form-control"/>
 			</div>
 			<div class="edit__group">
-				<label asp-for="Photo" class="control-label">Ссылка на аватарку</label>
-				<input type="text" asp-for="Photo" class="form-control" />
+				<label asp-for="Photo" class="control-label">Аватарка</label>
+				<input type="file" asp-for="Photo">
 			</div>
 			<br>
 			<div class="edit__group">

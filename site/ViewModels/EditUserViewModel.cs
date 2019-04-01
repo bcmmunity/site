@@ -2,6 +2,7 @@
 using site.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace site.ViewModels
 {
@@ -9,7 +10,7 @@ namespace site.ViewModels
 	{
 		public string Id { get; set; }
 		public string Email { get; set; }
-		public string Photo { get; set; }
+		public IFormFile Photo { get; set; }
 		public string Name { get; set; }
 		public string Surname { get; set; }
 		public string Position { get; set; }

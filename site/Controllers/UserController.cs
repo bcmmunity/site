@@ -8,6 +8,7 @@ using site.ViewModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -60,7 +61,7 @@ namespace CustomIdentityApp.Controllers
 				return NotFound();
 			}
 
-			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Photo = user.Photo, Position = user.Position, Name = user.Name, Surname = user.Surname};
+			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname};
 			return View(model);
 		}
 
@@ -94,13 +95,30 @@ namespace CustomIdentityApp.Controllers
 				
 				if (user != null)
 				{
+					string path;
+					
 					user.Email = model.Email;
 					user.UserName = model.Email;
 					user.Description = model.Description;
-					user.Photo = model.Photo;
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
+					if (model.Photo != null)
+					{
+						if (model.Photo.ContentType.StartsWith("image"))
+						{
+							path = "/img/" + model.Photo.FileName;
+
+							using (var fileStream = new FileStream("wwwroot" + path, FileMode.Create))
+							{
+								await model.Photo.CopyToAsync(fileStream);
+							}
+
+							user.Photo = path;
+						}
+					}
+					
+					
 					if (model.Links != null) 
 						for (var i = 0; i < model.Links.Count; i++)
 						{
@@ -120,7 +138,10 @@ namespace CustomIdentityApp.Controllers
 	
 							exp.StartDate = model.StartDates[i];
 							exp.FinishDate = model.FinishDates[i];
-							exp.IsWork = model.IsWorks[i];
+							if (model.IsWorks != null)
+								exp.IsWork = model.IsWorks[i];
+							else
+								exp.IsWork = false;
 							user.Experiences.Add(exp);
 						}
 

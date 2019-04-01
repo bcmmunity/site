@@ -31,7 +31,6 @@ namespace site.Controllers
         public async Task<IActionResult> Add(ProjectViewModel model)
         {
             string path = "";
-            string templatePhotoPath = "";
             List<string> paths = new List<string>();
             if (ModelState.IsValid)
             {
@@ -51,6 +50,7 @@ namespace site.Controllers
                     {
                         await model.Cover.CopyToAsync(fileStream);
                     }
+                
                 }
                 else
                 {
@@ -112,7 +112,7 @@ namespace site.Controllers
             }
 
 
-            return View(model);
+            return RedirectToAction("About", "Home");
         }
         
         public ActionResult View(int id)

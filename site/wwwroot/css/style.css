@@ -305,6 +305,7 @@ sup {
 }
 .team__list .container {
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 .team__list__inner {
   display: -webkit-flex;
@@ -734,8 +735,8 @@ sup {
   max-height: 500px;
 }
 .project__cover img {
-  width: 80%;
-  height: 80%;
+  object-fit: cover;
+  height: calc(500px - 0.8);
 }
 .project__title {
   margin-top: 50px;
