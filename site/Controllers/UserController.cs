@@ -63,11 +63,14 @@ namespace CustomIdentityApp.Controllers
 			{
 				return NotFound();
 			}
-
 			ViewBag.socials = _db.SNs.ToList();
-			ViewBag.links = _db.Users.Find(_userManager.GetUserId(User)).Links;
-
-			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname};
+			List<string> links = _db.Users
+				.Include(l => l.Links)
+				.FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
+				?.Links
+				.Select(l => l.Href)
+				.ToList();
+			EditUserViewModel model = new EditUserViewModel { Id = user.Id,Links = links, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname};
 			return View(model);
 		}
 
@@ -78,8 +81,6 @@ namespace CustomIdentityApp.Controllers
 			if (ModelState.IsValid)
 			{
 				ViewBag.socials = _db.SNs.ToList();
-				ViewBag.links = _db.Users.Find(_userManager.GetUserId(User)).Links.ToList();
-
 				List<SN> socials = _db.SNs.ToList();
 
 				// Выглядит как мега костыль но он работает
@@ -87,8 +88,8 @@ namespace CustomIdentityApp.Controllers
 
 				#region Удаление предыдущих ссылок
 
-				User tempUser = _db.Users.Find(model.Id);
-				if (tempUser.Links.Count != 0)
+				User tempUser = _db.Users.Include(u => u.Links).FirstOrDefault(u => u.Id == model.Id);
+				if (tempUser != null && tempUser.Links.Count != 0)
 				{
 					tempUser.Links.Clear();
 					_db.Users.Update(tempUser);
@@ -125,6 +126,8 @@ namespace CustomIdentityApp.Controllers
 							user.Photo = path;
 						}
 					}
+					
+					
 					
 					
 					if (model.Links != null) 

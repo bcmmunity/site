@@ -50,12 +50,6 @@
     <h3>Опыт работы</h3>
     <div class="job-list">
       
-       @* @if (User.Identity.IsAuthenticated && User.Identity.Name == u.Email) *@
-@*       { *@
-@*         <form asp-action="Keki" asp-controller="Experience" enctype="multipart/form-data"> *@
-@*           <input type="submit" class="bttn-dark"> *@
-@*         </form> *@
-@*       } *@
       @foreach (var exp in Work)
       {
         <div class="job-list-item">

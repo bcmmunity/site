@@ -5,7 +5,14 @@
 	List<SN> socials = ViewBag.socials;
 	List<string> kek = new List<string>();
 	string id = Model.Id;
-	List<Link> links = ViewBag.links;
+//	List<Link> links = ViewBag.links;
+	List<string> links = Model.Links;
+	Console.WriteLine("\n\n\n\n");
+	foreach (var link in links)
+	{
+		Console.WriteLine(link);
+	}
+	Console.WriteLine("\n\n\n\n");
 	Layout = "_Header_Footer";
 }
 <section class="edit">
@@ -49,26 +56,6 @@
 			<div class="edit__group">
 				<label for="">Опыт работы/Курсы/Интенсивы</label>
 				<div id="work">
-					@* <div class="edit__courses__group"> *@
-					@* 	<div class="edit__group"> *@
-					@* 		<label for="" class = "second_label">Название</label> *@
-					@* 		<input type="text" asp-for="Titles"> *@
-					@* 	</div> *@
-					@* 	<div class="edit__group"> *@
-					@* 		<label for="" class = "second_label">Ссылка на сайт (если есть)</label> *@
-					@* 		<input type="text" asp-for="Links"> *@
-					@* 	</div> *@
-					@* *@
-					@* 	<label for="" class = "second_label">Краткое описание</label> *@
-					@* 	@Html.TextAreaFor(n => n.Descriptions) *@
-					@* 	<label for="" class = "second_label">Дата начала</label> *@
-					@* 	<input type="date" asp-for="StartDates">  *@
-					@* 	<label for="" class = "second_label">Дата конца</label> *@
-					@* 	<input type="date" asp-for="FinishDates"> *@
-					@* 	<label for="" class = "second_label">Работа</label> *@
-					@* 	@Html.CheckBox("IsWorks", false ) *@
-					@* *@
-					@* </div> *@
 				</div>
 				<input type="button" class = "bttn-light" value = "Добавить еще" id = "addWork">
         
@@ -84,9 +71,9 @@
 						<img src="@socials[i].Pic" alt="">
 						@{
 							string anime = "";
-							if (i < links.Count && !links[i].IsEmpty)
+							if (i < links.Count)
 							{
-								anime = @links[i].Href ?? "";
+								anime = @links[i] ?? "";
 							}	
 						}
 						<input type="text" asp-for="Socials" value = "@anime">
