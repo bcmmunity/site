@@ -26,15 +26,15 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 			db = new ApplicationContext(optionsBuilder.Options);
 
-//				AddTags();
-//			AddSN();
-//				AddSpecialities();
-//				AddUsers();
-//				AddProjects();
-//				AddTeams();
-//				AddArticles();
-//			AddTeamToProject();
-//			AddProjectsToUser();
+				AddTags();
+			AddSN();
+				AddSpecialities();
+				AddUsers();
+				AddProjects();
+				AddTeams();
+				AddArticles();
+			AddTeamToProject();
+			AddProjectsToUser();
 		}
 
 		
