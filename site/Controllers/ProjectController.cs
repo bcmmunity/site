@@ -29,8 +29,9 @@ namespace site.Controllers
         [HttpPost]
         // TODO: Поправить стили в верстке
         public async Task<IActionResult> Add(ProjectViewModel model)
-        {
-            string path = "";
+		{
+			ApplicationContext ldb = MainController.db;
+			string path = "";
             List<string> paths = new List<string>();
             if (ModelState.IsValid)
             {
@@ -82,33 +83,45 @@ namespace site.Controllers
                     Name = model.Title,
                     Img = path,
                     Description = model.Description,
-                    Rang = MainController.db.Projects.ToList().Count + 1,
+                    Rang = ldb.Projects.ToList().Count + 1,
 
                     SliderImages = paths,
                 };
                 List<Speciality> sps = new  List<Speciality>();
-                foreach (var id in model.Specs)
-                {
-                    sps.Add(MainController.db.Specialities.Find(id));
-                }
+				if (model.Specs != null)
+				{
+					foreach (var id in model.Specs)
+					{
+						sps.Add(ldb.Specialities.Find(id));
+					}
+				}
+
                 Team team = new Team();
-                foreach (var id in model.Members)
-                {
-                    team.Members.Add(MainController.db.Users.Find(id));
-                }    
+				if (model.Members != null)
+				{
+					foreach (var id in model.Members)
+					{
+						team.Members.Add(ldb.Users.Find(id));
+					}
+				}
                 proj.Specialities.AddRange(sps);
                 proj.Team = team;
-                foreach (var id in model.Members)
-                {
-                    User user = MainController.db.Users.Find(id);
-                    user.Projects.Add(proj);
-                    MainController.db.Update(user);
-                    await MainController.db.SaveChangesAsync();
-                }
-                await MainController.db.Projects.AddAsync(proj);
-                await MainController.db.SaveChangesAsync();   
-                await MainController.db.Teams.AddAsync(team);
-                await MainController.db.SaveChangesAsync();   
+				if (model.Members != null)
+				{
+					foreach (var id in model.Members)
+					{
+						User user = ldb.Users.Find(id);
+						user.Projects.Add(proj);
+
+						ldb.Update(user);
+						await ldb.SaveChangesAsync();
+					}
+				}
+				
+				await ldb.Projects.AddAsync(proj);
+                await ldb.SaveChangesAsync();   
+                await ldb.Teams.AddAsync(team);
+                await ldb.SaveChangesAsync();   
             }
 
 
@@ -116,8 +129,9 @@ namespace site.Controllers
         }
         
         public ActionResult View(int id)
-        {
-            Project proj = MainController.db.Projects.Find(id);
+		{
+			ApplicationContext ldb = MainController.db;
+			Project proj = ldb.Projects.Find(id);
             if (proj != null)
             {
                 return View("Project", proj);	
