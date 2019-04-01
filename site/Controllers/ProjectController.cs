@@ -40,7 +40,7 @@ namespace site.Controllers
 			ViewBag.Users = _db.Users.ToList();
 
 			string path = "";
-            List<string> paths = new List<string>();
+			string paths = "";
 			
             if (ModelState.IsValid)
             {
@@ -80,13 +80,14 @@ namespace site.Controllers
                 foreach (var image in model.SliderImages)
                 {
                     string localPath = "/img/" + image.FileName;
-                    paths.Add(localPath);
+	                paths += localPath + ":" ;
                     using (var fileStream = new FileStream("wwwroot" + localPath, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
                     }
                 }
-                
+
+	            paths = paths.Substring(0, paths.Length - 1);
 	  
 	            
 
@@ -95,10 +96,11 @@ namespace site.Controllers
                     Name = model.Title,
                     Img = path,
                     Description = model.Description,
-                    Rang = _db.Projects.ToList().Count + 1,
-                    SliderImages = paths,
+                    Rang = _db.Projects.ToList().Count + 1
+                    
 
                 };
+	            proj.SliderImages = paths;
 	            List<Speciality> sps = new  List<Speciality>();
 	            if (model.Specs != null)
 	            {
@@ -142,6 +144,10 @@ namespace site.Controllers
 				.Include(t => t.Members)
 				.ThenInclude(u => u.User)
 				.FirstOrDefault(t => t.ProjectId == id);
+			Console.WriteLine("\n\n\n\n\n\n\n");
+			Console.WriteLine(proj.SliderImages);
+			ViewBag.Sliders = proj.SliderImages.Split(":");
+			
 			if (proj != null)
 			{
 

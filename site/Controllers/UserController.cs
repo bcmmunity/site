@@ -5,14 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using site.Models;
 using site.ViewModels;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using site.Controllers;
 
 namespace CustomIdentityApp.Controllers
 {
@@ -20,11 +17,12 @@ namespace CustomIdentityApp.Controllers
 	{
 		private UserManager<User> _userManager;
 		private ApplicationContext _db;
-
-		public UserController(UserManager<User> userManager, ApplicationContext db)
+		IHostingEnvironment _contentPath;
+		public UserController(UserManager<User> userManager, ApplicationContext db, IHostingEnvironment contentPath)
 		{
 			_userManager = userManager;
 			_db = db;
+			_contentPath = contentPath;
 		}
 		
 		
@@ -116,17 +114,25 @@ namespace CustomIdentityApp.Controllers
 					{
 						if (model.Photo.ContentType.StartsWith("image"))
 						{
-							path = "/img/" + model.Photo.FileName;
+//							Directory.CreateDirectory(model.Id);
+//							Directory.CreateDirectory("/img/" + model.Id);
+							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
+							if (!Directory.Exists("UserPhotos"))
+								Directory.CreateDirectory("UserPhotos");
+							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/UserPhotos");
+							if (!Directory.Exists(model.Id))
+								Directory.CreateDirectory(model.Id);
+							path = $"{model.Id}/{model.Photo.FileName}";
 
-							using (var fileStream = new FileStream("wwwroot" + path, FileMode.Create))
+							using (var fileStream = new FileStream(path, FileMode.Create))
 							{
 								await model.Photo.CopyToAsync(fileStream);
 							}
-
-							user.Photo = path;
+							
+							user.Photo = $"/img/UserPhotos/{path}";
 						}
 					}
-					
+					Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
 					
 					
 					

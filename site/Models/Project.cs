@@ -13,8 +13,8 @@ namespace site.Models
 		public bool IsShowed { get; set; }
 		[NotMapped]
 		public User Leader { get; set; }
-		[NotMapped]
-		public List<string> SliderImages { get; set; }
+		
+		public string SliderImages { get; set; }
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
 		
@@ -29,7 +29,6 @@ namespace site.Models
 			Specialities = new List<Speciality>();
 			Links = new List<Link>();
 			Members = new List<ProjectUser>();
-			SliderImages = new List<string>();
 		}
 	}
 }

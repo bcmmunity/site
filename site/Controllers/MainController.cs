@@ -30,9 +30,12 @@ namespace site.Controllers
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 			db = new ApplicationContext(optionsBuilder.Options);
+			
 //			AddSN();
 		}
-		
+
+	
+
 		#region Test data
 		private static void AddTags()
 		{
@@ -190,7 +193,7 @@ namespace site.Controllers
 					Name = names[i % names.Length],
 					Description = descr,
 					Specialities = sp,
-					SliderImages = images.ToList(),
+//					SliderImages = images.ToList(),
 					Links = {link, link},
                     							
 				};

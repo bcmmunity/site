@@ -9,10 +9,8 @@
     if (project.Members != null)
     {
         users = project.Members.Select(u => u.User).ToList();
-        Console.WriteLine("\n\n\n\n");
-        Console.WriteLine(users.Count);
-        Console.WriteLine("\n\n\n\n");
     }
+    string[] images = ViewBag.Sliders;
 }
 
 <section class="project">
@@ -47,7 +45,7 @@
             </div>
             <div class="project__slider">
                 <div class="owl-carousel owl-theme">
-                    @foreach (string img in project.SliderImages)
+                    @foreach (string img in images)
                     {
                         <img src="@img" alt="картинка для слайдера">
                     }
