@@ -28,7 +28,7 @@
         <div class="user__links">
           @foreach (var soc in u.Links)
           {
-            if (soc != null)
+            if (soc != null && !soc.IsEmpty)
             {
               <div class="user__links-item">
                 

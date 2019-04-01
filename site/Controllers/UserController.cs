@@ -77,13 +77,17 @@ namespace CustomIdentityApp.Controllers
 				// TODO: Исправить костыль, если он является костылем	
 
 				#region Удаление предыдущих ссылок
+
 				User tempUser = MainController.db.Users.Find(model.Id);
 				if (tempUser.Links.Count != 0)
 				{
 					tempUser.Links.Clear();
 					MainController.db.Users.Update(tempUser);
 					MainController.db.SaveChanges();
-				}			
+				}
+
+				
+							
 				#endregion
 				
 				User user = await _userManager.FindByIdAsync(model.Id);
@@ -97,43 +101,51 @@ namespace CustomIdentityApp.Controllers
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
-
-					for (var i = 0; i < model.Links.Count; i++)
-					{
-						Experience exp = new Experience();
-						if (model.Links[i] != null)
+					if (model.Links != null) 
+						for (var i = 0; i < model.Links.Count; i++)
 						{
-							exp.Link = model.Links[i];
+							Experience exp = new Experience();
+							if (model.Links[i] != null)
+							{
+								exp.Link = model.Links[i];
+							}
+							if (model.Descriptions[i] != null)
+							{
+								exp.Description = model.Descriptions[i];
+							}
+							if (model.Titles[i] != null)
+							{
+								exp.Title = model.Titles[i];
+							}
+	
+							exp.StartDate = model.StartDates[i];
+							exp.FinishDate = model.FinishDates[i];
+							exp.IsWork = model.IsWorks[i];
+							user.Experiences.Add(exp);
 						}
-						if (model.Descriptions[i] != null)
-						{
-							exp.Description = model.Descriptions[i];
-						}
-						if (model.Titles[i] != null)
-						{
-							exp.Title = model.Titles[i];
-						}
-
-						exp.StartDate = model.StartDates[i];
-						exp.FinishDate = model.FinishDates[i];
-						exp.IsWork = model.IsWorks[i];
-						user.Experiences.Add(exp);
-					}
 
 					
 					
 					for (var i = 0; i < model.Socials.Count; i++)
 					{
 
-						if (model.Socials[i] == null) continue;
-						Link soc = new Link
+						if (model.Socials[i] == null || model.Socials[i] == "") 
+							user.Links.Add(new Link()
+							{
+								IsEmpty = true
+							});
+						else
 						{
-							IsSocial = true,
-							Href = model.Socials[i],
-							Pic = socials[i].Pic,
-							Title = socials[i].Title 
-						};
-						user.Links.Add(soc);
+							Link soc = new Link
+							{
+								IsSocial = true,
+								Href = model.Socials[i],
+								Pic = socials[i].Pic,
+								Title = socials[i].Title 
+							};
+							user.Links.Add(soc);
+						}
+						
 								
 					}
 			

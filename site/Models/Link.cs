@@ -12,5 +12,6 @@ namespace site.Models
 		public string Title { get; set; }
 		public string Pic { get; set; }
 		public bool IsSocial { get; set; }
+		public bool IsEmpty { get; set; } = false;
 	}
 }
