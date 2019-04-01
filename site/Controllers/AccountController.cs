@@ -29,6 +29,7 @@ namespace site.Controllers
 		public IActionResult Register()
 		{
 			return View();
+			
 		}
 
 		[HttpPost]
@@ -39,6 +40,7 @@ namespace site.Controllers
 				User user = new User { Email = model.Email, UserName = model.Email};
 				// добавляем пользователя
 				var result = await _userManager.CreateAsync(user, model.Password);
+				ViewBag.UserId = user.Id;
 				if (result.Succeeded)
 				{
 					// установка куки
@@ -70,6 +72,7 @@ namespace site.Controllers
 			{
 				var result =
 					await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+				
 				if (result.Succeeded)
 				{
 					return RedirectToAction("Index", "Home");
@@ -92,12 +95,19 @@ namespace site.Controllers
 		
 		}
 		
-		public async Task<ActionResult> Profile(string id)
+		public  ActionResult Profile(string id)
 		{
+			string localId = id;
+			if (id == null)
+			{
+				localId = _userManager.GetUserId(HttpContext.User);
+			}
 			User user = _db.Users
 				.Include(s => s.Links)
 				.Include(s => s.Experiences)
-				.FirstOrDefault(u => u.Id == id);
+				.Include(p => p.Projects)
+				.ThenInclude(p => p.Project)
+				.FirstOrDefault(u => u.Id == localId);
 			if (user != null)
 			{
 				return View("Profile", user);

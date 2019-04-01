@@ -1,10 +1,10 @@
 ﻿@using site.Controllers
 @model IEnumerable<site.Models.User>
 @{
-    User[] users = Model.ToArray();
+    List<User> users = Model.ToList();
 }
 
-@for (int i = 0, len = users.Length; i < len; i += 1)
+@for (int i = 0, len = users.Count; i < len; i += 1)
 {
     <div class="team__list__inner">
         <div class="left">

@@ -18,8 +18,9 @@ namespace site.Models
 		public bool IsShowed { get; set; }
 		[NotMapped]
 		public List<Speciality> Specialities { get; set; }
-		[NotMapped]
-		public List<Project> Projects { get; set; }
+		
+		public List<ProjectUser> Projects{ get; set; }
+		
 		public List<Link> Links { get; set; }
 		public List<Experience> Experiences { get; set; }
 
@@ -28,7 +29,7 @@ namespace site.Models
 			Experiences = new List<Experience>();
 			Specialities = new List<Speciality>();
 			Links = new List<Link>();
-			Projects = new List<Project>();
+			Projects = new List<ProjectUser>();
 		}
 	}
 }

@@ -154,29 +154,32 @@ namespace CustomIdentityApp.Controllers
 						}
 
 					
-					
-					for (var i = 0; i < model.Socials.Count; i++)
+					if (model.Socials != null)
 					{
-
-						if (model.Socials[i] == null || model.Socials[i] == "") 
-							user.Links.Add(new Link()
-							{
-								IsEmpty = true
-							});
-						else
+						for (var i = 0; i < model.Socials.Count; i++)
 						{
-							Link soc = new Link
+
+							if (model.Socials[i] == null || model.Socials[i] == "") 
+								user.Links.Add(new Link()
+								{
+									IsEmpty = true
+								});
+							else
 							{
-								IsSocial = true,
-								Href = model.Socials[i],
-								Pic = socials[i].Pic,
-								Title = socials[i].Title 
-							};
-							user.Links.Add(soc);
-						}
+								Link soc = new Link
+								{
+									IsSocial = true,
+									Href = model.Socials[i],
+									Pic = socials[i].Pic,
+									Title = socials[i].Title 
+								};
+								user.Links.Add(soc);
+							}
 						
 								
+						}
 					}
+					
 			
 					var result = await _userManager.UpdateAsync(user);
 					

@@ -51,7 +51,8 @@
                     <a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-controller="User" asp-action="Edit">Профиль</a>
+                         <a asp-controller="Account" asp-action="Profile">Профиль</a>
+
 					@*<a asp-controller="Account" asp-action="Register">Регистрация</a> *@
                     }
                     else
@@ -68,7 +69,8 @@
                 <a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a asp-controller="User" asp-action="Edit">Профиль</a>
+                     <a asp-controller="User" asp-action="Edit">Профиль</a>
+@*                     @Html.ActionLink("Профиль", "Profile", "Account", new {id=ViewBag.UserId} ) *@
 					@*<a asp-controller="Account" asp-action="Register">Регистрация</a> *@
                 }
                 else

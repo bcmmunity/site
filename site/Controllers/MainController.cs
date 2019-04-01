@@ -23,8 +23,16 @@ namespace site.Controllers
 		public MainController(ApplicationContext _db)
 		{
 			db = _db;
+			
 		}
 
+		public static void Unit()
+		{
+			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+			db = new ApplicationContext(optionsBuilder.Options);
+//			AddSN();
+		}
+		
 		#region Test data
 		private static void AddTags()
 		{
@@ -197,32 +205,6 @@ namespace site.Controllers
 			}
 		}
 
-		public static void AddTeams()
-		{
-			string[] names =
-			{
-				"Команда разработки сайта", "Команда дизайнеров", "Команда фронт-энда", "Призраки", "Лень еще придумывать названик"
-			};
-			string descr =
-				"Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов";
-			for (int i = 0; i < 5; i++)
-			{
-				Random rand = new Random();
-				List<User> mems = db.Users
-					.Take(rand.Next(1, db.Users.ToArray().Length - 2))
-					.ToList();
-				Team team = new Team
-				{
-					Name = names[i],
-					Description = descr
-				};
-				team.Members.AddRange(mems);
-
-				db.Teams.Add(team);
-				db.SaveChanges();
-				Thread.Sleep(15);
-			}
-		}
 
 		public static void AddArticles()
 		{
@@ -258,33 +240,9 @@ namespace site.Controllers
 			}
 		}
 
-		public static void AddTeamToProject()
-		{
-			List<Project> pr = db.Projects.ToList();
-			foreach (var p in pr)
-			{
-				p.Team = db.Teams.ToList().GetRandomItem();
-//				p.Specialities = db.Specialities.ToList();
-				db.Update(p);
-				db.SaveChanges();
-			}
-			
-			
-		}
 
 
-		public static void AddProjectsToUser()
-		{
-			List<User> users = db.Users.ToList();
-			foreach (var u in users)
-			{
-				u.Projects.Add(db.Projects.ToList().GetRandomItem());
-				u.Projects.Add(db.Projects.ToList().GetRandomItem());
-				u.Projects.Add(db.Projects.ToList().GetRandomItem());
-				db.Update(u);
-				db.SaveChanges();
-			}
-		}
+		
 		#endregion		
 
 		[Route("getArticles")]

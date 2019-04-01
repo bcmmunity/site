@@ -2,94 +2,85 @@
 @* @model IEnumerable<site.Models.Project> *@
 @model Project
 @{
-   Layout = "_Header_Footer";
-   Project project = Model;
-   ViewBag.Title = project.Name;
-   List<User> users = new List<User>();
-  if (project.Team != null)
-  {
-    users = project.Team.Members.ToList();
-  }
-    
+    Layout = "_Header_Footer";
+    Project project = Model;
+    ViewBag.Title = project.Name;
+    List<User> users = new List<User>();
+    if (project.Members != null)
+    {
+        users = project.Members.Select(u => u.User).ToList();
+        Console.WriteLine("\n\n\n\n");
+        Console.WriteLine(users.Count);
+        Console.WriteLine("\n\n\n\n");
+    }
 }
 
 <section class="project">
-  <div class="container">
-    <div class="project__cover">
-      <img src="@project.Img" alt="">
-      </div>
-      <h1 class = "project__title">@project.Name</h1>
-      <div class="project__info">
-        <div class="project__text">
-          <h2>Описание</h2>
-          <p>@project.Description</p>
-          <h2>Технологии</h2>
-          
-          <p>@String.Join(", ", project.Specialities)</p>
-          <h2>Ссылки на проект</h2>
-          <div class="project__links">
-            @foreach (var pr in project.Links)
-            {
-              <div class="project__links-item">
-                <img src="@pr.Pic" alt="">
-                <a href="@pr.Href">@pr.Title</a>
-              </div>
-            }
-            @foreach (var pr in project.Links)
-            {
-              <div class="project__links-item">
-                @* <img src="@pr.Type.Pic" alt=""> *@
-                @* <a href="@pr.Href">@pr.Type.Title</a> *@
-              </div>
-            }
-          </div>
+    <div class="container">
+        <div class="project__cover">
+            <img src="@project.Img" alt="">
         </div>
-        <div class="project__slider">
-          <div class="owl-carousel owl-theme">
-            @foreach (string img in project.SliderImages)
-            {
-               <img src="@img" alt="">
-            }
-            
-       
-          </div>
+        <h1 class="project__title">@project.Name</h1>
+        <div class="project__info">
+            <div class="project__text">
+                <h2>Описание</h2>
+                <p>@project.Description</p>
+                <h2>Технологии</h2>
+
+                <p>@String.Join(", ", project.Specialities)</p>
+                @if (project.Links.Count != 0)
+                {
+                    <h2>Ссылки на проект</h2>
+                    <div class="project__links">
+                        @foreach (var pr in project.Links)
+                        {
+                            <div class="project__links-item">
+                                <img src="@pr.Pic" alt="">
+                                <a href="@pr.Href">@pr.Title</a>
+                            </div>
+                        }
+
+
+                    </div>
+                }
+
+            </div>
+            <div class="project__slider">
+                <div class="owl-carousel owl-theme">
+                    @foreach (string img in project.SliderImages)
+                    {
+                        <img src="@img" alt="картинка для слайдера">
+                    }
+
+
+                </div>
+            </div>
         </div>
-      </div>
-       <div class="team">
-                   <h2 class = "h2-common">Наша команда</h2>
-                   <div class="team__list">
-                     <div class="container">
-                       @{
-                         Html.RenderPartial("Members", users);
-                       }
-                     </div>
-                   </div>
+        <div class="team">
+            <h2 class="h2-common">Наша команда</h2>
+            <div class="team__list">
+                <div class="container">
+                    @{
+                        Html.RenderPartial("Members", users);
+                    }
+                </div>
+            </div>
 
-       </div>
-
+        </div>
 
 
-
-  </div>
+    </div>
 </section>
-
-
-
-
-
-
-
-
 
 
 @section OwlCSS
 {
- 
-   <link rel="stylesheet" href="~/css/owl-min.css">
-   <link rel="stylesheet" href="~/css/owl-theme.css">
+
+    <link rel="stylesheet" href="~/css/owl-min.css">
+    <link rel="stylesheet" href="~/css/owl-theme.css">
 }
 
 @section OwlJs
 {
-   <script src="../../js/owl.carousel.min.js"></script>
+    <script src="../../js/owl.carousel.min.js"></script>
 }

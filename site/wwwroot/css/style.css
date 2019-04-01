@@ -446,6 +446,7 @@ sup {
 .projects__item .right .name {
   margin-top: 15px;
   font-size: 24px;
+  word-break: break-all;
 }
 .projects__item .right .comp-more {
   display: -webkit-flex;
@@ -732,11 +733,12 @@ sup {
   display: -ms-flex;
   display: flex;
   justify-content: center;
-  max-height: 500px;
-}
-.project__cover img {
   object-fit: cover;
   height: calc(500px - 0.8);
+}
+.project__cover img {
+  width: 80%;
+  height: 80%;
 }
 .project__title {
   margin-top: 50px;
@@ -1057,6 +1059,7 @@ sup {
   display: -ms-flex;
   display: flex;
   margin-bottom: 50px;
+  width: 100%;
 }
 .user__group img {
   width: 500px;
@@ -1079,6 +1082,7 @@ sup {
   align-items: center;
   justify-content: center;
   text-align: center;
+  width: 100%;
 }
 .user__group-text .name {
   font-size: 30px;

@@ -33,7 +33,7 @@ namespace site.Controllers
         }
 
         [HttpPost]
-        // TODO: Поправить стили в верстке
+        
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
 			ViewBag.Specialities = _db.Specialities.ToList();
@@ -41,6 +41,7 @@ namespace site.Controllers
 
 			string path = "";
             List<string> paths = new List<string>();
+			
             if (ModelState.IsValid)
             {
                 Console.WriteLine(model.Cover.ContentType);
@@ -64,6 +65,7 @@ namespace site.Controllers
                 else
                 {
                     ViewBag.ImageError += "Загружено не изображение";
+	                return View(model);
                 }
 
                 foreach (var image in model.SliderImages)
@@ -85,51 +87,49 @@ namespace site.Controllers
                     }
                 }
                 
-               
+	  
+	            
+
                 Project proj = new Project
                 {
                     Name = model.Title,
                     Img = path,
                     Description = model.Description,
                     Rang = _db.Projects.ToList().Count + 1,
-
                     SliderImages = paths,
-                };
-                List<Speciality> sps = new  List<Speciality>();
-				if (model.Specs != null)
-				{
-					foreach (var id in model.Specs)
-					{
-						sps.Add(_db.Specialities.Find(id));
-					}
-				}
 
-                Team team = new Team();
-				if (model.Members != null)
-				{
-					foreach (var id in model.Members)
-					{
-						team.Members.Add(_db.Users.Find(id));
-					}
-				}
-                proj.Specialities.AddRange(sps);
-                proj.Team = team;
+                };
+	            List<Speciality> sps = new  List<Speciality>();
+	            if (model.Specs != null)
+	            {
+		            foreach (var id in model.Specs)
+		            {
+			            sps.Add(_db.Specialities.Find(id));
+		            }
+	            }
+	            proj.Specialities.AddRange(sps);
+	            _db.Projects.Add(proj);     
+	                
+                
 				if (model.Members != null)
 				{
 					foreach (var id in model.Members)
 					{
 						User user = _db.Users.Find(id);
-						user.Projects.Add(proj);
 
-						_db.Update(user);
-						await _db.SaveChangesAsync();
+
+						user.Projects.Add(new ProjectUser()
+						{
+							ProjectId = proj.ProjectId,
+							Id = id
+						});
+
+						
 					}
 				}
+	            _db.SaveChanges();
+	            
 				
-				await _db.Projects.AddAsync(proj);
-                await _db.SaveChangesAsync();   
-                await _db.Teams.AddAsync(team);
-                await _db.SaveChangesAsync();   
             }
 
 
@@ -138,9 +138,14 @@ namespace site.Controllers
         
         public ActionResult View(int id)
 		{
-			Project proj = _db.Projects.Find(id);
-            if (proj != null)
-            {
+			Project proj = _db.Projects
+				.Include(t => t.Members)
+				.ThenInclude(u => u.User)
+				.FirstOrDefault(t => t.ProjectId == id);
+			if (proj != null)
+			{
+
+            
                 return View("Project", proj);	
             }
             else

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using site.Models;
@@ -13,7 +14,7 @@ namespace site.Controllers
 	public class HomeController : Controller
 	{
 
-		
+		private readonly UserManager<User> _userManager;
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
@@ -22,15 +23,16 @@ namespace site.Controllers
 
 		public ApplicationContext _db;
 
-		public HomeController(ApplicationContext db)
+		public HomeController(ApplicationContext db, UserManager<User> userManager)
 		{
+			_userManager = userManager;
 			_db = db;
 		}
 
-		public ActionResult Index()
+		public async Task<IActionResult> Index()
 		{
 			return RedirectToAction("About");
-			return View(_db);
+			
 		}
 
 		public ActionResult About()
