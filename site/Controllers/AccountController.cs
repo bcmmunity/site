@@ -16,11 +16,13 @@ namespace site.Controllers
 	{
 		private readonly UserManager<User> _userManager;//= new UserManager<User, string>(new UserStore<ApplicationUser, CustomRole, string, CustomUserLogin, CustomUserRole, CustomUserClaim>(new myDbContext()));
 		private readonly SignInManager<User> _signInManager;
+		private readonly ApplicationContext _db;
 
-		public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+		public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext db)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_db = db;
 		}
 		
 		[HttpGet]
@@ -70,15 +72,7 @@ namespace site.Controllers
 					await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 				if (result.Succeeded)
 				{
-					// проверяем, принадлежит ли URL приложению
-					//if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-					//{
-					//	return Redirect(model.ReturnUrl);
-					//}
-					//else
-					//{
-						return RedirectToAction("Index", "Home");
-					//}
+					return RedirectToAction("Index", "Home");
 				}
 				else
 				{
@@ -100,7 +94,7 @@ namespace site.Controllers
 		
 		public async Task<ActionResult> Profile(string id)
 		{
-			User user = MainController.db.Users
+			User user = _db.Users
 				.Include(s => s.Links)
 				.Include(s => s.Experiences)
 				.FirstOrDefault(u => u.Id == id);

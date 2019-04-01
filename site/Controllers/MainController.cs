@@ -20,27 +20,10 @@ namespace site.Controllers
 	{
 		public static ApplicationContext db;
 		
-		
-		public static void Unit()
+		public MainController(ApplicationContext _db)
 		{
-			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
-//			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-//			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;");
-			db = new ApplicationContext(optionsBuilder.Options);
-
-//				AddTags();
-//			AddSN();
-//				AddSpecialities();
-//				AddUsers();
-//				AddProjects();
-//				AddTeams();
-//				AddArticles();
-//			AddTeamToProject();
-//			AddProjectsToUser();
+			db = _db;
 		}
-
-		
 
 		#region Test data
 		private static void AddTags()

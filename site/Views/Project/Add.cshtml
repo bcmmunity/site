@@ -29,7 +29,7 @@
 
             <label>Технологии</label>
 
-            @foreach (var spec in MainController.db.Specialities)
+            @foreach (var spec in ViewBag.Specialities)
             {
                 string _id = $"spec{spec.SpecialityId}";
                 <div class="checkbox">
@@ -48,7 +48,7 @@
 
             <label>Команда проекта</label>
 
-            @foreach (var u in MainController.db.Users)
+            @foreach (var u in ViewBag.Users)
             {
                 string _id = $"u{u.Id}";
                 <div class="checkbox">

@@ -19,9 +19,12 @@ namespace CustomIdentityApp.Controllers
 	public class UserController : Controller
 	{
 		private UserManager<User> _userManager;
-		public UserController(UserManager<User> userManager)
+		private ApplicationContext _db;
+
+		public UserController(UserManager<User> userManager, ApplicationContext db)
 		{
 			_userManager = userManager;
+			_db = db;
 		}
 		
 		
@@ -61,6 +64,9 @@ namespace CustomIdentityApp.Controllers
 				return NotFound();
 			}
 
+			ViewBag.socials = _db.SNs.ToList();
+			ViewBag.links = _db.Users.Find(_userManager.GetUserId(User)).Links;
+
 			EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname};
 			return View(model);
 		}
@@ -71,20 +77,22 @@ namespace CustomIdentityApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				ViewBag.socials = _db.SNs.ToList();
+				ViewBag.links = _db.Users.Find(_userManager.GetUserId(User)).Links.ToList();
 
-				List<SN> socials = MainController.db.SNs.ToList();
-				
+				List<SN> socials = _db.SNs.ToList();
+
 				// Выглядит как мега костыль но он работает
 				// TODO: Исправить костыль, если он является костылем	
 
 				#region Удаление предыдущих ссылок
 
-				User tempUser = MainController.db.Users.Find(model.Id);
+				User tempUser = _db.Users.Find(model.Id);
 				if (tempUser.Links.Count != 0)
 				{
 					tempUser.Links.Clear();
-					MainController.db.Users.Update(tempUser);
-					MainController.db.SaveChanges();
+					_db.Users.Update(tempUser);
+					_db.SaveChanges();
 				}
 
 				

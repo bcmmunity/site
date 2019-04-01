@@ -2,10 +2,10 @@
 @model site.ViewModels.EditUserViewModel
 @{
 	ViewBag.Title = "Редактирование пользователя";
-	List<SN> socials = MainController.db.SNs.ToList();
+	List<SN> socials = ViewBag.socials;
 	List<string> kek = new List<string>();
 	string id = Model.Id;
-	List<Link> links = MainController.db.Users.Find(id).Links;
+	List<Link> links = ViewBag.links;
 	Layout = "_Header_Footer";
 }
 <section class="edit">

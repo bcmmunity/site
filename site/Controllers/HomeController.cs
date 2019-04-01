@@ -20,50 +20,48 @@ namespace site.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private string _bd = "Server=localhost\\SQLEXPRESS;Database=basa52;Trusted_Connection=True;";
-//		private string _bd = "Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;";
-//		private string _bd = "Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!";
+		public ApplicationContext _db;
+
+		public HomeController(ApplicationContext db)
+		{
+			_db = db;
+		}
 
 		public ActionResult Index()
 		{
-			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			var db = new ApplicationContext(optionsBuilder.Options);
 			return RedirectToAction("About");
-			return View(db);
+			return View(_db);
 		}
 
 		public ActionResult About()
 		{
-			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			var db = new ApplicationContext(optionsBuilder.Options);
-
-			return View(db);
+			return View(_db);
 		}
 		
 		
 		public ActionResult ProjectsLoad(int offset, int count)
 		{
-			if (offset + count > MainController.db.Projects.Count())
+			if (offset + count > _db.Projects.Count())
 			{
-				count =	MainController.db.Projects.Count() - offset;
+				count = _db.Projects.Count() - offset;
 			}
 
 			
-			return PartialView("Projects", MainController.db.Projects.Skip(offset).Take(count).ToArray());
+			return PartialView("Projects", _db.Projects.Skip(offset).Take(count).ToArray());
 		}
 		
 		public ActionResult TeamsLoad(int offset, int count)
 		{
-			if (offset + count > MainController.db.Users.Count())
+			if (offset + count > _db.Users.Count())
 			{
-				count =	MainController.db.Users.Count() - offset;
+				count = _db.Users.Count() - offset;
 			}
-			return PartialView("Members", MainController.db.Users.OrderBy(d => d.Rang).Skip(offset).Take(count).ToArray());
+			return PartialView("Members", _db.Users.OrderBy(d => d.Rang).Skip(offset).Take(count).ToArray());
 		}
 
 		public ActionResult TopArticlesLoad()
 		{
-			return PartialView("TopArticles", MainController.db.Articles
+			return PartialView("TopArticles", _db.Articles
 				.Include("Author")
 				.OrderByDescending(d => d.Date)
 				.Take(3)
@@ -72,18 +70,18 @@ namespace site.Controllers
 
 		public ActionResult ArticlesLoad(int offset, int count)
 		{
-			if (offset + count > MainController.db.Users.Count())
+			if (offset + count > _db.Users.Count())
 			{
-				count =	MainController.db.Users.Count() - offset;
+				count = _db.Users.Count() - offset;
 			}
 
-			return PartialView("Articles", MainController.db.Articles
+			return PartialView("Articles", _db.Articles
 				.Include("Author")
 				.Skip(offset)
 				.Take(count)
 				.ToArray());
 		}
-					
+		
 		public ActionResult Contacts()
 		{
 			return View();

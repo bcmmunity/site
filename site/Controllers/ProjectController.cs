@@ -16,21 +16,29 @@ namespace site.Controllers
 {
     public class ProjectController : Controller
     {
-        public ProjectController(ApplicationContext db)
-        {
-        }
+		public ApplicationContext _db;
 
+		public ProjectController(ApplicationContext db)
+        {
+			_db = db;
+        }
 
         public IActionResult Add()
         {
-            return View();
+			ViewBag.Specialities = _db.Specialities.ToList();
+			ViewBag.Users = _db.Users.ToList();
+
+
+			return View();
         }
 
         [HttpPost]
         // TODO: Поправить стили в верстке
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
-			ApplicationContext ldb = MainController.db;
+			ViewBag.Specialities = _db.Specialities.ToList();
+			ViewBag.Users = _db.Users.ToList();
+
 			string path = "";
             List<string> paths = new List<string>();
             if (ModelState.IsValid)
@@ -83,7 +91,7 @@ namespace site.Controllers
                     Name = model.Title,
                     Img = path,
                     Description = model.Description,
-                    Rang = ldb.Projects.ToList().Count + 1,
+                    Rang = _db.Projects.ToList().Count + 1,
 
                     SliderImages = paths,
                 };
@@ -92,7 +100,7 @@ namespace site.Controllers
 				{
 					foreach (var id in model.Specs)
 					{
-						sps.Add(ldb.Specialities.Find(id));
+						sps.Add(_db.Specialities.Find(id));
 					}
 				}
 
@@ -101,7 +109,7 @@ namespace site.Controllers
 				{
 					foreach (var id in model.Members)
 					{
-						team.Members.Add(ldb.Users.Find(id));
+						team.Members.Add(_db.Users.Find(id));
 					}
 				}
                 proj.Specialities.AddRange(sps);
@@ -110,18 +118,18 @@ namespace site.Controllers
 				{
 					foreach (var id in model.Members)
 					{
-						User user = ldb.Users.Find(id);
+						User user = _db.Users.Find(id);
 						user.Projects.Add(proj);
 
-						ldb.Update(user);
-						await ldb.SaveChangesAsync();
+						_db.Update(user);
+						await _db.SaveChangesAsync();
 					}
 				}
 				
-				await ldb.Projects.AddAsync(proj);
-                await ldb.SaveChangesAsync();   
-                await ldb.Teams.AddAsync(team);
-                await ldb.SaveChangesAsync();   
+				await _db.Projects.AddAsync(proj);
+                await _db.SaveChangesAsync();   
+                await _db.Teams.AddAsync(team);
+                await _db.SaveChangesAsync();   
             }
 
 
@@ -130,8 +138,7 @@ namespace site.Controllers
         
         public ActionResult View(int id)
 		{
-			ApplicationContext ldb = MainController.db;
-			Project proj = ldb.Projects.Find(id);
+			Project proj = _db.Projects.Find(id);
             if (proj != null)
             {
                 return View("Project", proj);	

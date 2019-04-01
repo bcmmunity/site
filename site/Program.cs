@@ -16,7 +16,6 @@ namespace site
 		public static void Main(string[] args)
 		{
 			CreateWebHostBuilder(args).Build().Run();
-			MainController.Unit();
 		}
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
