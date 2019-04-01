@@ -790,6 +790,50 @@ sup {
   margin-top: 10px;
 }
 
+.login, .register {
+  padding-top: 70px;
+  padding-bottom: 70px;
+  min-height: calc(100vh - 410px);
+}
+.login .container, .register .container {
+  flex-direction: column;
+}
+.login form, .register form {
+  margin-top: 20px;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+.login form label, .register form label {
+  margin-top: 10px;
+}
+.login form input[type="text"], .login form input[type="password"], .register form input[type="text"], .register form input[type="password"] {
+  font-size: 14px;
+  width: 100%;
+  padding: 5px;
+  margin-top: 10px;
+  border: 1px solid #222222;
+  outline: 0;
+  font-family: "Montserrat", sans-serif;
+}
+.login form input[type="text"]:focus, .login form input[type="password"]:focus, .register form input[type="text"]:focus, .register form input[type="password"]:focus {
+  outline: 2px solid #222222;
+}
+.login form input[type="submit"], .register form input[type="submit"] {
+  margin-top: 15px;
+  padding: 8px 20px;
+}
+.login__group, .register__group {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
 .edit {
   padding-top: 70px;
   padding-bottom: 70px;

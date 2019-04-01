@@ -46,9 +46,11 @@ $(function() {
     labelName.innerHTML = "Название";
     labelName.classList.add("second_label");
     group.append(labelName);
+
     let inputName = document.createElement("input");
     inputName.type = "text";
     inputName.name = "Titles";
+    inputName.id = "Titles";
     group.append(inputName)
 
     cont.append(group);
@@ -65,6 +67,7 @@ $(function() {
     let inputLink = document.createElement("input");
     inputLink.type = "text";
     inputLink.name = "Links";
+    inputLink.id = "Links";
     group.append(inputLink)
 
     cont.append(group);
@@ -76,6 +79,7 @@ $(function() {
 
     let textarea = document.createElement("textarea");
     textarea.name = "Descriptions";
+    textarea.id = "Descriptions";
     cont.append(textarea);
 
     let labelStart = document.createElement("label")
@@ -86,6 +90,7 @@ $(function() {
     let inputDateStart = document.createElement("input");
     inputDateStart.type = "date";
     inputDateStart.name = "StartDates";
+    inputDateStart.id = "StartDates";
 
     cont.append(inputDateStart);
 
@@ -97,6 +102,7 @@ $(function() {
     let inputDateFinish = document.createElement("input");
     inputDateFinish.type = "date";
     inputDateFinish.name = "FinishDates";
+    inputDateFinish.id = "FinishDates";
 
     cont.append(inputDateFinish);
 
@@ -108,6 +114,8 @@ $(function() {
     let inputWork = document.createElement("input");
     inputWork.type = "checkbox";
     inputWork.name = "IsWorks";
+    inputWork.id = "IsWorks";
+    inputWork.value = "true";
     cont.append(inputWork)
 
 
