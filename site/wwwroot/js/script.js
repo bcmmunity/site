@@ -30,84 +30,88 @@ $("#add").on("click", function(e) {
   console.log(input);
   $("#addForm .group").append(input);
 });
-$("#addWWork").on("click", function(e) {
-  e.preventDefault();
 
-  let cont = document.createElement("div");
-  cont.classList.add("edit__courses__group");
-  let group = document.createElement("div");
-  group.classList.add("edit__group");
+})
 
-  let labelName = document.createElement("label")
-  labelName.innerHTML = "Название";
-  labelName.classList.add("second_label");
-  group.append(labelName);
-  let inputName = document.createElement("input");
-  inputName.type = "text";
-  inputName.name = "Titles";
-  group.append(inputName)
+$(function() {
+  $("#addWork").on("click", function(e) {
+    e.preventDefault();
 
-  cont.append(group);
+    let cont = document.createElement("div");
+    cont.classList.add("edit__courses__group");
+    let group = document.createElement("div");
+    group.classList.add("edit__group");
 
-  group = document.createElement("div");
-  group.classList.add("edit__group");
+    let labelName = document.createElement("label")
+    labelName.innerHTML = "Название";
+    labelName.classList.add("second_label");
+    group.append(labelName);
+    let inputName = document.createElement("input");
+    inputName.type = "text";
+    inputName.name = "Titles";
+    group.append(inputName)
 
+    cont.append(group);
 
-
-  let labelLink = document.createElement("label")
-  labelLink.innerHTML = "Ссылка на сайт (если есть)";
-  labelLink.classList.add("second_label");
-  group.append(labelLink);
-  let inputLink = document.createElement("input");
-  inputLink.type = "text";
-  inputLink.name = "Links";
-  group.append(inputLink)
-
-  cont.append(group);
-
-  let labelDesc = document.createElement("label")
-  labelDesc.innerHTML = "Краткое описание";
-  labelDesc.classList.add("second_label");
-  cont.append(labelDesc);
-
-  let textarea = document.createElement("textarea");
-  textarea.name = "Descriptions";
-  cont.append(textarea);
-
-  let labelStart = document.createElement("label")
-  labelStart.innerHTML = "Дата начала";
-  labelStart.classList.add("second_label");
-  cont.append(labelStart)
-
-  let inputDateStart = document.createElement("input");
-  inputDateStart.type = "date";
-  inputDateStart.name = "StartDates";
-
-  cont.append(inputDateStart);
-
-  let labelFinish = document.createElement("label")
-  labelFinish.innerHTML = "Дата конца";
-  labelFinish.classList.add("second_label");
-  cont.append(labelFinish)
-
-  let inputDateFinish = document.createElement("input");
-  inputDateFinish.type = "date";
-  inputDateFinish.name = "FinishDates";
-
-  cont.append(inputDateFinish);
-
-  let labelWork = document.createElement("label")
-  labelWork.innerHTML = "Работа";
-  labelWork.classList.add("second_label");
-  cont.append(labelWork)
-
-  let inputWork = document.createElement("input");
-  inputWork.type = "checkbox";
-  inputWork.name = "IsWorks";
-  cont.append(inputWork)
+    group = document.createElement("div");
+    group.classList.add("edit__group");
 
 
-  console.log(cont);
-  $("#work").append(cont);
-});
+
+    let labelLink = document.createElement("label")
+    labelLink.innerHTML = "Ссылка на сайт (если есть)";
+    labelLink.classList.add("second_label");
+    group.append(labelLink);
+    let inputLink = document.createElement("input");
+    inputLink.type = "text";
+    inputLink.name = "Links";
+    group.append(inputLink)
+
+    cont.append(group);
+
+    let labelDesc = document.createElement("label")
+    labelDesc.innerHTML = "Краткое описание";
+    labelDesc.classList.add("second_label");
+    cont.append(labelDesc);
+
+    let textarea = document.createElement("textarea");
+    textarea.name = "Descriptions";
+    cont.append(textarea);
+
+    let labelStart = document.createElement("label")
+    labelStart.innerHTML = "Дата начала";
+    labelStart.classList.add("second_label");
+    cont.append(labelStart)
+
+    let inputDateStart = document.createElement("input");
+    inputDateStart.type = "date";
+    inputDateStart.name = "StartDates";
+
+    cont.append(inputDateStart);
+
+    let labelFinish = document.createElement("label")
+    labelFinish.innerHTML = "Дата конца";
+    labelFinish.classList.add("second_label");
+    cont.append(labelFinish)
+
+    let inputDateFinish = document.createElement("input");
+    inputDateFinish.type = "date";
+    inputDateFinish.name = "FinishDates";
+
+    cont.append(inputDateFinish);
+
+    let labelWork = document.createElement("label")
+    labelWork.innerHTML = "Работа";
+    labelWork.classList.add("second_label");
+    cont.append(labelWork)
+
+    let inputWork = document.createElement("input");
+    inputWork.type = "checkbox";
+    inputWork.name = "IsWorks";
+    cont.append(inputWork)
+
+
+    console.log(cont);
+    $("#work").append(cont);
+  });
 })
