@@ -114,8 +114,6 @@ namespace CustomIdentityApp.Controllers
 					{
 						if (model.Photo.ContentType.StartsWith("image"))
 						{
-//							Directory.CreateDirectory(model.Id);
-//							Directory.CreateDirectory("/img/" + model.Id);
 							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
 							if (!Directory.Exists("UserPhotos"))
 								Directory.CreateDirectory("UserPhotos");

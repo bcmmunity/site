@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Remotion.Linq.Clauses;
 using site.Models;
 using site.ViewModels;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace site.Controllers
 {
@@ -18,9 +21,12 @@ namespace site.Controllers
     {
 		public ApplicationContext _db;
 
-		public ProjectController(ApplicationContext db)
+	    private IHostingEnvironment _contentPath;
+	    
+		public ProjectController(ApplicationContext db, IHostingEnvironment contentPath)
         {
 			_db = db;
+	        _contentPath = contentPath;
         }
 
         public IActionResult Add()
@@ -33,7 +39,7 @@ namespace site.Controllers
         }
 
         [HttpPost]
-        
+   
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
 			ViewBag.Specialities = _db.Specialities.ToList();
@@ -41,7 +47,7 @@ namespace site.Controllers
 
 			string path = "";
 			string paths = "";
-			
+			string md5;
             if (ModelState.IsValid)
             {
                 Console.WriteLine(model.Cover.ContentType);
@@ -54,13 +60,33 @@ namespace site.Controllers
 
                 if (model.Cover.ContentType.StartsWith("image"))
                 {
-                    path = "/img/" + model.Cover.FileName;
-
-                    using (var fileStream = new FileStream("wwwroot" + path, FileMode.Create))
+                    path =  model.Cover.FileName;
+	                
+	                using (MD5 md5Hash = MD5.Create())
+	                {
+		                md5 = GetMd5Hash(md5Hash, model.Title);	               
+	                }
+	                Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
+	                
+	                if (!Directory.Exists("ProjectPhotos"))
+		                Directory.CreateDirectory("ProjectPhotos");
+	                
+	                Directory.SetCurrentDirectory("ProjectPhotos");
+	                Directory.CreateDirectory(md5);
+	                Directory.SetCurrentDirectory(md5);
+	                
+	                
+	                if (!Directory.Exists("Cover"))
+		                Directory.CreateDirectory("Cover");
+	                
+	                Directory.SetCurrentDirectory("Cover");
+	                
+                    using (var fileStream = new FileStream(path, FileMode.Create))
                     {
                         await model.Cover.CopyToAsync(fileStream);
                     }
-                
+	                
+	                Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/ProjectPhotos");
                 }
                 else
                 {
@@ -76,17 +102,32 @@ namespace site.Controllers
                         return View(model);
                     }
                 }
-                
+	            
+	            Directory.SetCurrentDirectory(md5);
+	            
+	            if (!Directory.Exists("Slider"))
+		            Directory.CreateDirectory("Slider");
+	                
+	            Directory.SetCurrentDirectory("Slider");
+	            
                 foreach (var image in model.SliderImages)
                 {
-                    string localPath = "/img/" + image.FileName;
+                    string localPath = $"/img/ProjectPhotos/{md5}/Slider/{image.FileName}";
 	                paths += localPath + ":" ;
-                    using (var fileStream = new FileStream("wwwroot" + localPath, FileMode.Create))
+	                
+	                
+	                
+	                
+                    using (var fileStream = new FileStream(image.FileName, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
                     }
+	                
+	                
                 }
-
+				
+	            Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
+	            
 	            paths = paths.Substring(0, paths.Length - 1);
 	  
 	            
@@ -94,7 +135,7 @@ namespace site.Controllers
                 Project proj = new Project
                 {
                     Name = model.Title,
-                    Img = path,
+                    Img = $"/img/ProjectPhotos/{md5}/Cover/{path}",
                     Description = model.Description,
                     Rang = _db.Projects.ToList().Count + 1
                     
@@ -160,6 +201,20 @@ namespace site.Controllers
             }
 			
         }
+	    
+	    static string GetMd5Hash(MD5 md5Hash, string input)
+	    {
+			// https://docs.microsoft.com/ru-ru/dotnet/api/system.security.cryptography.md5?view=netframework-4.7.2
+		    byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+		    StringBuilder sBuilder = new StringBuilder();
+
+		    for (int i = 0; i < data.Length; i++)
+		    {
+			    sBuilder.Append(data[i].ToString("x2"));
+		    }
+		    return sBuilder.ToString();
+	    }
 
 
     }
