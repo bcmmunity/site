@@ -59,8 +59,8 @@
 
 <section class="team">
     <h2 class="h2-common">Наша команда</h2>
-    <div class="team__list">
-        <div class="container" id ="mems">
+    <div class="container" id ="mems">
+        <div class="team__list">      
             @Html.Partial("Members", Model.Users.OrderBy(d => d.Rang).Skip(0).Take(4).ToArray())
         </div>
     </div>

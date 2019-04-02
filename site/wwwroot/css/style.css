@@ -302,10 +302,11 @@ sup {
 }
 .team__list {
   margin-top: 60px;
-}
-.team__list .container {
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  width: 100%;
 }
 .team__list__inner {
   display: -webkit-flex;
