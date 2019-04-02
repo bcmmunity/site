@@ -85,8 +85,8 @@ namespace site.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> LogOff()
 		{
 			// удаляем аутентификационные куки

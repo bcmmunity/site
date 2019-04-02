@@ -39,7 +39,6 @@ namespace site.Controllers
         }
 
         [HttpPost]
-   
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
 			ViewBag.Specialities = _db.Specialities.ToList();
@@ -170,7 +169,8 @@ namespace site.Controllers
 						
 					}
 				}
-	            _db.SaveChanges();
+
+				_db.SaveChanges();
 	            
 				
             }

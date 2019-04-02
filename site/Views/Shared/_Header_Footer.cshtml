@@ -19,7 +19,7 @@
         <div class="container">
             <a href="tel:+79153275868">+7(915)327-58-68</a>
             <div class="header__top__links">
-                <a href="">
+                <a href="https://vk.com/diffind">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 486.4 486.4" xml:space="preserve">
                         <path  d="M395.2,0h-304C40.8,0,0,40.8,0,91.2v304c0,50.4,40.8,91.2,91.2,91.2h304c50.4,0,91.2-40.8,91.2-91.2v-304
@@ -45,21 +45,22 @@
                 <h3 class="h3-common">Change the world</h3>
             </div>
             <div class="header__bottom__nav">
-                <nav>
-                    <a asp-controller="Home" asp-action="About">Главная</a>
-                    <a asp-controller="Home" asp-action="About">Мы</a>
-                    <a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                         <a asp-controller="Account" asp-action="Profile">Профиль</a>
+				<nav>
+					<a asp-controller="Home" asp-action="About">Главная</a>
+					<a asp-controller="Home" asp-action="About">Мы</a>
+					<a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<a asp-controller="Account" asp-action="Profile">Профиль</a>
+						<a asp-controller="Account" asp-action="LogOff">Выйти</a>
 
-					@*<a asp-controller="Account" asp-action="Register">Регистрация</a> *@
-                    }
-                    else
-                    {
-                        <a asp-controller="Account" asp-action="Login">Войти</a>
-                    }
-                </nav>
+						@*<a asp-controller="Account" asp-action="Register">Регистрация</a> *@
+					}
+					else
+					{
+						<a asp-controller="Account" asp-action="Login">Войти</a>
+					}
+				</nav>
             </div>
         </div>
         <div class="overlay">
@@ -86,26 +87,27 @@
 <footer class = "footer">
     <div class="container">
         <div class="footer__top">
-            <div class = "footer__text">
+            <div class = "fo	oter__text">
                 <span class = "footer__name">Diffind</span>
                 <span class = "footer__motto">Change the world</span>
             </div>
 
-            <nav  class="footer__top__nav">
-                <a asp-controller="Home" asp-action="About">Главная</a>
-                <a asp-controller="Home" asp-action="About">Мы</a>
-                <a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-controller="User" asp-action="Edit">Профиль</a>
-                    
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login">Войти</a>
-@*                     <a asp-controller="Account" asp-action="Register">Регистрация</a>  *@
-                }
-            </nav>
+			<nav class="footer__top__nav">
+				<a asp-controller="Home" asp-action="About">Главная</a>
+				<a asp-controller="Home" asp-action="About">Мы</a>
+				<a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
+				@if (User.Identity.IsAuthenticated)
+				{
+					<a asp-controller="User" asp-action="Edit">Профиль</a>
+					<a asp-controller="Account" asp-action="LogOff">Выйти</a>
+
+				}
+				else
+				{
+					<a asp-controller="Account" asp-action="Login">Войти</a>
+					@*                     <a asp-controller="Account" asp-action="Register">Регистрация</a>  *@
+				}
+			</nav>
 
         </div>
 

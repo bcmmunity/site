@@ -192,6 +192,16 @@ namespace CustomIdentityApp.Controllers
 					
 					if (result.Succeeded)
 					{
+						ViewBag.socials = _db.SNs.ToList();
+						List<string> links = _db.Users
+							.Include(l => l.Links)
+							.FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
+							?.Links
+							.Select(l => l.Href)
+							.ToList();
+						EditUserViewModel model2 = new EditUserViewModel { Id = user.Id, Links = links, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname };
+
+						return View(model2);
 						return RedirectToAction("About", "Home");
 					}
 					else
