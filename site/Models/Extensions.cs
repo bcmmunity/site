@@ -10,5 +10,10 @@ namespace site.Models
 			Random rand = new Random();
             return list[rand.Next(0, list.Count)];
         }
+
+        public static bool IsEmpty<T>(this List<T> list)
+        {
+            return list.Count == 0;
+        }
     }
 }

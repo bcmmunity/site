@@ -29,52 +29,91 @@
         <span class="name">@u.Name @u.Surname</span>
         <p>@u.Description</p>
         <h2>Соц. сети</h2>
-        <div class="user__links">
-          @foreach (var soc in u.Links)
-          {
-            if (soc != null && !soc.IsEmpty)
+        @if (u.Links.IsEmpty())
+        {
+          <p>Отсутствуют</p>
+        }
+        else
+        {
+          <div class="user__links">
+            @foreach (var soc in u.Links)
             {
-              <div class="user__links-item">
+              if (soc != null && !soc.IsEmpty)
+              {
+                <div class="user__links-item">
                 
-                <a href="@soc.Href" target="_blank">
-					<img src="@soc.Pic" alt="">
-				</a>
-              </div>
+                  <a href="@soc.Href" target="_blank">
+                    <img src="@soc.Pic" alt="">
+                  </a>
+                </div>
+              }
             }
-          }
-        </div>
+          </div>
+        }
+        
       </div>
     </div>
     <h3>Навыки</h3>
-    <p>@String.Join(", ", u.Specialities)</p>
+    @if (u.Specialities.IsEmpty())
+    {
+      <p>Отсутствуют</p>
+    }
+    else
+    {
+      <p>@String.Join(", ", u.Specialities)</p>
+    }
+    
     <h3>Опыт работы</h3>
     <div class="job-list">
-      
-      @foreach (var exp in Work)
+      @if (Work.IsEmpty())
       {
-        <div class="job-list-item">
-          <span>@exp.Title (<a href="@exp.Link">Сайт</a>) @exp.Year</span>
-          <p>@exp.Description</p>
-        </div>
+        <p>Отсутствует</p>
       }
+      else
+      {
+        foreach (var exp in Work)
+         {
+           <div class="job-list-item">
+             <span>@exp.Title (<a href="@exp.Link">Сайт</a>) @exp.Year</span>
+             <p>@exp.Description</p>
+           </div>
+         }
+      }
+      
     </div>
     
     <h3>Курсы/интенсивы и т.д.</h3>
-     <div class="job-list">
-       @foreach (var lrn in NotWork)
-       {
-         <div class="job-list-item">
-           <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
-           <p>@lrn.Description</p>
-         </div>
-       }
-     </div>
+    <div class="job-list">
+      @if (NotWork.IsEmpty())
+      {
+        <p>Отсутствуют</p>
+      }
+      else
+      {
+        foreach (var lrn in NotWork)
+         {
+           <div class="job-list-item">
+             <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
+             <p>@lrn.Description</p>
+           </div>
+         }
+      }
+      
+    </div>
   <div class="projects">
         <h2 class="h2-common">Мои проекты</h2>
         <div class="projects__list">
-        <div class="container">
-            @Html.Partial("Projects", projects)      
-        </div>
+          <div class="container">
+            @if (projects.IsEmpty())
+            {
+              <p>Отсутствуют</p>
+            }
+            else
+            {
+              @Html.Partial("Projects", projects)
+            }
+            
+          </div>
 
         </div>
 
