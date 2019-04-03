@@ -3,7 +3,7 @@
 @model User
 @{
   Layout = "_Header_Footer";
-  ViewBag.Title = Model.Name + Model.Surname;
+  ViewBag.Title = Model.Name + " " + Model.Surname;
   User u = Model;
   
   var Work = Model.Experiences.Where(l => l.IsWork).ToList();
