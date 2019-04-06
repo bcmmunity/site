@@ -18,20 +18,20 @@ namespace site.Controllers
 	[ApiController]
 	public class MainController : Controller
 	{
-		public static ApplicationContext db;
+		public static ApplicationContext Db;
 		
-		public MainController(ApplicationContext _db)
+		public MainController(ApplicationContext db)
 		{
-			db = _db;
+			Db = db;
 			
 		}
 
 		public static void Unit()
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-			db = new ApplicationContext(optionsBuilder.Options);
+			Db = new ApplicationContext(optionsBuilder.Options);
 			
-//			AddSN();
+			AddSN();
 		}
 
 	
@@ -54,8 +54,8 @@ namespace site.Controllers
 				{
 					Name = name
 				};
-				db.Tags.Add(tag);
-				db.SaveChanges();
+				Db.Tags.Add(tag);
+				Db.SaveChanges();
 			}
 		}
 		
@@ -79,8 +79,8 @@ namespace site.Controllers
 					Title = snNames[i],
 					Pic = $"../../img/{snNames[i].ToLower()}.svg"
 				};
-				db.SNs.Add(tag);
-				db.SaveChanges();
+				Db.SNs.Add(tag);
+				Db.SaveChanges();
 			}
 		}
 		
@@ -101,8 +101,8 @@ namespace site.Controllers
 				{
 					Name = sp
 				};
-				db.Specialities.Add(spec);
-				db.SaveChanges();
+				Db.Specialities.Add(spec);
+				Db.SaveChanges();
 			}
 		}
 
@@ -129,8 +129,8 @@ namespace site.Controllers
 			for (int i = 0; i < 8; i++)
 			{
 				Random rand = new Random();
-				List<Speciality> sp = db.Specialities
-					.Take(rand.Next(1, db.Specialities.ToArray().Length))
+				List<Speciality> sp = Db.Specialities
+					.Take(rand.Next(1, Db.Specialities.ToArray().Length))
 					.ToList();
 				Link soc = new Link
 				{
@@ -160,8 +160,8 @@ namespace site.Controllers
 				};
 
 				
-				db.Users.Add(user);
-				db.SaveChanges();
+				Db.Users.Add(user);
+				Db.SaveChanges();
 				Thread.Sleep(20);
 			}
 
@@ -179,8 +179,8 @@ namespace site.Controllers
 			for (int i = 0; i < 10; i++)
 			{
 				Random rand = new Random();
-				List<Speciality> sp = db.Specialities
-					.Take(rand.Next(1, db.Specialities.ToArray().Length))
+				List<Speciality> sp = Db.Specialities
+					.Take(rand.Next(1, Db.Specialities.ToArray().Length))
 					.ToList();
 				Link link = new Link
 				{
@@ -199,11 +199,11 @@ namespace site.Controllers
 				};
 
 				
-				db.Projects.Add(project);
-				db.SaveChanges();
+				Db.Projects.Add(project);
+				Db.SaveChanges();
 				project.Specialities = sp;
-				db.Update(project);
-				db.SaveChanges();
+				Db.Update(project);
+				Db.SaveChanges();
 				Thread.Sleep(10);
 			}
 		}
@@ -224,8 +224,8 @@ namespace site.Controllers
 			for (int i = 0; i < 30; i++)
 			{
 				Random rand = new Random();
-				List<Tag> tags = db.Tags
-					.Take(rand.Next(1, db.Tags.ToArray().Length))
+				List<Tag> tags = Db.Tags
+					.Take(rand.Next(1, Db.Tags.ToArray().Length))
 					.ToList();
 				Article art = new Article
 				{
@@ -233,12 +233,12 @@ namespace site.Controllers
 					Name = names[rand.Next(0, 6)],
 					Body = body,
 					Description = descr, 
-					Author = db.Users.ToList().GetRandomItem(),
+					Author = Db.Users.ToList().GetRandomItem(),
 					Date = new DateTime(2019, 1, i + 1)
 				};
 				art.Tags.AddRange(tags);
-				db.Articles.Add(art);
-				db.SaveChanges();
+				Db.Articles.Add(art);
+				Db.SaveChanges();
 				Thread.Sleep(15);
 			}
 		}
@@ -254,7 +254,7 @@ namespace site.Controllers
 		{
 			if (offset != null && count != null)
 			{
-				Article[] arts = db.Articles
+				Article[] arts = Db.Articles
 					.Include("Author")
 					.Skip((int)offset)
 					.Take((int)count)
@@ -270,7 +270,7 @@ namespace site.Controllers
 		[HttpGet]
 		public JsonResult GetTopArticles()
 		{
-			Article[] arts = db.Articles
+			Article[] arts = Db.Articles
 				.Include("Author")
 				.OrderByDescending(d => d.Date)
 				.Take(3)
@@ -285,7 +285,7 @@ namespace site.Controllers
 		{
 			if (id != null)
 			{
-				Article art = db.Articles
+				Article art = Db.Articles
 					.Include("Author")
 					.FirstOrDefault(a => a.ArticleId == id) ;
 				if (art != null)

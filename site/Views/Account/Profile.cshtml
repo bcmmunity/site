@@ -15,7 +15,7 @@
 <section class="user">
   <div class="container">
 	   <div class="user__group"> 
-	  	@if (User.Identity.IsAuthenticated && User.Identity.Name == Model.Email) 
+	  	@if (User.Identity.IsAuthenticated && ViewBag.CurrentUserId == Model.Id) 
 		{
 		  <a asp-controller="User" asp-action="Edit">Редактирование профиля</a>
 		}

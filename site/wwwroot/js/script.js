@@ -116,7 +116,19 @@ $(function() {
     inputWork.name = "IsWorks";
     inputWork.id = "IsWorks";
     inputWork.value = "true";
-    cont.append(inputWork)
+    cont.append(inputWork);
+
+    let labelNow = document.createElement("label");
+    labelNow.innerHTML = "По настоящее время";
+    labelNow.classList.add("second_label");
+    cont.append(labelNow);
+    
+    let inputNow = document.createElement("input");
+    inputNow.type = "checkbox";
+    inputNow.name = "Nows";
+    inputNow.id = "Now";
+    inputNow.value = "true";
+    cont.append(inputNow);
 
 
     console.log(cont);

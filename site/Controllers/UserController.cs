@@ -110,6 +110,8 @@ namespace CustomIdentityApp.Controllers
 					user.Position = model.Position;
 					user.Name = model.Name;
 					user.Surname = model.Surname;
+					
+					// Сохранение фотографии профиля в папку пользователя
 					if (model.Photo != null)
 					{
 						if (model.Photo.ContentType.StartsWith("image"))
@@ -130,10 +132,12 @@ namespace CustomIdentityApp.Controllers
 							user.Photo = $"/img/UserPhotos/{path}";
 						}
 					}
+					
+					// Возвращаем изначальную директорию
 					Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
 					
 					
-					
+					// Добавление ссылок на социальные сети
 					if (model.Links != null) 
 						for (var i = 0; i < model.Links.Count; i++)
 						{
@@ -153,6 +157,10 @@ namespace CustomIdentityApp.Controllers
 	
 							exp.StartDate = model.StartDates[i];
 							exp.FinishDate = model.FinishDates[i];
+							if (model.Nows != null)
+								exp.Now = model.Nows[i];
+							else
+								exp.Now = false;
 							if (model.IsWorks != null)
 								exp.IsWork = model.IsWorks[i];
 							else
@@ -202,7 +210,6 @@ namespace CustomIdentityApp.Controllers
 						EditUserViewModel model2 = new EditUserViewModel { Id = user.Id, Links = links, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname };
 
 						return View(model2);
-						return RedirectToAction("About", "Home");
 					}
 					else
 					{

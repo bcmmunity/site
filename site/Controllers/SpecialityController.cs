@@ -28,8 +28,8 @@ namespace site.Controllers
                     {
                         Name = name
                     };
-                    MainController.db.Specialities.Add(spec);
-                    MainController.db.SaveChanges();
+                    MainController.Db.Specialities.Add(spec);
+                    MainController.Db.SaveChanges();
                 }
                 
 

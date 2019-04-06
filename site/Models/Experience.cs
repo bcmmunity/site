@@ -14,6 +14,7 @@ namespace site.Models
 		public DateTime StartDate { get; set; }
 		public DateTime FinishDate { get; set; }
 		public bool IsWork { get; set; }
+		public bool Now { get; set; }
 		private string _year;
 		public string Year
 		{
@@ -21,7 +22,10 @@ namespace site.Models
 			{
 				string tempMonthStart = StartDate.Month.ToString().Length == 1 ? $"0{StartDate.Month}" : StartDate.Month.ToString();
 				string tempMonthFinish = FinishDate.Month.ToString().Length == 1 ? $"0{FinishDate.Month}" : FinishDate.Month.ToString();
-				_year = $"{tempMonthStart}.{StartDate.Year}-{tempMonthFinish}.{FinishDate.Year}";
+				if (!Now)
+					_year = $"{tempMonthStart}.{StartDate.Year}-{tempMonthFinish}.{FinishDate.Year}";
+				else
+					_year = $"{tempMonthStart}.{StartDate.Year}-наст. время";
 				return _year;
 			}
 		}

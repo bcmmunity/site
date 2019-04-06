@@ -22,6 +22,7 @@ namespace site.ViewModels
 		public List<DateTime> StartDates { get; set; }
 		public List<DateTime> FinishDates { get; set; }
 		public List<bool> IsWorks { get; set; }
+		public List<bool> Nows { get; set; }
 		public List<string> Socials { get; set; }
 	}
 }

@@ -9,13 +9,14 @@ namespace site.Models
 			: base(options)
 		{
 			Database.EnsureCreated();
+			
 		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
+//			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-//			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=q32;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a1;Trusted_Connection=True;");
 		}
 		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

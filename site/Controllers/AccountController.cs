@@ -98,6 +98,7 @@ namespace site.Controllers
 		public  ActionResult Profile(string id)
 		{
 			string localId = id;
+			ViewBag.CurrentUserId = _userManager.GetUserId(HttpContext.User);;
 			if (id == null)
 			{
 				localId = _userManager.GetUserId(HttpContext.User);
