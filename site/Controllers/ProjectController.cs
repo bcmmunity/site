@@ -178,6 +178,20 @@ namespace site.Controllers
 
             return RedirectToAction("About", "Home");
         }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+	        
+	        Project proj = _db.Projects.Find(id + 1);
+	        if (proj != null)
+	        {
+				_db.Projects.Remove(proj);
+				_db.SaveChanges();
+	        }
+
+	        return RedirectToAction("Index", "Home");
+        }
         
         public ActionResult View(int id)
 		{

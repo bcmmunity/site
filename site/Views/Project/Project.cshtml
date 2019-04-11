@@ -15,6 +15,18 @@
 
 <section class="project">
     <div class="container">
+        <a href="#deleteModal" class="delete">удолить</a>
+        <div id="deleteModal">
+            <div  class="modal">
+
+                <form asp-controller="Project" asp-action="Delete">
+                    <a href="#close" class = "close">Закрыть окно</a>
+                    <input type="hidden" name = "@project.ProjectId">
+                    <input type="submit" value="удолить" class = "bttn-delete">
+                </form>
+            </div>
+
+        </div>
         <div class="project__cover">
             <img src="@project.Img" alt="">
         </div>

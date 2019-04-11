@@ -31,7 +31,7 @@ namespace site.Controllers
 			var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
 			Db = new ApplicationContext(optionsBuilder.Options);
 			
-			AddSN();
+//			AddSN();
 		}
 
 	
