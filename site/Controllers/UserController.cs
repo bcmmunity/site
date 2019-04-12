@@ -7,6 +7,7 @@ using site.Models;
 using site.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -76,6 +77,7 @@ namespace CustomIdentityApp.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(EditUserViewModel model)
 		{
+			
 			if (ModelState.IsValid)
 			{
 				ViewBag.socials = _db.SNs.ToList();
@@ -116,20 +118,36 @@ namespace CustomIdentityApp.Controllers
 					{
 						if (model.Photo.ContentType.StartsWith("image"))
 						{
+							// Проверка, создание нужных папок, переключение текущей директории
 							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
 							if (!Directory.Exists("UserPhotos"))
 								Directory.CreateDirectory("UserPhotos");
 							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/UserPhotos");
 							if (!Directory.Exists(model.Id))
 								Directory.CreateDirectory(model.Id);
-							path = $"{model.Id}/{model.Photo.FileName}";
-
-							using (var fileStream = new FileStream(path, FileMode.Create))
+							Directory.SetCurrentDirectory(model.Id);
+							
+							path = model.Photo.FileName;
+							
+							Image img = Image.FromStream(model.Photo.OpenReadStream());
+							
+							// Кроп изображения
+							// http://web.archive.org/web/20130126075626/http://www.switchonthecode.com:80/tutorials/csharp-tutorial-image-editing-saving-cropping-and-resizing
+	
+							using (Bitmap bitmap = new Bitmap(img))
 							{
-								await model.Photo.CopyToAsync(fileStream);
+								Rectangle cropArea = new Rectangle(
+									
+									(int) (img.Size.Width * ((double) model.CropX / 600)),
+									(int) (img.Size.Height * ((double)model.CropY / 600)),
+									(int) (img.Size.Width * ((double) model.CropWidth / 600)),
+									(int) (img.Size.Width * ((double) model.CropWidth / 600)));
+								bitmap.Clone(cropArea, bitmap.PixelFormat).Save(model.Photo.FileName);
 							}
 							
-							user.Photo = $"/img/UserPhotos/{path}";
+							
+				
+							user.Photo = $"/img/UserPhotos/{model.Id}/{path}";
 						}
 					}
 					
@@ -137,7 +155,7 @@ namespace CustomIdentityApp.Controllers
 					Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
 					
 					
-					// Добавление ссылок на социальные сети
+					// Добавление опыта работы, курсов и т.д.
 					if (model.Links != null) 
 						for (var i = 0; i < model.Links.Count; i++)
 						{
@@ -168,14 +186,14 @@ namespace CustomIdentityApp.Controllers
 							user.Experiences.Add(exp);
 						}
 
-					
+					// Добавление ссылок на соц. сети
 					if (model.Socials != null)
 					{
 						for (var i = 0; i < model.Socials.Count; i++)
 						{
 
 							if (model.Socials[i] == null || model.Socials[i] == "") 
-								user.Links.Add(new Link()
+								user.Links.Add(new Link
 								{
 									IsEmpty = true
 								});
@@ -200,16 +218,7 @@ namespace CustomIdentityApp.Controllers
 					
 					if (result.Succeeded)
 					{
-						ViewBag.socials = _db.SNs.ToList();
-						List<string> links = _db.Users
-							.Include(l => l.Links)
-							.FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
-							?.Links
-							.Select(l => l.Href)
-							.ToList();
-						EditUserViewModel model2 = new EditUserViewModel { Id = user.Id, Links = links, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname };
-
-						return View(model2);
+						return RedirectToAction("Profile", "Account");
 					}
 					else
 					{

@@ -16,6 +16,11 @@ namespace site.ViewModels
 		public string Position { get; set; }
 		public string Description { get; set; }
 		
+		public int CropX { get; set; }
+		public int CropY { get; set; }
+		public int CropWidth { get; set; }
+		public int CropHeight { get; set; }
+		
 		public List<string> Titles { get; set; }
 		public List<string> Links { get; set; }
 		public List<string> Descriptions { get; set; }

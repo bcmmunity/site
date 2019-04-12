@@ -10,7 +10,7 @@
     {
         users = project.Members.Select(u => u.User).ToList();
     }
-    string[] images = ViewBag.Sliders;
+    string[] images = project.SliderImages.Split(":");
 }
 
 <section class="project">
@@ -66,22 +66,22 @@
                 </div>
             </div>
         </div>
-        <div class="team">
-            <h2 class="h2-common">Наша команда</h2>
-            <div class="container">
-            <div class="team__list">     
-                    @{
-                        Html.RenderPartial("Members", users);
-                    }
-                </div>
-            </div>
-
-        </div>
+        
 
 
     </div>
 </section>
+<section class="team">
+    <h2 class="h2-common">Наша команда</h2>
+    <div class="container">
+        <div class="team__list">     
+            @{
+                Html.RenderPartial("Members", users);
+            }
+        </div>
+    </div>
 
+</section>
 
 @section OwlCSS
 {

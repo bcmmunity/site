@@ -100,23 +100,24 @@
       }
       
     </div>
-  <div class="projects">
-        <h2 class="h2-common">Мои проекты</h2>
-        <div class="projects__list">
-          <div class="container">
-            @if (projects.IsEmpty())
-            {
-              <p>Отсутствуют</p>
-            }
-            else
-            {
-              @Html.Partial("Projects", projects)
-            }
+  
+  </div>
+</section>
+<section class="projects">
+  <h2 class="h2-common">Мои проекты</h2>
+  <div class="projects__list">
+    <div class="container">
+      @if (projects.IsEmpty())
+      {
+        <p>Отсутствуют</p>
+      }
+      else
+      {
+        @Html.Partial("Projects", projects)
+      }
             
-          </div>
-
-        </div>
+    </div>
 
   </div>
-  </div>
+
 </section>

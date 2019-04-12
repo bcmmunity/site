@@ -23,7 +23,12 @@
 			</div>
 			<div class="edit__group">
 				<label asp-for="Photo" class="control-label">Аватарка</label>
-				<input type="file" asp-for="Photo">
+				<input type="hidden" asp-for="CropX" id = "cropX">
+				<input type="hidden" asp-for="CropY" id = "cropY">
+				<input type="hidden" asp-for="CropWidth" id = "cropWidth">
+				<input type="hidden" asp-for="CropHeight" id = "cropHeight">
+				<input type="file" asp-for="Photo" id = "fileUploader">
+				<img id="blah" style="width: 600px;">
 			</div>
 			<br>
 			<div class="edit__group">
@@ -58,25 +63,30 @@
 			
 			<div class="edit__group">
 				<label for="">Ссылки на социальные сети</label>
-				@for (var i = 0; i < socials.Count; i++)
+				@if (socials != null)
 				{
-					<div class="edit__social__group">
-						<img src="@socials[i].Pic" alt="">
-						@{
-							string anime = "";
-							if (i < links.Count)
-							{
-								anime = @links[i] ?? "";
-							}	
-						}
-						<input type="text" asp-for="Socials" value = "@anime">
-					</div>
+					for (var i = 0; i < socials.Count; i++)
+					 {
+						 <div class="edit__social__group">
+							 <img src="@socials[i].Pic" alt="">
+							 @{
+								 string anime = "";
+								 if (i < links.Count)
+								 {
+									 anime = @links[i] ?? "";
+								 }	
+							 }
+							 <input type="text" asp-for="Socials" value = "@anime">
+						 </div>
 
+					 }
 				}
+				
 				
 			</div>
 			<input type="submit" value="Сохранить" class="bttn-dark" />
 		</form>
 	</div>
 </section>
+
 

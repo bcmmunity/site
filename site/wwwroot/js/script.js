@@ -1,3 +1,41 @@
+function readURL(input) {
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      
+      $('#blah').attr('src', e.target.result);
+      $("#blah").Jcrop(
+          {
+            aspectRatio: 1,
+            bgColor: "#ffffff",
+            bgOpacity: .3,
+            
+            // trueSize: [$.css( "width" ), $.css( "width" )],
+            onSelect: updateCoords,
+          }, function() {
+            jcrop_api = this;
+          }
+      );
+    };
+    
+    reader.readAsDataURL(input.files[0]);
+    
+    
+  }
+}
+
+function updateCoords(c) {
+  console.log(c.w);
+  console.log(c.h);
+  $("#cropX").val(c.x);
+  $("#cropY").val(c.y);
+  // $("#cropWidth").val(c.w / 600);
+  $("#cropWidth").val(c.w);
+  $("#cropHeight").val(c.h);
+}
+
 $(function() {
   $(".hamburger").on("click", function(e) {
     var l = $(this).attr("data-active");
@@ -134,4 +172,9 @@ $(function() {
     console.log(cont);
     $("#work").append(cont);
   });
+  $("#fileUploader").change(function() {
+    readURL(this);
+  });
 })
+
+

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,8 +51,13 @@ namespace site.Controllers
 			string md5;
             if (ModelState.IsValid)
             {
-                Console.WriteLine(model.Cover.ContentType);
 
+	            #region Сохрание фотографии
+
+	            
+
+	           
+	            
                 if (model.Cover == null || model.SliderImages == null)
                 {
                     ViewBag.ImageError += " Изображение(я) не загружено(ы)";
@@ -113,10 +120,7 @@ namespace site.Controllers
                 {
                     string localPath = $"/img/ProjectPhotos/{md5}/Slider/{image.FileName}";
 	                paths += localPath + ":" ;
-	                
-	                
-	                
-	                
+	               
                     using (var fileStream = new FileStream(image.FileName, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
@@ -128,7 +132,8 @@ namespace site.Controllers
 	            Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
 	            
 	            paths = paths.Substring(0, paths.Length - 1);
-	  
+				
+	            #endregion
 	            
 
                 Project proj = new Project
@@ -136,11 +141,9 @@ namespace site.Controllers
                     Name = model.Title,
                     Img = $"/img/ProjectPhotos/{md5}/Cover/{path}",
                     Description = model.Description,
+                    SliderImages = paths,
                     Rang = _db.Projects.ToList().Count + 1
-                    
-
                 };
-	            proj.SliderImages = paths;
 	            List<Speciality> sps = new  List<Speciality>();
 	            if (model.Specs != null)
 	            {
@@ -180,14 +183,15 @@ namespace site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
 	        
-	        Project proj = _db.Projects.Find(id + 1);
+	        Project proj = await _db.Projects.FindAsync(id + 1);
+	        
 	        if (proj != null)
 	        {
 				_db.Projects.Remove(proj);
-				_db.SaveChanges();
+				await _db.SaveChangesAsync();
 	        }
 
 	        return RedirectToAction("Index", "Home");
@@ -199,9 +203,6 @@ namespace site.Controllers
 				.Include(t => t.Members)
 				.ThenInclude(u => u.User)
 				.FirstOrDefault(t => t.ProjectId == id);
-			Console.WriteLine("\n\n\n\n\n\n\n");
-			Console.WriteLine(proj.SliderImages);
-			ViewBag.Sliders = proj.SliderImages.Split(":");
 			
 			if (proj != null)
 			{
@@ -209,10 +210,8 @@ namespace site.Controllers
             
                 return View("Project", proj);	
             }
-            else
-            {
-                return View("Error");
-            }
+            
+			return View("Error");
 			
         }
 	    
@@ -228,6 +227,35 @@ namespace site.Controllers
 			    sBuilder.Append(data[i].ToString("x2"));
 		    }
 		    return sBuilder.ToString();
+	    }
+	    
+	    static byte[] CropImage(string sImagePath, int iWidth, int iHeight, int iX, int iY)
+	    {
+			
+		    try
+		    {
+			    using (Image oOriginalImage = Image.FromFile(sImagePath))
+			    {
+				    using (Bitmap oBitmap = new Bitmap(iWidth, iHeight))
+				    {
+					    oBitmap.SetResolution(oOriginalImage.HorizontalResolution, oOriginalImage.VerticalResolution);
+					    using (Graphics Graphic = Graphics.FromImage(oBitmap))
+					    {
+						    Graphic.SmoothingMode = SmoothingMode.AntiAlias;
+						    Graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+						    Graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+						    Graphic.DrawImage(oOriginalImage, new System.Drawing.Rectangle(0, 0, iWidth, iHeight), iX, iY, iWidth, iHeight, System.Drawing.GraphicsUnit.Pixel);
+						    MemoryStream oMemoryStream = new MemoryStream();
+						    oBitmap.Save(oMemoryStream, oOriginalImage.RawFormat);
+						    return oMemoryStream.GetBuffer();
+					    }
+				    }
+			    }
+		    }
+		    catch (Exception Ex)
+		    {
+			    throw (Ex);
+		    }
 	    }
 
 
