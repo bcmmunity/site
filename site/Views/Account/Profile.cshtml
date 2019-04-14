@@ -113,7 +113,7 @@
       }
       else
       {
-        @Html.Partial("Projects", projects)
+        await Html.PartialAsync("Projects", projects);
       }
             
     </div>

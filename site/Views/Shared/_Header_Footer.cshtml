@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="~/css/reset.css">
     <link rel="stylesheet" href="~/css/style.css">
     @RenderSection("OwlCSS",false)
+    @RenderSection("JcropCss", false)
   <link href="https://fonts.googleapis.com/css?family=Montserrat&amp;subset=cyrillic" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=cyrillic" rel="stylesheet">
 </head>
@@ -120,8 +121,8 @@
 <script src ="../../js/jquery-3.3.1.min.js"> </script>
 <script src="../../js/jquery.Jcrop.min.js"></script>
 <script src = "../../js/script.js"> </script>
-@RenderSection("OwlJs", false)
-@RenderSection("OnLoad", false)
+@await RenderSectionAsync("OwlJs", false)
+@await RenderSectionAsync("OnLoad", false)
 @await RenderSectionAsync("AddInputs", false)
 </body>
 </html>

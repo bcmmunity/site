@@ -10,7 +10,7 @@
     <div class="container">
         <h2 class="h2-common">Новости</h2>
         <div class="news__block">
-            @Html.Partial("TopArticles", Model.Articles.Include("Author").OrderByDescending(d => d.Date).Skip(0).Take(3).ToArray())
+            @await Html.PartialAsync("TopArticles", Model.Articles.Include("Author").OrderByDescending(d => d.Date).Skip(0).Take(3).ToArray())
         </div>
     </div>
 </section>
@@ -18,7 +18,7 @@
 
 <section class="all">
     <div class="container" id = "ar">
-        @Html.Partial("Articles", Model.Articles.Skip(0).Take(6).ToArray())
+        @await Html.PartialAsync("Articles", Model.Articles.Skip(0).Take(6).ToArray())
     
     </div>
     <button id="article__load" class="bttn-dark">Загрузить еще</button>

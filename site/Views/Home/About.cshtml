@@ -61,7 +61,7 @@
     <h2 class="h2-common">Наша команда</h2>
     <div class="container" >
         <div class="team__list" id ="mems">      
-            @Html.Partial("Members", Model.Users.OrderBy(d => d.Rang).Skip(0).Take(4).ToArray())
+            @await Html.PartialAsync("Members", Model.Users.OrderBy(d => d.Rang).Skip(0).Take(4).ToArray())
         </div>
     </div>
     <div class="team__load">
@@ -74,7 +74,7 @@
     <h2 class="h2-common">Проекты</h2>
     <div class="projects__list">
         <div class="container" id="pr">
-            @Html.Partial("Projects", Model.Projects.Skip(0).Take(6).ToArray())
+            @await Html.PartialAsync("Projects", Model.Projects.Skip(0).Take(6).ToArray())
         </div>
 
     </div>
@@ -83,7 +83,7 @@
     </div>
 </section>
 
-@Html.Partial("JoinUs")
+@await Html.PartialAsync("JoinUs")
 
 @section OnLoad {
     <script>

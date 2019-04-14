@@ -29,7 +29,7 @@ namespace site.Controllers
 			_db = db;
 		}
 
-		public async Task<IActionResult> Index()
+		public IActionResult Index()
 		{
 			return RedirectToAction("About");
 			

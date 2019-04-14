@@ -138,10 +138,11 @@ namespace CustomIdentityApp.Controllers
 							{
 								Rectangle cropArea = new Rectangle(
 									
-									(int) (img.Size.Width * ((double) model.CropX / 600)),
-									(int) (img.Size.Height * ((double)model.CropY / 600)),
-									(int) (img.Size.Width * ((double) model.CropWidth / 600)),
-									(int) (img.Size.Width * ((double) model.CropWidth / 600)));
+									(int) (img.Size.Width * model.CropX / 600f),
+									(int) (model.CropY * img.Size.Width / 600f ),
+									(int) (img.Size.Width * model.CropWidth / 600f),
+									(int) (img.Size.Width * model.CropWidth / 600f));
+								
 								bitmap.Clone(cropArea, bitmap.PixelFormat).Save(model.Photo.FileName);
 							}
 							

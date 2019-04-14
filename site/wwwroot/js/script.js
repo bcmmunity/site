@@ -1,3 +1,5 @@
+var api;
+
 function readURL(input) {
 
   if (input.files && input.files[0]) {
@@ -5,28 +7,24 @@ function readURL(input) {
     
     reader.onload = function(e) {
       
-      $('#blah').attr('src', e.target.result);
-      $("#blah").Jcrop(
+      $('#blah').attr('src', e.target.result).Jcrop(
           {
             aspectRatio: 1,
-            bgColor: "#ffffff",
+            bgColor: "#000000",
             bgOpacity: .3,
-            
-            // trueSize: [$.css( "width" ), $.css( "width" )],
-            onSelect: updateCoords,
-          }, function() {
-            jcrop_api = this;
+            onSelect: updateCoords
           }
       );
+    
     };
     
     reader.readAsDataURL(input.files[0]);
-    
-    
   }
 }
 
 function updateCoords(c) {
+  console.log(c.x);
+  console.log(c.y);
   console.log(c.w);
   console.log(c.h);
   $("#cropX").val(c.x);
@@ -37,6 +35,8 @@ function updateCoords(c) {
 }
 
 $(function() {
+  
+  
   $(".hamburger").on("click", function(e) {
     var l = $(this).attr("data-active");
     if (l === "false") {

@@ -43,8 +43,6 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
-			ViewBag.Specialities = _db.Specialities.ToList();
-			ViewBag.Users = _db.Users.ToList();
 
 			string path = "";
 			string paths = "";
@@ -53,10 +51,6 @@ namespace site.Controllers
             {
 
 	            #region Сохрание фотографии
-
-	            
-
-	           
 	            
                 if (model.Cover == null || model.SliderImages == null)
                 {
@@ -69,10 +63,7 @@ namespace site.Controllers
                 if (model.Cover.ContentType.StartsWith("image"))
                 {
                     path =  model.Cover.FileName;
-
-                   
-                    
-                    
+                 
 	                Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
 	                
 	                if (!Directory.Exists("ProjectPhotos"))
@@ -145,6 +136,7 @@ namespace site.Controllers
                     SliderImages = paths,
                     Rang = _db.Projects.ToList().Count + 1
                 };
+                
 	            List<Speciality> sps = new  List<Speciality>();
 	            if (model.Specs != null)
 	            {
@@ -153,33 +145,24 @@ namespace site.Controllers
 			            sps.Add(_db.Specialities.Find(id));
 		            }
 	            }
+	            
 	            proj.Specialities.AddRange(sps);
 	            _db.Projects.Add(proj);     
-	                
-                
+	                        
 				if (model.Members != null)
 				{
 					foreach (var id in model.Members)
 					{
 						User user = _db.Users.Find(id);
-
-
-						user.Projects.Add(new ProjectUser()
+						user.Projects.Add(new ProjectUser
 						{
 							ProjectId = proj.ProjectId,
 							Id = id
-						});
-
-						
+						});					
 					}
 				}
-
-				_db.SaveChanges();
-	            
-				
+				_db.SaveChanges();	        			
             }
-
-
             return RedirectToAction("About", "Home");
         }
 
@@ -207,8 +190,6 @@ namespace site.Controllers
 			
 			if (proj != null)
 			{
-
-            
                 return View("Project", proj);	
             }
             

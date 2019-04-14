@@ -16,12 +16,12 @@
   <ItemGroup>
     <Folder Include="Areas\" />
     <Folder Include="wwwroot\img\ProjectPhotos\" />
-    <Folder Include="wwwroot\img\UserPhotos\" />
-    <Folder Include="wwwroot\img\UserPhotos\b87d1734-1a13-4d93-990f-94289f7add67" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\img\884969f5-3bf2-466a-a369-f9e95cab3716\Без имени-1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\UserPhotos\884969f5-3bf2-466a-a369-f9e95cab3716\CTa3u8rIpuU.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\UserPhotos\884969f5-3bf2-466a-a369-f9e95cab3716\Без имени-1.png" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
