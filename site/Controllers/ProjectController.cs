@@ -48,8 +48,8 @@ namespace site.Controllers
 
 			string path = "";
 			string paths = "";
-			string md5;
-            if (ModelState.IsValid)
+			string uniqueId = Guid.NewGuid().ToString();
+			if (ModelState.IsValid)
             {
 
 	            #region Сохрание фотографии
@@ -64,22 +64,23 @@ namespace site.Controllers
                     return View(model);
                 }
 
+                
+                
                 if (model.Cover.ContentType.StartsWith("image"))
                 {
                     path =  model.Cover.FileName;
-	                
-	                using (MD5 md5Hash = MD5.Create())
-	                {
-		                md5 = GetMd5Hash(md5Hash, model.Title);	               
-	                }
+
+                   
+                    
+                    
 	                Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
 	                
 	                if (!Directory.Exists("ProjectPhotos"))
 		                Directory.CreateDirectory("ProjectPhotos");
 	                
 	                Directory.SetCurrentDirectory("ProjectPhotos");
-	                Directory.CreateDirectory(md5);
-	                Directory.SetCurrentDirectory(md5);
+	                Directory.CreateDirectory(uniqueId);
+	                Directory.SetCurrentDirectory(uniqueId);
 	                
 	                
 	                if (!Directory.Exists("Cover"))
@@ -109,7 +110,7 @@ namespace site.Controllers
                     }
                 }
 	            
-	            Directory.SetCurrentDirectory(md5);
+	            Directory.SetCurrentDirectory(uniqueId);
 	            
 	            if (!Directory.Exists("Slider"))
 		            Directory.CreateDirectory("Slider");
@@ -118,7 +119,7 @@ namespace site.Controllers
 	            
                 foreach (var image in model.SliderImages)
                 {
-                    string localPath = $"/img/ProjectPhotos/{md5}/Slider/{image.FileName}";
+                    string localPath = $"/img/ProjectPhotos/{uniqueId}/Slider/{image.FileName}";
 	                paths += localPath + ":" ;
 	               
                     using (var fileStream = new FileStream(image.FileName, FileMode.Create))
@@ -139,7 +140,7 @@ namespace site.Controllers
                 Project proj = new Project
                 {
                     Name = model.Title,
-                    Img = $"/img/ProjectPhotos/{md5}/Cover/{path}",
+                    Img = $"/img/ProjectPhotos/{uniqueId}/Cover/{path}",
                     Description = model.Description,
                     SliderImages = paths,
                     Rang = _db.Projects.ToList().Count + 1
@@ -215,48 +216,9 @@ namespace site.Controllers
 			
         }
 	    
-	    static string GetMd5Hash(MD5 md5Hash, string input)
-	    {
-			// https://docs.microsoft.com/ru-ru/dotnet/api/system.security.cryptography.md5?view=netframework-4.7.2
-		    byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-		    StringBuilder sBuilder = new StringBuilder();
-
-		    for (int i = 0; i < data.Length; i++)
-		    {
-			    sBuilder.Append(data[i].ToString("x2"));
-		    }
-		    return sBuilder.ToString();
-	    }
+	 
 	    
-	    static byte[] CropImage(string sImagePath, int iWidth, int iHeight, int iX, int iY)
-	    {
-			
-		    try
-		    {
-			    using (Image oOriginalImage = Image.FromFile(sImagePath))
-			    {
-				    using (Bitmap oBitmap = new Bitmap(iWidth, iHeight))
-				    {
-					    oBitmap.SetResolution(oOriginalImage.HorizontalResolution, oOriginalImage.VerticalResolution);
-					    using (Graphics Graphic = Graphics.FromImage(oBitmap))
-					    {
-						    Graphic.SmoothingMode = SmoothingMode.AntiAlias;
-						    Graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-						    Graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
-						    Graphic.DrawImage(oOriginalImage, new System.Drawing.Rectangle(0, 0, iWidth, iHeight), iX, iY, iWidth, iHeight, System.Drawing.GraphicsUnit.Pixel);
-						    MemoryStream oMemoryStream = new MemoryStream();
-						    oBitmap.Save(oMemoryStream, oOriginalImage.RawFormat);
-						    return oMemoryStream.GetBuffer();
-					    }
-				    }
-			    }
-		    }
-		    catch (Exception Ex)
-		    {
-			    throw (Ex);
-		    }
-	    }
+	  
 
 
     }
