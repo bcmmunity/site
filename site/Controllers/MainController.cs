@@ -148,7 +148,7 @@ namespace site.Controllers
 				{
 					Rang = i,
 					Photo = photo,
-					Specialities = sp,
+//					Specialities = sp,
 					Name = names[rand.Next(0, names.Length)],
 					Surname = surnames[rand.Next(0, surnames.Length)],
 					Position = positions[rand.Next(0, positions.Length)],

@@ -14,234 +14,268 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CustomIdentityApp.Controllers
 {
-	public class UserController : Controller
-	{
-		private UserManager<User> _userManager;
-		private ApplicationContext _db;
-		IHostingEnvironment _contentPath;
-		public UserController(UserManager<User> userManager, ApplicationContext db, IHostingEnvironment contentPath)
-		{
-			_userManager = userManager;
-			_db = db;
-			_contentPath = contentPath;
-		}
-		
-		
-		
-		public IActionResult Index() => View(_userManager.Users.ToList());
+    public class UserController : Controller
+    {
+        private UserManager<User> _userManager;
+        private ApplicationContext _db;
+        IHostingEnvironment _contentPath;
 
-		public IActionResult Create() => View();
+        public UserController(UserManager<User> userManager, ApplicationContext db, IHostingEnvironment contentPath)
+        {
+            _userManager = userManager;
+            _db = db;
+            _contentPath = contentPath;
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> Create(CreateUserViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				User user = new User { Email = model.Email, UserName = model.Email };
-				var result = await _userManager.CreateAsync(user, model.Password);
-				if (result.Succeeded)
-				{
-					return RedirectToAction("Index");
-				}
-				else
-				{
-					foreach (var error in result.Errors)
-					{
-						ModelState.AddModelError(string.Empty, error.Description);
-					}
-				}
-			}
-			return View(model);
-		}
 
-		[Authorize]
-		public async Task<IActionResult> Edit()
-		{
-			User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
-			if (user == null)
-			{
-				return NotFound();
-			}
-			ViewBag.socials = _db.SNs.ToList();
-			List<string> links = _db.Users
-				.Include(l => l.Links)
-				.FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
-				?.Links
-				.Select(l => l.Href)
-				.ToList();
-			EditUserViewModel model = new EditUserViewModel { Id = user.Id,Links = links, Email = user.Email, Description = user.Description, Position = user.Position, Name = user.Name, Surname = user.Surname};
-			return View(model);
-		}
+        public IActionResult Index() => View(_userManager.Users.ToList());
 
-		[Authorize]
-		[HttpPost]
-		public async Task<IActionResult> Edit(EditUserViewModel model)
-		{
-			
-			if (ModelState.IsValid)
-			{
-				ViewBag.socials = _db.SNs.ToList();
-				List<SN> socials = _db.SNs.ToList();
+        public IActionResult Create() => View();
 
-				// Выглядит как мега костыль но он работает
-				// TODO: Исправить костыль, если он является костылем	
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User {Email = model.Email, UserName = model.Email};
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
 
-				#region Удаление предыдущих ссылок
+            return View(model);
+        }
 
-				User tempUser = _db.Users.Include(u => u.Links).FirstOrDefault(u => u.Id == model.Id);
-				if (tempUser != null && tempUser.Links.Count != 0)
-				{
-					tempUser.Links.Clear();
-					_db.Users.Update(tempUser);
-					_db.SaveChanges();
-				}
+        [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-				
-							
-				#endregion
-				
-				User user = await _userManager.FindByIdAsync(model.Id);
-				
-				if (user != null)
-				{
-					string path;
-					
-					user.Email = model.Email;
-					user.UserName = model.Email;
-					user.Description = model.Description;
-					user.Position = model.Position;
-					user.Name = model.Name;
-					user.Surname = model.Surname;
-					
-					// Сохранение фотографии профиля в папку пользователя
-					if (model.Photo != null)
-					{
-						if (model.Photo.ContentType.StartsWith("image"))
-						{
-							// Проверка, создание нужных папок, переключение текущей директории
-							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
-							if (!Directory.Exists("UserPhotos"))
-								Directory.CreateDirectory("UserPhotos");
-							Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/UserPhotos");
-							if (!Directory.Exists(model.Id))
-								Directory.CreateDirectory(model.Id);
-							Directory.SetCurrentDirectory(model.Id);
-							
-							path = model.Photo.FileName;
-							
-							Image img = Image.FromStream(model.Photo.OpenReadStream());
-							
-							// Кроп изображения
-							// http://web.archive.org/web/20130126075626/http://www.switchonthecode.com:80/tutorials/csharp-tutorial-image-editing-saving-cropping-and-resizing
-	
-							using (Bitmap bitmap = new Bitmap(img))
-							{
-								Rectangle cropArea = new Rectangle(
-									
-									(int) (img.Size.Width * model.CropX / 600f),
-									(int) (model.CropY * img.Size.Width / 600f ),
-									(int) (img.Size.Width * model.CropWidth / 600f),
-									(int) (img.Size.Width * model.CropWidth / 600f));
-								
-								bitmap.Clone(cropArea, bitmap.PixelFormat).Save(model.Photo.FileName);
-							}
-							
-							
-				
-							user.Photo = $"/img/UserPhotos/{model.Id}/{path}";
-						}
-					}
-					
-					// Возвращаем изначальную директорию
-					Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
-					
-					
-					// Добавление опыта работы, курсов и т.д.
-					if (model.Links != null) 
-						for (var i = 0; i < model.Links.Count; i++)
-						{
-							Experience exp = new Experience();
-							if (model.Links[i] != null)
-							{
-								exp.Link = model.Links[i];
-							}
-							if (model.Descriptions[i] != null)
-							{
-								exp.Description = model.Descriptions[i];
-							}
-							if (model.Titles[i] != null)
-							{
-								exp.Title = model.Titles[i];
-							}
-	
-							exp.StartDate = model.StartDates[i];
-							exp.FinishDate = model.FinishDates[i];
-							if (model.Nows != null)
-								exp.Now = model.Nows[i];
-							else
-								exp.Now = false;
-							if (model.IsWorks != null)
-								exp.IsWork = model.IsWorks[i];
-							else
-								exp.IsWork = false;
-							user.Experiences.Add(exp);
-						}
+            ViewBag.socials = _db.SNs.ToList();
+            List<string> links = _db.Users
+                .Include(l => l.Links)
+                .FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
+                ?.Links
+                .Select(l => l.Href)
+                .ToList();
+            EditUserViewModel model = new EditUserViewModel
+            {
+                Id = user.Id, Links = links, Email = user.Email, Description = user.Description,
+                Position = user.Position, Name = user.Name, Surname = user.Surname
+            };
+            ViewBag.Specialities = _db.Specialities.ToList();
+            return View(model);
+        }
 
-					// Добавление ссылок на соц. сети
-					if (model.Socials != null)
-					{
-						for (var i = 0; i < model.Socials.Count; i++)
-						{
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.socials = _db.SNs.ToList();
+                List<SN> socials = _db.SNs.ToList();
 
-							if (model.Socials[i] == null || model.Socials[i] == "") 
-								user.Links.Add(new Link
-								{
-									IsEmpty = true
-								});
-							else
-							{
-								Link soc = new Link
-								{
-									IsSocial = true,
-									Href = model.Socials[i],
-									Pic = socials[i].Pic,
-									Title = socials[i].Title 
-								};
-								user.Links.Add(soc);
-							}
-						
-								
-						}
-					}
-					
-			
-					var result = await _userManager.UpdateAsync(user);
-					
-					if (result.Succeeded)
-					{
-						return RedirectToAction("Profile", "Account");
-					}
-					else
-					{
-						foreach (var error in result.Errors)
-						{
-							ModelState.AddModelError(string.Empty, error.Description);
-						}
-					}
-				}
-			}
-			return View(model);
-		}
+                // Выглядит как мега костыль но он работает
+                // TODO: Исправить костыль, если он является костылем	
 
-		[HttpPost]
-		public async Task<ActionResult> Delete(string id)
-		{
-			User user = await _userManager.FindByIdAsync(id);
-			if (user != null)
-			{
-				IdentityResult result = await _userManager.DeleteAsync(user);
-			}
-			return RedirectToAction("Index");
-		}
-	}
+                #region Удаление предыдущих ссылок
+
+                User tempUser = _db.Users.Include(u => u.Links).FirstOrDefault(u => u.Id == model.Id);
+                if (tempUser != null && tempUser.Links.Count != 0)
+                {
+                    tempUser.Links = new List<Link>();
+                    _db.Users.Update(tempUser);
+                    await _db.SaveChangesAsync();
+                }
+
+                #endregion
+
+                User user = await _userManager.FindByIdAsync(model.Id);
+
+                if (user != null)
+                {
+                    string path;
+
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+                    user.Description = model.Description;
+                    user.Position = model.Position;
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+
+
+                    #region Сохранение фотографии профиля в папку пользователя
+
+                    if (model.Photo != null)
+                    {
+                        if (model.Photo.ContentType.StartsWith("image"))
+                        {
+                            // Проверка, создание нужных папок, переключение текущей директории
+                            Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
+                            if (!Directory.Exists("UserPhotos"))
+                                Directory.CreateDirectory("UserPhotos");
+                            Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/UserPhotos");
+                            if (!Directory.Exists(model.Id))
+                                Directory.CreateDirectory(model.Id);
+                            Directory.SetCurrentDirectory(model.Id);
+
+                            path = model.Photo.FileName;
+
+                            Image img = Image.FromStream(model.Photo.OpenReadStream());
+
+                            // Кроп изображения
+                            // http://web.archive.org/web/20130126075626/http://www.switchonthecode.com:80/tutorials/csharp-tutorial-image-editing-saving-cropping-and-resizing
+
+                            using (Bitmap bitmap = new Bitmap(img))
+                            {
+                                Rectangle cropArea = new Rectangle(
+                                    (int) (img.Size.Width * model.CropX / 600f),
+                                    (int) (model.CropY * img.Size.Width / 600f),
+                                    (int) (img.Size.Width * model.CropWidth / 600f),
+                                    (int) (img.Size.Width * model.CropWidth / 600f));
+
+                                bitmap.Clone(cropArea, bitmap.PixelFormat).Save(model.Photo.FileName);
+                            }
+
+
+                            user.Photo = $"/img/UserPhotos/{model.Id}/{path}";
+                        }
+                    }
+
+                    // Возвращаем изначальную директорию
+                    Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
+
+                    #endregion
+
+                    #region Добавление опыта работы, курсов и т.д.
+
+                    if (model.Links != null)
+                        for (var i = 0; i < model.Links.Count; i++)
+                        {
+                            Experience exp = new Experience();
+                            if (model.Links[i] != null)
+                            {
+                                exp.Link = model.Links[i];
+                            }
+
+                            if (model.Descriptions[i] != null)
+                            {
+                                exp.Description = model.Descriptions[i];
+                            }
+
+                            if (model.Titles[i] != null)
+                            {
+                                exp.Title = model.Titles[i];
+                            }
+
+                            exp.StartDate = model.StartDates[i];
+                            exp.FinishDate = model.FinishDates[i];
+                            if (model.Nows != null)
+                                exp.Now = model.Nows[i];
+                            else
+                                exp.Now = false;
+                            if (model.IsWorks != null)
+                                exp.IsWork = model.IsWorks[i];
+                            else
+                                exp.IsWork = false;
+                            user.Experiences.Add(exp);
+                        }
+
+                    #endregion
+
+                    #region Добавление ссылок на соц. сети
+
+                    if (model.Socials != null)
+                    {
+                        for (var i = 0; i < model.Socials.Count; i++)
+                        {
+                            if (model.Socials[i] == null || model.Socials[i] == "")
+                                user.Links.Add(new Link
+                                {
+                                    IsEmpty = true
+                                });
+                            else
+                            {
+                                Link soc = new Link
+                                {
+                                    IsSocial = true,
+                                    Href = model.Socials[i],
+                                    Pic = socials[i].Pic,
+                                    Title = socials[i].Title
+                                };
+                                user.Links.Add(soc);
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region Добавление навыков
+                    
+                    if (model.SocialNames != null)
+                    {
+                        foreach (var id in model.SocialNames)
+                        {
+                            Console.WriteLine("\n\n\n\n");
+                            Console.WriteLine(user == null);
+                            Console.WriteLine("\n\n\n\n");
+                            user.Specialities.Add(new UserSpec
+                            {
+                                SpecialityId = id,
+                                Id = model.Id
+                            });	
+                           	
+                        }
+                    }
+                    _db.SaveChanges();
+                    
+
+                    #endregion
+
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Profile", "Account");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await _userManager.DeleteAsync(user);
+            }
+
+            return RedirectToAction("Index");
+        }
+    }
 }

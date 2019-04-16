@@ -34,7 +34,7 @@
 				<input type="file" asp-for="Photo" id = "fileUploader">
 				<img id="blah" style="width: 600px;">
 			</div>
-			<br>
+				
 			<div class="edit__group">
 				<label asp-for="Name" class="control-label">Имя</label>
 				<input type="text" asp-for="Name" class="form-control" />
@@ -55,6 +55,18 @@
 				@Html.TextAreaFor(n => n.Description, new { @class = "anime", @id="aboutyou" })
 	
 			</div>
+			<div class="edit__group">
+				<label class="control-label">Навыки</label>
+				@foreach (var spec in ViewBag.Specialities)
+				{
+					string _id = $"spec{spec.SpecialityId}";
+					<div class="checkbox">
+						<input type="checkbox" value="@spec.SpecialityId" name="SocialNames" id="@_id">
+						<label for="@_id">@spec.Name</label>
+					</div>
+				}
+			</div>
+			
 			<div class="edit__group">
 				<label for="">Опыт работы/Курсы/Интенсивы</label>
 				<div id="work">

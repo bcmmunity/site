@@ -16,8 +16,8 @@ namespace site.Models
 		public string Description { get; set; }
 		public int Rang { get; set; }
 		public bool IsShowed { get; set; }
-		[NotMapped]
-		public List<Speciality> Specialities { get; set; }
+		public List<UserSpec> Specialities { get; set; }
+		
 		
 		public List<ProjectUser> Projects{ get; set; }
 		
@@ -27,8 +27,8 @@ namespace site.Models
 		public User()
 		{
 			Experiences = new List<Experience>();
-			Specialities = new List<Speciality>();
 			Links = new List<Link>();
+			Specialities = new List<UserSpec>();
 			Projects = new List<ProjectUser>();
 		}
 	}

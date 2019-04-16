@@ -9,6 +9,8 @@
   var Work = Model.Experiences.Where(l => l.IsWork).ToList();
   var NotWork = Model.Experiences.Where(k => k.IsWork == false).ToList();
   List<Project> projects = Model.Projects.Select(x => x.Project).ToList();
+  List<string> specialities = Model.Specialities.Select(k => k.Speciality).Select(k => k.Name).ToList();
+  
   
 }
 
@@ -29,12 +31,6 @@
         <span class="name">@u.Name @u.Surname</span>
         <p>@u.Description</p>
         <h2>Соц. сети</h2>
-        @if (u.Links.IsEmpty())
-        {
-          <p>Отсутствуют</p>
-        }
-        else
-        {
           <div class="user__links">
             @foreach (var soc in u.Links)
             {
@@ -49,18 +45,18 @@
               }
             }
           </div>
-        }
+        
         
       </div>
     </div>
     <h3>Навыки</h3>
-    @if (u.Specialities.IsEmpty())
+    @if (specialities.IsEmpty())
     {
       <p>Отсутствуют</p>
     }
     else
     {
-      <p>@String.Join(", ", u.Specialities)</p>
+      <p>@String.Join(", ", specialities)</p>
     }
     
     <h3>Опыт работы</h3>

@@ -16,7 +16,7 @@ namespace site.Models
 		{
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a1;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a2;Trusted_Connection=True;");
 		}
 		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,8 +30,22 @@ namespace site.Models
 				.HasForeignKey(bc => bc.ProjectId);  
 			modelBuilder.Entity<ProjectUser>()
 				.HasOne(bc => bc.User)
-				.WithMany(c => c.Projects)
+				.WithMany(bc => bc.Projects)
 				.HasForeignKey(bc => bc.Id);
+
+			
+			modelBuilder.Entity<UserSpec>()
+				.HasKey(bc => new { bc.Id, bc.SpecialityId});  
+			
+			modelBuilder.Entity<UserSpec>()
+				.HasOne(bc => bc.User)
+				.WithMany(bc => bc.Specialities)
+				.HasForeignKey(bc => bc.Id);  
+			modelBuilder.Entity<UserSpec>()
+				.HasOne(bc => bc.Speciality)
+				.WithMany(c => c.Users)
+				.HasForeignKey(bc => bc.SpecialityId);
+			
 			base.OnModelCreating(modelBuilder);
 		}
 		

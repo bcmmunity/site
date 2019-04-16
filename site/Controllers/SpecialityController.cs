@@ -9,17 +9,21 @@ namespace site.Controllers
 {
     public class SpecialityController : Controller
     {
+
+        private ApplicationContext _db;
+
+        public SpecialityController(ApplicationContext db)
+        {
+            _db = db;
+        }
+        
         public IActionResult Add()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Add(SpecialityViewModel model)
+        public async Task<IActionResult> Add(SpecialityViewModel model)
         {
-            foreach (var specialityViewModel in model.Names)
-            {
-                Console.WriteLine(specialityViewModel);
-            }
             if (ModelState.IsValid)
             {
                 foreach (var name in model.Names)
@@ -28,8 +32,8 @@ namespace site.Controllers
                     {
                         Name = name
                     };
-                    MainController.Db.Specialities.Add(spec);
-                    MainController.Db.SaveChanges();
+                    await _db.Specialities.AddAsync(spec);
+                    await _db.SaveChangesAsync();
                 }
                 
 

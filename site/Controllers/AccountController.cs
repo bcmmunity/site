@@ -105,6 +105,8 @@ namespace site.Controllers
 			}
 			User user = _db.Users
 				.Include(s => s.Links)
+				.Include(sp => sp.Specialities)
+				.ThenInclude(u => u.Speciality)
 				.Include(s => s.Experiences)
 				.Include(p => p.Projects)
 				.ThenInclude(p => p.Project)
