@@ -4,9 +4,9 @@ function readURL(input) {
 
   if (input.files && input.files[0]) {
     var reader = new FileReader();
-    
+
     reader.onload = function(e) {
-      
+
       $('#blah').attr('src', e.target.result).Jcrop(
           {
             aspectRatio: 1,
@@ -15,9 +15,9 @@ function readURL(input) {
             onSelect: updateCoords
           }
       );
-    
+
     };
-    
+
     reader.readAsDataURL(input.files[0]);
   }
 }
@@ -33,10 +33,7 @@ function updateCoords(c) {
   $("#cropWidth").val(c.w);
   $("#cropHeight").val(c.h);
 }
-
 $(function() {
-  
-  
   $(".hamburger").on("click", function(e) {
     var l = $(this).attr("data-active");
     if (l === "false") {
@@ -69,9 +66,16 @@ $("#add").on("click", function(e) {
   $("#addForm .group").append(input);
 });
 
+
+
+
 })
 
 $(function() {
+  $("#select").selectric();
+
+
+
   $("#addWork").on("click", function(e) {
     e.preventDefault();
 
@@ -155,19 +159,17 @@ $(function() {
     inputWork.id = "IsWorks";
     inputWork.value = "true";
     cont.append(inputWork);
+      let labelNow = document.createElement("label");
+      labelNow.innerHTML = "По настоящее время";
+      labelNow.classList.add("second_label");
+      cont.append(labelNow);
 
-    let labelNow = document.createElement("label");
-    labelNow.innerHTML = "По настоящее время";
-    labelNow.classList.add("second_label");
-    cont.append(labelNow);
-    
-    let inputNow = document.createElement("input");
-    inputNow.type = "checkbox";
-    inputNow.name = "Nows";
-    inputNow.id = "Now";
-    inputNow.value = "true";
-    cont.append(inputNow);
-
+      let inputNow = document.createElement("input");
+      inputNow.type = "checkbox";
+      inputNow.name = "Nows";
+      inputNow.id = "Now";
+      inputNow.value = "true";
+      cont.append(inputNow);
 
     console.log(cont);
     $("#work").append(cont);
@@ -176,5 +178,3 @@ $(function() {
     readURL(this);
   });
 })
-
-

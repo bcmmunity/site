@@ -58,7 +58,11 @@ namespace CustomIdentityApp.Controllers
         [Authorize]
         public async Task<IActionResult> Edit()
         {
-            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            User user = await _db.Users.Include(u => u.Specialities)
+                .Include(u => u.Links)
+                .Include(u => u.Projects)
+                .Include(u => u.Experiences)
+                .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
             if (user == null)
             {
                 return NotFound();
@@ -74,9 +78,11 @@ namespace CustomIdentityApp.Controllers
             EditUserViewModel model = new EditUserViewModel
             {
                 Id = user.Id, Links = links, Email = user.Email, Description = user.Description,
-                Position = user.Position, Name = user.Name, Surname = user.Surname
+                Position = user.Position, Name = user.Name, Surname = user.Surname,
+                Specialities = user.Specialities.Select(s => s.SpecialityId).ToList()
             };
             ViewBag.Specialities = _db.Specialities.ToList();
+
             return View(model);
         }
 
@@ -104,8 +110,12 @@ namespace CustomIdentityApp.Controllers
 
                 #endregion
 
-                User user = await _userManager.FindByIdAsync(model.Id);
-
+                User user = await _db.Users.Include(u => u.Specialities)
+                    .Include(u => u.Links)
+                    .Include(u => u.Projects)
+                    .Include(u => u.Experiences)
+                    .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+                List<int> userSpecialities = user.Specialities.Select(s => s.SpecialityId).ToList();
                 if (user != null)
                 {
                     string path;
@@ -225,24 +235,30 @@ namespace CustomIdentityApp.Controllers
                     #endregion
 
                     #region Добавление навыков
-                    
-                    if (model.SocialNames != null)
+
+                    if (model.Specialities != null)
                     {
-                        foreach (var id in model.SocialNames)
+                        var specIdList = Compare(userSpecialities, model.Specialities);
+                        List<int> toDelete = specIdList[0];
+                        List<int> toAdd = specIdList[1];
+                        foreach (var id in toDelete)
                         {
-                            Console.WriteLine("\n\n\n\n");
-                            Console.WriteLine(user == null);
-                            Console.WriteLine("\n\n\n\n");
-                            user.Specialities.Add(new UserSpec
+                            user.Specialities.Remove(user.Specialities.FirstOrDefault(u => u.SpecialityId == id));
+                        }
+                        foreach (var id in toAdd)
+                        {
+                            if (!userSpecialities.Contains(id))
                             {
-                                SpecialityId = id,
-                                Id = model.Id
-                            });	
-                           	
+                                user.Specialities.Add(new UserSpec
+                                {
+                                    SpecialityId = id,
+                                    Id = model.Id
+                                });
+                            }
                         }
                     }
+
                     _db.SaveChanges();
-                    
 
                     #endregion
 
@@ -264,6 +280,14 @@ namespace CustomIdentityApp.Controllers
             }
 
             return View(model);
+        }
+
+        public static List<List<int>> Compare(List<int> old, List<int> new_)
+        {
+            var similar = old.Intersect(new_);
+            var delete = old.Where(u => similar.All(p => p != u)).ToList();
+            var add = new_.Where(u => similar.All(p => p != u)).ToList();
+            return new List<List<int>> {delete, add};
         }
 
         [HttpPost]

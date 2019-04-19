@@ -3,15 +3,31 @@
 @{
 	ViewBag.Title = "Редактирование пользователя";
 	List<SN> socials = ViewBag.socials;
-	List<string> kek = new List<string>();
-	string id = Model.Id;
+	List<Speciality> specialities = ViewBag.Specialities;
 	List<string> links = Model.Links;
 	Layout = "_Header_Footer";
+//	Console.WriteLine("\n\n\n\n");
+
+//	foreach (var i in l)
+//	{
+//		Console.WriteLine(i);
+//	}
+//	Console.WriteLine("\n\n\n\n");
+
 }
 
-@section JcropCss {
+@section UserEditCss {
 	<link rel="stylesheet" href="~/css/jquery.Jcrop.min.css">
+	<link rel="stylesheet" href="~/css/selectric.css">
+	
 }
+
+@section UserEditJs {
+	<script src="../../js/jquery.Jcrop.min.js"></script>
+	<script src="../../js/jquery.selectric.min.js"></script>
+	
+}
+
 <section class="edit">
 	<div class="container">
 		<div class="h2-common">Редактирование профиля</div>
@@ -57,14 +73,27 @@
 			</div>
 			<div class="edit__group">
 				<label class="control-label">Навыки</label>
-				@foreach (var spec in ViewBag.Specialities)
+				<select id="select" multiple="multiple" name = "Specialities">
+					
+				
+				@foreach (var spec in specialities)
 				{
-					string _id = $"spec{spec.SpecialityId}";
-					<div class="checkbox">
-						<input type="checkbox" value="@spec.SpecialityId" name="SocialNames" id="@_id">
-						<label for="@_id">@spec.Name</label>
-					</div>
+					if (Model.Specialities.Contains(spec.SpecialityId))
+					 {
+						 @spec.Name
+						 <option value="@spec.SpecialityId" selected>
+							 @spec.Name
+						 </option>
+					 }
+					 else
+					 {
+						 <option value="@spec.SpecialityId">
+							 @spec.Name
+						 </option>
+					 }
+ 					
 				}
+				</select>
 			</div>
 			
 			<div class="edit__group">

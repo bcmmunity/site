@@ -20,11 +20,11 @@ namespace site.ViewModels
 		public int CropY { get; set; }
 		public int CropWidth { get; set; }
 		public int CropHeight { get; set; }
-		public List<int> SocialNames { get; set; }
 		public List<string> Titles { get; set; }
 		public List<string> Links { get; set; }
 		public List<string> Descriptions { get; set; }
 		public List<string> Socials { get; set; }
+		public List<int> Specialities { get; set; }
 		public List<DateTime> StartDates { get; set; }
 		public List<DateTime> FinishDates { get; set; }
 		public List<bool> IsWorks { get; set; }

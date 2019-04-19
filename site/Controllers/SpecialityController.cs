@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using site.Models;
@@ -19,6 +20,7 @@ namespace site.Controllers
         
         public IActionResult Add()
         {
+            ViewBag.sp = _db.Specialities.ToList();
             return View();
         }
         [HttpPost]
@@ -35,12 +37,10 @@ namespace site.Controllers
                     await _db.Specialities.AddAsync(spec);
                     await _db.SaveChangesAsync();
                 }
-                
-
-                
             }
-            return View();
-            
+
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }
