@@ -9,8 +9,10 @@
 {
     <div class="projects__item">
         <div class="left">
-            @* <img class="left__img" alt=""> *@
-           <img class = "left__img" src="@pr[i].Img" alt="">
+            @{
+                string alt = "projectCover" + pr[i].ProjectId;
+            }
+           <img class = "left__img" src="@pr[i].Img" alt="@alt">
         </div>
         <div class="right">
             <div class="projects__title">

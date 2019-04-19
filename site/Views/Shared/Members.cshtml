@@ -8,20 +8,23 @@
 {
     <div class="team__list__inner">
         <div class="left">
-            <img src="@users[i].Photo" alt="" class="photo">
+            @{
+                string alt = "profilePhoto" + users[i].Id;
+            }
+            <img src="@users[i].Photo" alt="@alt" class="photo">
             <div class="links">
                 @foreach (var social in users[i].Links)
                 {
                     if (!social.IsEmpty)
                     {
                         <a href="@social.Href">
-                            <object data = "@social.Pic" type = "image/svg+xml">
+                            <object data="@social.Pic" type="image/svg+xml">
                             </object>
                         </a>
                     }
-                    
+
                 }
-               
+
             </div>
         </div>
         <div class="right">

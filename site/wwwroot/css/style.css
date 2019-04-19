@@ -1145,16 +1145,16 @@ sup {
   align-items: center;
   max-width: 150px;
   margin-left: 15px;
-  margin-right: 15px;
   margin-bottom: 20px;
-}
-.user__links-item img {
-  width: 64px;
-  height: 64px;
-  border-radius: 10%;
 }
 .user__links-item a {
   margin-top: 10px;
+}
+.user__links-item a object {
+  width: 64px;
+  height: 64px;
+  border-radius: 10%;
+  pointer-events: none;
 }
 
 .add {
