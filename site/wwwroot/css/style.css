@@ -240,7 +240,7 @@ sup {
   margin-top: 40px;
 }
 .about__description__text {
-  width: 50%;
+  flex-basis: 48%;
 }
 .about__description__text p {
   margin-bottom: 40px;
@@ -341,7 +341,7 @@ sup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 210px;
+  width: 195px;
   padding: 0 10px;
 }
 .team__list__inner .left img {
@@ -351,23 +351,22 @@ sup {
 }
 .team__list__inner .left .links {
   margin-top: 20px;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  grid-column-start: auto;
 }
 .team__list__inner .left .links a {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   display: block;
-  margin-left: 7.5px;
-  margin-right: 7.5px;
 }
 .team__list__inner .left .links object {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   pointer-events: none;
+  border-radius: 20%;
 }
 .team__list__inner .right {
   display: -webkit-flex;
@@ -392,6 +391,9 @@ sup {
 .team__list__inner .right .more {
   margin-right: 10px;
   font-size: 14px;
+}
+.team__list__inner .right .more:hover {
+  color: #ff5b01;
 }
 .team__load {
   margin-top: 50px;
@@ -483,6 +485,9 @@ sup {
 }
 .projects__item .right a {
   font-size: 14px;
+}
+.projects__item .right a:hover {
+  color: #a856e8;
 }
 
 .join {

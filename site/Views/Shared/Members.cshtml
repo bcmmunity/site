@@ -12,9 +12,14 @@
             <div class="links">
                 @foreach (var social in users[i].Links)
                 {
-                    <a href="@social.Href">
-                        @* <img src = "@social.Type.Pic"> *@
-                    </a>
+                    if (!social.IsEmpty)
+                    {
+                        <a href="@social.Href">
+                            <object data = "@social.Pic" type = "image/svg+xml">
+                            </object>
+                        </a>
+                    }
+                    
                 }
                
             </div>
