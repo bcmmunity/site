@@ -43,11 +43,14 @@
 			</div>
 			<div class="edit__group">
 				<label asp-for="Photo" class="control-label">Аватарка</label>
-				<input type="hidden" asp-for="CropX" id = "cropX">
-				<input type="hidden" asp-for="CropY" id = "cropY">
-				<input type="hidden" asp-for="CropWidth" id = "cropWidth">
-				<input type="hidden" asp-for="CropHeight" id = "cropHeight">
-				<input type="file" asp-for="Photo" id = "fileUploader">
+				<label style="font-size: 14px">Текущее фото</label>
+				<img src="@ViewBag.CurrentPhoto" class="previous" alt="currentPhoto">
+
+				<input type="hidden" asp-for="CropX" id="cropX">
+				<input type="hidden" asp-for="CropY" id="cropY">
+				<input type="hidden" asp-for="CropWidth" id="cropWidth">
+				<input type="hidden" asp-for="CropHeight" id="cropHeight">
+				<input type="file" asp-for="Photo" id="fileUploader">
 				<img id="blah" style="width: 600px;">
 			</div>
 				

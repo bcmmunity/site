@@ -936,6 +936,10 @@ sup {
 .edit__group .bttn-light {
   width: 40%;
 }
+.edit__group .previous {
+  width: 300px;
+  height: 300px;
+}
 .edit__courses__group {
   display: grid;
   grid-template-columns: 1fr 1fr;

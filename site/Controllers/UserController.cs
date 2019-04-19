@@ -82,7 +82,7 @@ namespace CustomIdentityApp.Controllers
                 Specialities = user.Specialities.Select(s => s.SpecialityId).ToList()
             };
             ViewBag.Specialities = _db.Specialities.ToList();
-
+            ViewBag.CurrentPhoto = user.Photo;
             return View(model);
         }
 
