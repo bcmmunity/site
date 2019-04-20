@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.CodeAnalysis;
+using site.ViewModels;
 using Project = site.Models.Project;
 
 namespace site.Controllers
@@ -453,35 +454,8 @@ namespace site.Controllers
 //			
 //		}
 
-		[Route("sendMail")]
-		[HttpPost]
-		public JsonResult SendMail([FromBody] Mail mail)
-		{
-			if (mail == null)
-			{
-				throw new NullReferenceException();
-			}
-
-			string mailFrom = mail.From;
-			string mailTo = "info@diffind.com";
-			string displayName = mail.Name;
-			string header = mail.Header;
-			string body = mail.Body;
-			MailAddress from = new MailAddress(mailFrom, displayName);
-			MailAddress to = new MailAddress(mailTo);
-			MailMessage m = new MailMessage();
-			m.From = from;
-			m.To.Add(to);
-			m.Subject = header;
-			m.Body = body;
-			SmtpClient smtp = new SmtpClient("wpl19.hosting.reg.ru", 587 );
-			smtp.Credentials = new NetworkCredential("info@diffind.com", "SuperInfo123!");
-			smtp.Send(m);
-			return Json(new
-			{
-				response = "Ваша заявка отправлена"
-			});
-		}
+		
+		
 
 		
 		

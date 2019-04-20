@@ -23,8 +23,8 @@
 		</div>
 		<div class="contacts__form__container">
 			<div class="contacts__form">
-				<form method="post" asp-controller="Main" asp-action="SendMail"
-				      asp-route-returnUrl="" class="contancts__form">
+				<form method="post" asp-controller="Home" asp-action="SendMail"
+				       class="contancts__form">
 					<div asp-validation-summary="ModelOnly"></div>
 					<label for="name">Имя*</label>
 					<input asp-for="Name" placeholder="Введите ваше имя" id="name" type="text"/>

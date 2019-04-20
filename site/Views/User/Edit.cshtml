@@ -43,8 +43,12 @@
 			</div>
 			<div class="edit__group">
 				<label asp-for="Photo" class="control-label">Аватарка</label>
-				<label style="font-size: 14px">Текущее фото</label>
-				<img src="@ViewBag.CurrentPhoto" class="previous" alt="currentPhoto">
+				@if (ViewBag.CurrentPhoto != null)
+				{
+					<label style="font-size: 14px">Текущее фото</label>
+					<img src="@ViewBag.CurrentPhoto" class="previous" alt="currentPhoto">
+				}
+				
 
 				<input type="hidden" asp-for="CropX" id="cropX">
 				<input type="hidden" asp-for="CropY" id="cropY">

@@ -8,19 +8,44 @@ namespace site.Models
 		public ApplicationContext(DbContextOptions<ApplicationContext> options)
 			: base(options)
 		{
+//			Database.Migrate();
 			Database.EnsureCreated();
 			
 		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-//			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
+//			optionsBuilder.UseSqlServer("Server=mssql.u0641156.plsk.regruhosting.ru;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a5;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a11;Trusted_Connection=True;");
 		}
 		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			string[] snNames =
+			{
+				"twitter",
+				"facebook",
+				"vk",
+				"instagram",
+				"whatsapp",
+				"behance",
+				"github",
+				"youtube"
+			};
+			for (int i = 0; i < snNames.Length; i++)
+			{
+				SN tag = new SN
+				{
+					SNId = i + 1,
+					Title = snNames[i],
+					Pic = $"../../img/{snNames[i].ToLower()}.svg"
+				};
+				modelBuilder.Entity<SN>().HasData(tag);
+			}
+			
+			
+			
 			
 			modelBuilder.Entity<ProjectUser>()
 				.HasKey(bc => new { bc.Id, bc.ProjectId});  
