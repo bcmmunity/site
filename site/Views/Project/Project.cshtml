@@ -37,7 +37,7 @@
                 <p>@project.Description</p>
                 <h2>Технологии</h2>
 
-                <p>@String.Join(", ", project.Specialities)</p>
+                <p>@String.Join(", ", project.Specialities.Select(s => s.Speciality).Select(s => s.Name))</p>
                 @if (project.Links.Count != 0)
                 {
                     <h2>Ссылки на проект</h2>

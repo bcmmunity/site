@@ -71,6 +71,18 @@ namespace site.Models
 				.WithMany(c => c.Users)
 				.HasForeignKey(bc => bc.SpecialityId);
 			
+			modelBuilder.Entity<ProjectSpec>()
+				.HasKey(bc => new { bc.ProjectId, bc.SpecialityId});  
+			
+			modelBuilder.Entity<ProjectSpec>()
+				.HasOne(bc => bc.Project)
+				.WithMany(bc => bc.Specialities)
+				.HasForeignKey(bc => bc.ProjectId);  
+			modelBuilder.Entity<ProjectSpec>()
+				.HasOne(bc => bc.Speciality)
+				.WithMany(c => c.Projects)
+				.HasForeignKey(bc => bc.SpecialityId);
+			
 			base.OnModelCreating(modelBuilder);
 		}
 		

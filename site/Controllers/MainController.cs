@@ -168,46 +168,7 @@ namespace site.Controllers
 
 		}
 
-		public static void AddProjects()
-		{
-			string photo = "https://loremflickr.com/1280/720";
-			string[] names =
-			{
-				"Сайт", "GoW", "Пожарка", "Чат-бот с расписанием", "Электронный журнал", "Крутой проект 1", "Крутой проект 2", "Проект 3", "Проект 4"
-			};
-			string[] images = {"https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720", "https://loremflickr.com/1280/720"};
-			string descr = "Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. ";
-			for (int i = 0; i < 10; i++)
-			{
-				Random rand = new Random();
-				List<Speciality> sp = Db.Specialities
-					.Take(rand.Next(1, Db.Specialities.ToArray().Length))
-					.ToList();
-				Link link = new Link
-				{
-					Href = "https://youtube.com",
-//					Type = db.SNs.ToList().GetRandomItem()
-				};
-				Project project = new Project
-				{
-					Img = photo,
-					Name = names[i % names.Length],
-					Description = descr,
-					Specialities = sp,
-//					SliderImages = images.ToList(),
-					Links = {link, link},
-                    							
-				};
-
-				
-				Db.Projects.Add(project);
-				Db.SaveChanges();
-				project.Specialities = sp;
-				Db.Update(project);
-				Db.SaveChanges();
-				Thread.Sleep(10);
-			}
-		}
+		
 
 
 		public static void AddArticles()

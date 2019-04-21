@@ -37,7 +37,8 @@ namespace site.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				User user = new User { Email = model.Email, UserName = model.Email};
+				int nextRang = _db.Users.ToList().Count + 1;
+				User user = new User { Email = model.Email, UserName = model.Email, Rang = nextRang};
 				// добавляем пользователя
 				var result = await _userManager.CreateAsync(user, model.Password);
 				ViewBag.UserId = user.Id;

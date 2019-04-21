@@ -17,18 +17,17 @@ namespace site.Models
 		// public User Leader { get; set; }
 		
 		public string SliderImages { get; set; }
-		[NotMapped]
-		public List<Speciality> Specialities { get; set; }
+
 		
 		public List<Link> Links { get; set; }
 
 		
 		public List<ProjectUser> Members { get; set; }
-		
+		public List<ProjectSpec> Specialities { get; set; }
 
 		public Project()
 		{
-			Specialities = new List<Speciality>();
+			Specialities = new List<ProjectSpec>();
 			Links = new List<Link>();
 			Members = new List<ProjectUser>();
 		}

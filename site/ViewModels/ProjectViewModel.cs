@@ -9,8 +9,10 @@ namespace site.ViewModels
         public string Title { get; set; }
         public IFormFile Cover { get; set; }
         public string Description { get; set; }
+        
         public IFormFileCollection SliderImages { get; set; }
         public List<int> Specs { get; set; }
         public List<string> Members { get; set; }
+        public List<int> Specialities { get; set; }
     }
 }

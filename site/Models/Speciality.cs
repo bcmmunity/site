@@ -11,10 +11,12 @@ namespace site.Models
 		public int SpecialityId { get; set; }
 		public string Name { get; set; }
 		public List<UserSpec> Users { get; set; }
-
+		public List<ProjectSpec> Projects { get; set; }
+		
 		public Speciality()
 		{
 			Users = new List<UserSpec>();
+			Projects = new List<ProjectSpec>();
 		}
 		
 		public override string ToString()

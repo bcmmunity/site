@@ -35,7 +35,7 @@ namespace site.Controllers
         {
 			ViewBag.Specialities = _db.Specialities.ToList();
 			ViewBag.Users = _db.Users.ToList();
-
+			
 
 			return View();
         }
@@ -136,18 +136,25 @@ namespace site.Controllers
                     SliderImages = paths,
                     Rang = _db.Projects.ToList().Count + 1
                 };
-                
-	            List<Speciality> sps = new  List<Speciality>();
-	            if (model.Specs != null)
-	            {
-		            foreach (var id in model.Specs)
-		            {
-			            sps.Add(_db.Specialities.Find(id));
-		            }
-	            }
+                _db.Projects.Add(proj);
+                _db.SaveChanges();	  
+                if (model.Specialities != null)
+                {
+	                foreach (var sp in model.Specialities)
+	                {
+		                proj.Specialities.Add(new ProjectSpec
+		                {
+			                SpecialityId = sp,
+			                ProjectId = proj.ProjectId
+		                });
+	                }
+                }
 	            
-	            proj.Specialities.AddRange(sps);
-	            _db.Projects.Add(proj);     
+
+                _db.SaveChanges();	  
+	            
+	           
+	             
 	                        
 				if (model.Members != null)
 				{
@@ -186,6 +193,8 @@ namespace site.Controllers
 			Project proj = _db.Projects
 				.Include(t => t.Members)
 				.ThenInclude(u => u.User)
+				.Include(s => s.Specialities)
+				.ThenInclude(s => s.Speciality)
 				.FirstOrDefault(t => t.ProjectId == id);
 			
 			if (proj != null)

@@ -73,6 +73,7 @@ $("#add").on("click", function(e) {
 
 $(function() {
   $("#select").selectric();
+  $("#selectUsers").selectric();
 
 
 

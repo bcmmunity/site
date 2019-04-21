@@ -3,7 +3,22 @@
 @{
     Layout = "_Header_Footer";
     ViewBag.Title = "Новый проект";
+    List<Speciality> specialities = ViewBag.Specialities;
+    List<User> users = ViewBag.Users;
 }
+
+@section UserEditCss {
+    <link rel="stylesheet" href="~/css/jquery.Jcrop.min.css">
+    <link rel="stylesheet" href="~/css/selectric.css">
+	
+}
+
+@section UserEditJs {
+    <script src="../../js/jquery.Jcrop.min.js"></script>
+    <script src="../../js/jquery.selectric.min.js"></script>
+	
+}
+
 
 <section class="add">
     <div class="container">
@@ -30,14 +45,16 @@
 
             <label>Технологии</label>
 
-            @foreach (var spec in ViewBag.Specialities)
-            {
-                string _id = $"spec{spec.SpecialityId}";
-                <div class="checkbox">
-                    <input type="checkbox" value="@spec.SpecialityId" name="Specs" id="@_id" >
-                    <label for="@_id">@spec.Name</label>
-                </div>
-            }
+                <label class="control-label">Навыки</label>
+                <select id="select" multiple="multiple" name = "Specialities" >
+					
+				
+                    @foreach (var spec in specialities)
+                    {
+                            <option value="@spec.SpecialityId">@spec.Name</option>
+ 					
+                    }
+                </select>
             
             
 
@@ -48,15 +65,27 @@
             </div>
 
             <label>Команда проекта</label>
-
-            @foreach (var u in ViewBag.Users)
-            {
-                string _id = $"u{u.Id}";
-                <div class="checkbox">
-                    <input type="checkbox" value = "@u.Id" id = "@_id" name = "Members" >
-                    <label for = "@_id">@u.Name @u.Surname</label>
-                </div>
-            }
+            <select id="selectUsers" multiple="multiple" name = "Members" >
+					
+				
+                @foreach (var user in users)
+                {
+                    string info = $"{user.Name} {user.Surname} {user.Position}";
+                    <option value="@user.Id">@info</option>
+ 					
+                }
+            </select>
+           
+					
+				
+                @foreach (var spec in specialities)
+                {
+                    <option value="@spec.SpecialityId">
+                        @spec.Name
+                    </option>
+ 					
+                }
+            </select>
             
          
             <input type="submit" class="bttn-dark">
