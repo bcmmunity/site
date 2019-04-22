@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>@ViewBag.Title</title>
-  <link rel="stylesheet" href="~/css/reset.css">
-    <link rel="stylesheet" href="~/css/style.css">
-    @RenderSection("OwlCSS",false)
-    @RenderSection("UserEditCss", false)
+    <link rel="stylesheet" href="~/css/style.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat&amp;subset=cyrillic" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=cyrillic" rel="stylesheet">
 </head>
@@ -88,7 +85,7 @@
 <footer class = "footer">
     <div class="container">
         <div class="footer__top">
-            <div class = "footer__text">
+            <div class = "fo	oter__text">
                 <span class = "footer__name">Diffind</span>
                 <span class = "footer__motto">Change the world</span>
             </div>
@@ -118,11 +115,7 @@
         </div>
     </div>
 </footer>
-<script src ="../../js/jquery-3.3.1.min.js"> </script>
-@await RenderSectionAsync("UserEditJs", false)
-<script src = "../../js/script.js"> </script>
-@await RenderSectionAsync("OwlJs", false)
+<script src ="../../js/script.min.js"> </script>
 @await RenderSectionAsync("OnLoad", false)
-@await RenderSectionAsync("AddInputs", false)
 </body>
 </html>

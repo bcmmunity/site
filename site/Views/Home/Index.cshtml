@@ -24,29 +24,25 @@
     <button id="article__load" class="bttn-dark">Загрузить еще</button>
 </section>
 
-
 @section OnLoad {
     <script>
-        $(function() {
-            var art_count = 6;
-
-            $(this).on("click",
-                "#article__load",
-                function() {
-                    $.ajax({
-                        type: "GET",
-                        url: "/Home/ArticlesLoad",
-                        data: { offset: art_count, count: 6 },
-                        success: function(result) {
-                            $("#ar").append(result);
-                        }
-                    });
-                    art_count += 6;
-                    if (art_count + 6 > @Model.Articles.Count()) {
-                        $("#article__load").hide();
+        var art_count = 6;
+        
+        $(this).on("click",
+            "#article__load",
+            function() {
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/ArticlesLoad",
+                    data: { offset: art_count, count: 6 },
+                    success: function(result) {
+                        $("#ar").append(result);
                     }
                 });
-
-        });
+                art_count += 6;
+                if (art_count + 6 > @Model.Articles.Count()) {
+                    $("#article__load").hide();
+                }
+            });
     </script>
 }

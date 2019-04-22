@@ -89,9 +89,8 @@
 @section OnLoad {
     <script>
         $(function() {
-            var project_count = 6;
-            var team_count = 4;
-
+            let project_count = 6;
+            let team_count = 4;
             $(this).on("click",
                 "#projects__load__button",
                 function() {
@@ -111,21 +110,22 @@
 
                 });
 
+            
             $(this).on("click",
                 "#team__load__button",
                 function() {
-                    $.ajax({
-                        type: "GET",
-                        url: "/Home/TeamsLoad",
-                        data: { offset: team_count, count: 2 },
-                        success: function(result) {
-                            $("#mems").append(result);
-                        }
-                    });
-                    team_count += 2;
-                    if (team_count + 1 > @Model.Users.Count()) {
-                        $("#team__load__button").hide();
+                  $.ajax({
+                    type: "GET",
+                    url: "/Home/TeamsLoad",
+                    data: { offset: team_count, count: 2 },
+                    success: function(result) {
+                      $("#mems").append(result);
                     }
+                  });
+                  team_count += 2;
+                  if (team_count + 1 > @Model.Users.Count()) {
+                    $("#team__load__button").hide();
+                  }
                 });
 
         });

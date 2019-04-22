@@ -21,21 +21,3 @@
     </div>
 </section>
 
-@section AddInputs
-{
-    <script>
-        $(function() {
-            $("#add").on("click",
-                function(e) {
-                    e.preventDefault();
-                    console.log(1);
-                    var input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "Names";
-                    input.required = true;
-                    console.log(input);
-                    $("#addForm .group").append(input);
-                })
-        })
-    </script>
-}

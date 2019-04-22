@@ -1,0 +1,27 @@
+[
+  {
+    "outputFileName": "wwwroot/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/reset.css",
+      "wwwroot/css/owl-min.css",
+      "wwwroot/css/owl-theme.css",
+      "wwwroot/css/jquery.Jcrop.min.css",
+      "wwwroot/css/selectric.css",
+      "wwwroot/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/script.min.js",
+    "inputFiles": [
+      "wwwroot/js/jquery-3.3.1.min.js",
+      "wwwroot/js/owl.carousel.min.js",
+      "wwwroot/js/jquery.selectric.min.js",
+      "wwwroot/js/jquery.Jcrop.min.js",
+      "wwwroot/js/script.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  }
+]
