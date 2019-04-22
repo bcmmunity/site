@@ -60,7 +60,7 @@ $("#add").on("click", function(e) {
   e.preventDefault();
   var input = document.createElement("input");
   input.type = "text";
-  input.name = "Name";
+  input.name = "Names";
   input.required = true;
   console.log(input);
   $("#addForm .group").append(input);
