@@ -84,6 +84,7 @@ namespace site
 				routes.MapRoute(name: "api", template: "api/{controller=Admin}");
 				routes.MapRoute("projects", "Home/Projects/{id}");
 				routes.MapRoute("profile", "Home/Profile/{id}");
+				routes.MapRoute("projectView", "Project/View/{id}");
 			});
 		}
 	}

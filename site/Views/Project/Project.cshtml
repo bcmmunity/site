@@ -44,10 +44,7 @@
                     <div class="project__links">
                         @foreach (var pr in project.Links)
                         {
-                            <div class="project__links-item">
-                                <img src="@pr.Pic" alt="">
-                                <a href="@pr.Href">@pr.Title</a>
-                            </div>
+                                <a href="@pr.Href">@pr.Href</a>
                         }
 
 

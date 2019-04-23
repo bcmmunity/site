@@ -238,7 +238,7 @@ namespace CustomIdentityApp.Controllers
 
                     if (model.Specialities != null)
                     {
-                        var specIdList = Compare(userSpecialities, model.Specialities);
+                        var specIdList = Utils.Compare(userSpecialities, model.Specialities);
                         List<int> toDelete = specIdList[0];
                         List<int> toAdd = specIdList[1];
                         foreach (var id in toDelete)
@@ -282,13 +282,7 @@ namespace CustomIdentityApp.Controllers
             return View(model);
         }
 
-        public static List<List<int>> Compare(List<int> old, List<int> new_)
-        {
-            var similar = old.Intersect(new_);
-            var delete = old.Where(u => similar.All(p => p != u)).ToList();
-            var add = new_.Where(u => similar.All(p => p != u)).ToList();
-            return new List<List<int>> {delete, add};
-        }
+        
 
         [HttpPost]
         public async Task<ActionResult> Delete(string id)

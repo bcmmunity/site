@@ -1,0 +1,93 @@
+@model site.ViewModels.EditProjectViewModel
+
+@{
+    List<Speciality> specialities = ViewBag.Specialities;
+    List<User> users = ViewBag.Members;
+    List<string> links = Model.Links;
+    List<ProjectUser> Members = ViewBag.Users;
+    Layout = "_Header_Footer";
+}
+
+<section class="edit">
+    <div class="container">
+        <div class="h2-common">Редактирование проекта</div>
+        <form asp-action="Edit" asp-controller="Project" class = "edit-form">
+            <div class="edit__group">
+                <label for="">Название проекта</label>
+                <input type="text" asp-for="Name">
+            </div>
+
+            <div class="edit__group">
+                <label for="">Описание проекта</label>
+                <textarea name = "Description">@Model.Description</textarea>
+            </div>
+
+            <div class="edit__group" id = "addProjectContainer">
+                <label for="">Ссылки на проект</label>
+                @if (links != null && !links.IsEmpty())
+                {
+                    foreach (var link in links)
+                     {
+                         <input type="text" name = "Links" value="@link">
+                     }
+                }
+                
+                
+
+            </div>
+            <button class = "bttn-light" id = "addProject">Добавить ссылку</button>
+
+            <div class="edit__group">
+                <label for="">Технологии</label>
+                <select id="select" multiple="multiple" name = "Specialities">
+					
+				
+                    @foreach (var spec in specialities)
+                    {
+                        if (Model.Specialities.Contains(spec.SpecialityId))
+                        {
+                            @spec.Name
+                            <option value="@spec.SpecialityId" selected>
+                                @spec.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@spec.SpecialityId">
+                                @spec.Name
+                            </option>
+                        }
+ 					
+                    }
+                </select>
+            </div>
+
+
+            <div class="edit__group">
+                <label for="">Команда проекта</label>
+                <select id="selectUsers" multiple="multiple" name = "Members">
+					
+				
+                    @foreach (var user in users)
+                    {
+                        if (Model.Members.Contains(user.Id))
+                        {
+                            <option value="@user.Id" selected>
+                                @user.Name @user.Surname @user.Position
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@user.Id">
+                                @user.Name @user.Surname @user.Position
+                            </option>
+                        }
+ 					
+                    }
+                </select>
+            </div>
+
+            <input type="submit" value="Сохранить" class="bttn-dark" />
+        </form>
+    </div>
+</section>

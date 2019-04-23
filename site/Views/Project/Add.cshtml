@@ -7,18 +7,6 @@
     List<User> users = ViewBag.Users;
 }
 
-@section UserEditCss {
-    <link rel="stylesheet" href="~/css/jquery.Jcrop.min.css">
-    <link rel="stylesheet" href="~/css/selectric.css">
-	
-}
-
-@section UserEditJs {
-    <script src="../../js/jquery.Jcrop.min.js"></script>
-    <script src="../../js/jquery.selectric.min.js"></script>
-	
-}
-
 
 <section class="add">
     <div class="container">
@@ -31,61 +19,59 @@
                     ViewBag.ImageError = "";
                 }
             </div>
+            <div class="add__group">
+                <label >Название проекта</label>
+                <input type="text" asp-for="Title" required>
+            </div>
             
-            <label >Название проекта</label>
-            <input type="text" asp-for="Title" required>
-
-            <label >Обложка проекта</label>
-            <input type="file" asp-for="Cover" required>
-
-            <label >Описание проекта</label>
-            @Html.TextAreaFor(n => n.Description)
-            <label >Изображения для слайдера (через пробел)</label>
-            <input type="file" asp-for="SliderImages" multiple>
-
-            <label>Технологии</label>
-
-                <label class="control-label">Навыки</label>
+            <div class="add__group">
+                <label >Обложка проекта</label>
+                <input type="file" asp-for="Cover" required>
+            </div>
+            
+            <div class="add__group">
+                <label >Описание проекта</label>
+                @Html.TextAreaFor(n => n.Description)
+            </div>
+            
+            <div class="add__group">
+                <label >Изображения для слайдера</label>
+                <input type="file" asp-for="SliderImages" multiple>
+            </div>
+            <div class="add__group">
+                <label>Технологии</label>
                 <select id="select" multiple="multiple" name = "Specialities" >
 					
 				
                     @foreach (var spec in specialities)
                     {
-                            <option value="@spec.SpecialityId">@spec.Name</option>
+                        <option value="@spec.SpecialityId">@spec.Name</option>
  					
                     }
                 </select>
-            
-            
-
-            <label>Ссылки на проект</label>
-            <div class="group-col">
-                <input type="text">
-                <input type="text">
             </div>
-
-            <label>Команда проекта</label>
-            <select id="selectUsers" multiple="multiple" name = "Members" >
+            
+            <div class="add__group">
+                <label>Ссылки на проект</label>
+                <div class="group-col">
+                    <input type="text" name = "Links">
+                    <button id = "add" class="bttn-light">Добавить еще</button>
+                </div>
+            </div>
+            
+            <div class="add__group">
+                <label>Команда проекта</label>
+                <select id="selectUsers" multiple="multiple" name = "Members" >
 					
 				
-                @foreach (var user in users)
-                {
-                    string info = $"{user.Name} {user.Surname} {user.Position}";
-                    <option value="@user.Id">@info</option>
+                    @foreach (var user in users)
+                    {
+                        string info = $"{user.Name} {user.Surname} {user.Position}";
+                        <option value="@user.Id">@info</option>
  					
-                }
-            </select>
-           
-					
-				
-                @foreach (var spec in specialities)
-                {
-                    <option value="@spec.SpecialityId">
-                        @spec.Name
-                    </option>
- 					
-                }
-            </select>
+                    }
+                </select>
+            </div>
             
          
             <input type="submit" class="bttn-dark">

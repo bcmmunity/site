@@ -783,6 +783,10 @@ sup {
 .project__slider, .project__text {
   width: 49%;
 }
+.project__slider img {
+  max-height: 500px;
+  object-fit: contain;
+}
 .project__text h2 {
   font-size: 26px;
   margin-bottom: 20px;
@@ -799,26 +803,11 @@ sup {
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.project__links-item {
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  max-width: 150px;
-  margin-right: 20px;
-  margin-bottom: 20px;
 }
-.project__links-item img {
-  width: 64px;
-  height: 64px;
-  border-radius: 10%;
-}
-.project__links-item a {
-  margin-top: 10px;
+.project__links a {
+  margin-bottom: 10px;
+  color: #2976dd;
 }
 
 .login, .register {
@@ -865,14 +854,14 @@ sup {
   align-items: center;
 }
 
-.edit {
+.edit, .add {
   padding-top: 70px;
   padding-bottom: 70px;
 }
-.edit .container {
+.edit .container, .add .container {
   flex-direction: column;
 }
-.edit form {
+.edit form, .add form {
   margin-left: auto;
   margin-right: auto;
   width: 600px;
@@ -883,24 +872,25 @@ sup {
   flex-direction: column;
   align-items: center;
 }
-.edit form label {
+.edit form label, .add form label {
   font-size: 18px;
   margin-bottom: 15px;
 }
-.edit form input[type="text"] {
+.edit form input[type="text"], .add form input[type="text"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #222222;
+  margin-bottom: 15px;
   outline: 0;
   font-family: "Montserrat", sans-serif;
 }
-.edit form input[type="text"]:focus {
+.edit form input[type="text"]:focus, .add form input[type="text"]:focus {
   outline: 2px solid #222222;
 }
-.edit form input[type="submit"] {
+.edit form input[type="submit"], .add form input[type="submit"] {
   font-family: "Montserrat", sans-serif;
 }
-.edit form textarea {
+.edit form textarea, .add form textarea {
   padding: 10px;
   font-family: "Montserrat", sans-serif;
   resize: none;
@@ -908,10 +898,10 @@ sup {
   outline: 0;
   min-height: 300px;
 }
-.edit form textarea:focus {
+.edit form textarea:focus, .add form textarea:focus {
   outline: 2px solid #222222;
 }
-.edit__social__group {
+.edit__social__group, .add__social__group {
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
@@ -919,13 +909,13 @@ sup {
   width: 100%;
   margin-bottom: 15px;
 }
-.edit__social__group img {
+.edit__social__group img, .add__social__group img {
   width: 48px;
   height: 48px;
   flex-basis: 48px;
   margin-right: 40px;
 }
-.edit__group {
+.edit__group, .add__group {
   width: 100%;
   display: -webkit-flex;
   display: -ms-flex;
@@ -933,30 +923,30 @@ sup {
   flex-direction: column;
   margin-bottom: 15px;
 }
-.edit__group .bttn-light {
+.edit__group .bttn-light, .add__group .bttn-light {
   width: 40%;
 }
-.edit__group .previous {
+.edit__group .previous, .add__group .previous {
   width: 300px;
   height: 300px;
 }
-.edit__courses__group {
+.edit__courses__group, .add__courses__group {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
 }
-.edit__courses__group .second_label {
+.edit__courses__group .second_label, .add__courses__group .second_label {
   font-size: 14px;
   align-self: center;
 }
-.edit__courses__group textarea {
+.edit__courses__group textarea, .add__courses__group textarea {
   grid-column: 1/3;
   min-height: 100px !important;
 }
-.edit__courses__group input, .edit__courses__group textarea {
+.edit__courses__group input, .edit__courses__group textarea, .add__courses__group input, .add__courses__group textarea {
   margin-bottom: 10px;
 }
-.edit__courses__group input[type="date"] {
+.edit__courses__group input[type="date"], .add__courses__group input[type="date"] {
   padding: 10px;
   color: #434343;
   font-family: "Montserrat", sans-serif;
@@ -1160,80 +1150,14 @@ sup {
   border-radius: 10%;
   pointer-events: none;
 }
-
-.add {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  min-height: calc(100vh - 410px);
-}
-.add > .container {
-  flex-direction: column;
-}
-.add .bttn-light {
-  margin-top: 10px;
-}
-.add .bttn-dark {
-  margin-top: 50px;
-}
-.add form {
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 30px;
-  width: 500px;
-}
-.add form > label {
-  margin-top: 15px;
-  font-size: 18px;
-}
-.add form input[type='text'], .add form textarea {
-  font-family: "Montserrat", sans-serif;
-  background-color: rgba(103, 103, 103, 0.2);
-  font-size: 14px;
-  border: 0;
-  border-radius: 4px;
-  margin-top: 10px;
-  padding: 10px 20px;
-  width: 100%;
-}
-.add form .group {
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.add form .checkbox {
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  width: 100%;
-}
-.add form .checkbox label::before {
-  content: "";
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-  background-color: #fff;
-  border: 2px solid #434343;
-  vertical-align: middle;
-}
-.add form textarea {
+.user__links textarea {
   resize: none;
   min-height: 300px;
 }
-.add form input[type="checkbox"] {
+.user__links input[type="checkbox"] {
   display: none;
 }
-.add form input[type="checkbox"]:checked + label::before {
+.user__links input[type="checkbox"]:checked + label::before {
   background-color: #434343;
 }
 

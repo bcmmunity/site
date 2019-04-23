@@ -1,4 +1,4 @@
-var api;
+﻿var api;
 
 function readURL(input) {
 
@@ -23,13 +23,8 @@ function readURL(input) {
 }
 
 function updateCoords(c) {
-  console.log(c.x);
-  console.log(c.y);
-  console.log(c.w);
-  console.log(c.h);
   $("#cropX").val(c.x);
   $("#cropY").val(c.y);
-  // $("#cropWidth").val(c.w / 600);
   $("#cropWidth").val(c.w);
   $("#cropHeight").val(c.h);
 }
@@ -56,14 +51,23 @@ $(function() {
     margin:20,
     nav:true,
 })
+
 $("#add").on("click", function(e) {
   e.preventDefault();
-  var input = document.createElement("input");
+  let input = document.createElement("input");
   input.type = "text";
   input.name = "Names";
   input.required = true;
   console.log(input);
   $("#addForm .group").append(input);
+});
+
+$("#addProject").on("click", function(e) {
+  e.preventDefault();
+  let input = document.createElement("input");
+  input.type = "text";
+  input.name = "Links";
+  $("#addProjectContainer").append(input);
 });
 
 
@@ -74,7 +78,6 @@ $("#add").on("click", function(e) {
 $(function() {
   $("#select").selectric();
   $("#selectUsers").selectric();
-
 
 
   $("#addWork").on("click", function(e) {

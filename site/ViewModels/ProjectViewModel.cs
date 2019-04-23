@@ -13,6 +13,7 @@ namespace site.ViewModels
         public IFormFileCollection SliderImages { get; set; }
         public List<int> Specs { get; set; }
         public List<string> Members { get; set; }
+        public List<string> Links { get; set; }
         public List<int> Specialities { get; set; }
     }
 }

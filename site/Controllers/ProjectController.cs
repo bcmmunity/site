@@ -136,8 +136,26 @@ namespace site.Controllers
                     SliderImages = paths,
                     Rang = _db.Projects.ToList().Count + 1
                 };
+                
                 _db.Projects.Add(proj);
-                _db.SaveChanges();	  
+                _db.SaveChanges();
+
+                #region Добавление ссылок
+				
+                foreach (var link in model.Links)
+                {
+	                Link lnk = new Link
+	                {
+						Href = link
+	                };
+	                
+	                proj.Links.Add(lnk);
+                }
+                _db.SaveChanges();
+                #endregion
+                     
+                #region Добавление технологии
+            
                 if (model.Specialities != null)
                 {
 	                foreach (var sp in model.Specialities)
@@ -148,13 +166,12 @@ namespace site.Controllers
 			                ProjectId = proj.ProjectId
 		                });
 	                }
-                }
-	            
+                } 
 
                 _db.SaveChanges();	  
-	            
-	           
-	             
+                #endregion
+				
+	            #region Добавление участникоов
 	                        
 				if (model.Members != null)
 				{
@@ -168,11 +185,149 @@ namespace site.Controllers
 						});					
 					}
 				}
-				_db.SaveChanges();	        			
+				_db.SaveChanges();	    
+				
+				#endregion
             }
             return RedirectToAction("About", "Home");
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+
+	        Project project = _db.Projects
+		        .Include(p => p.Links)
+		        .Include(p => p.Members)
+		        .Include(p => p.Specialities)
+		        .FirstOrDefault(p => p.ProjectId == id);
+	        
+	        if (project == null)
+	        {
+		        return NotFound();
+	        }        
+	        
+	        EditProjectViewModel model = new EditProjectViewModel
+	        {
+				Id = project.ProjectId,
+				Name = project.Name,
+				Description = project.Description,
+				Specialities = project.Specialities.Select(u => u.SpecialityId).ToList(),
+				Members = project.Members.Select(u => u.Id).ToList(),
+				Links =  project.Links.Select(u => u.Href).ToList()
+	        };
+			
+	        ViewBag.Specialities = _db.Specialities.ToList();
+	        ViewBag.Members = _db.Users.ToList();
+	        return View(model);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProjectViewModel model)
+        {
+
+	        if (ModelState.IsValid)
+	        {
+		        Project project = _db.Projects
+			        .Include(p => p.Links)
+			        .Include(p => p.Members)
+			        .Include(p => p.Specialities)
+			        .FirstOrDefault(p => p.ProjectId == model.Id);
+
+		        List<int> projectSpecialities = project?.Specialities.Select(u => u.SpecialityId).ToList();
+		        List<string> projectUsers = project?.Members.Select(u => u.Id).ToList();
+		        List<string> projectLinks = project?.Links.Select(h => h.Href).ToList();
+		        project.Name = model.Name;
+		        project.Description = model.Description;
+		        
+		        #region Изменение технологии 
+		        
+		        if (model.Specialities != null)
+		        {
+			        var specIdList = Utils.Compare(projectSpecialities, model.Specialities);
+			        List<int> toDelete = specIdList[0];
+			        List<int> toAdd = specIdList[1];
+			        foreach (var id in toDelete)
+			        {
+				        project.Specialities.Remove(project.Specialities.FirstOrDefault(u => u.SpecialityId == id));
+			        }
+			        foreach (var id in toAdd)
+			        {
+				        if (!projectSpecialities.Contains(id))
+				        {
+					        project.Specialities.Add(new ProjectSpec
+					        {
+						        SpecialityId = id,
+						        ProjectId = model.Id
+					        });
+				        }
+			        }
+		        }
+		        
+		        await _db.SaveChangesAsync();
+		        
+		        #endregion
+		        
+		        #region Изменение пользователей
+		        
+		        if (model.Members != null)
+		        {
+			        var userIdList = Utils.Compare(projectUsers, model.Members);
+			        List<string> toDelete = userIdList[0];
+			        List<string> toAdd = userIdList[1];
+			        foreach (var id in toDelete)
+			        {
+				        project.Members.Remove(project.Members.FirstOrDefault(u => u.Id == id));
+			        }
+			        foreach (var id in toAdd)
+			        {
+				        if (!projectUsers.Contains(id))
+				        {
+					        project.Members.Add(new ProjectUser
+					        {
+						        Id = id,
+						        ProjectId = model.Id
+					        });
+				        }
+			        }
+		        }
+
+		        await _db.SaveChangesAsync();
+
+		        #endregion
+		        
+		        #region Изменение ссылок
+
+		        if (model.Links != null)
+		        {
+			        var linksList = Utils.Compare(projectLinks, model.Links);
+			        List<string> toDelete = linksList[0];
+			        
+			        List<string> toAdd = linksList[1];
+			        foreach (var href in toDelete)
+			        {
+				        project.Links.Remove(project.Links.FirstOrDefault(u => u.Href == href));
+			        }
+			        foreach (var href in toAdd)
+			        {
+				        if (projectLinks != null && !projectLinks.Contains(href) && href != "")
+				        {
+					        project.Links.Add(new Link
+					        {
+						        Href = href
+					        });
+				        }
+			        }
+		        }
+		        #endregion
+
+		        await _db.SaveChangesAsync();
+		        return RedirectToAction("Index", "Home");
+	        }
+
+	        return View("Error");
+        }
+        
+        
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
@@ -188,13 +343,20 @@ namespace site.Controllers
 	        return RedirectToAction("Index", "Home");
         }
         
-        public ActionResult View(int id)
+        public ActionResult View(int? id)
 		{
+
+			if (id == null)
+			{
+				return NotFound();
+			}
+			
 			Project proj = _db.Projects
 				.Include(t => t.Members)
 				.ThenInclude(u => u.User)
 				.Include(s => s.Specialities)
 				.ThenInclude(s => s.Speciality)
+				.Include(l => l.Links)
 				.FirstOrDefault(t => t.ProjectId == id);
 			
 			if (proj != null)
