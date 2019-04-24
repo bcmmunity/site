@@ -187,7 +187,7 @@ namespace site.Controllers
                 {
 	                User user = _db.Users.Find(model.Leader);
 	                proj.Leader = user;
-	                user.LeaderProjects.Add(proj);
+	                
                 }
                 await _db.SaveChangesAsync(); 
                 #endregion
@@ -200,9 +200,12 @@ namespace site.Controllers
 					foreach (var id in model.Members)
 					{
 						User user = _db.Users.Find(id);
+						bool lead = user.Id == model.Leader;
+						
 						user.Projects.Add(new ProjectUser
 						{
 							ProjectId = proj.ProjectId,
+							IsLeader = lead,
 							Id = id
 						});					
 					}

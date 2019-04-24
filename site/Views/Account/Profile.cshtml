@@ -8,7 +8,7 @@
   
   var Work = Model.Experiences.Where(l => l.IsWork).ToList();
   var NotWork = Model.Experiences.Where(k => k.IsWork == false).ToList();
-  List<Project> projects = u.Projects.Select(x => x.Project).Where(p => u.LeaderProjects.All(j => j.ProjectId != p.ProjectId)).ToList();
+  List<Project> projects = u.Projects.Select(x => x.Project).ToList();
   List<string> specialities = Model.Specialities.Select(k => k.Speciality).Select(k => k.Name).ToList();
   
   
@@ -112,7 +112,6 @@
       }
       else
       {
-        await Html.RenderPartialAsync("Projects", u.LeaderProjects);
         await Html.RenderPartialAsync("Projects", projects);
         
       }

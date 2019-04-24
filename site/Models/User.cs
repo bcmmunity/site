@@ -17,18 +17,19 @@ namespace site.Models
 		public int Rang { get; set; }
 		public bool IsShowed { get; set; }
 		public List<UserSpec> Specialities { get; set; }
-		public List<Project> LeaderProjects { get; set; }
+		
 		
 		public List<ProjectUser> Projects{ get; set; }
 		
 		public List<Link> Links { get; set; }
+		
 		public List<Experience> Experiences { get; set; }
 
 		public User()
 		{
 			Experiences = new List<Experience>();
 			Links = new List<Link>();
-			LeaderProjects = new List<Project>();
+			
 			Specialities = new List<UserSpec>();
 			Projects = new List<ProjectUser>();
 		}
