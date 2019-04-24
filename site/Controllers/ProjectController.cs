@@ -357,8 +357,12 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+	        Project proj = await _db.Projects
+		        .Include(l => l.Links)
+		        .FirstOrDefaultAsync(p => p.ProjectId == id);
+			
 	        
-	        Project proj = await _db.Projects.FindAsync(id + 1);
+				
 	        
 	        if (proj != null)
 	        {

@@ -50,11 +50,11 @@ namespace site.Models
 			
 			
 			modelBuilder.Entity<ProjectUser>()
-				.HasKey(bc => new { bc.Id, bc.ProjectId});  
+				.HasKey(bc => new { bc.Id, bc.ProjectId});
 			modelBuilder.Entity<ProjectUser>()
 				.HasOne(bc => bc.Project)
 				.WithMany(b => b.Members)
-				.HasForeignKey(bc => bc.ProjectId);  
+				.HasForeignKey(bc => bc.ProjectId);
 			modelBuilder.Entity<ProjectUser>()
 				.HasOne(bc => bc.User)
 				.WithMany(bc => bc.Projects)

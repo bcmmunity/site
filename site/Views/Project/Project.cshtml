@@ -1,5 +1,4 @@
 @using site.Controllers
-@* @model IEnumerable<site.Models.Project> *@
 @model Project
 @{
     Layout = "_Header_Footer";
@@ -22,7 +21,7 @@
 
                 <form asp-controller="Project" asp-action="Delete">
                     <a href="#close" class = "close">Закрыть окно</a>
-                    <input type="hidden" name = "@project.ProjectId">
+                    <input type="hidden" name = "id" value = @project.ProjectId>
                     <input type="submit" value="удолить" class = "bttn-delete">
                 </form>
             </div>
