@@ -17,6 +17,7 @@ namespace site.Controllers
 	public class HomeController : Controller
 	{
 
+		
 		private readonly UserManager<User> _userManager;
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
@@ -61,7 +62,7 @@ namespace site.Controllers
 			{
 				count = _db.Users.Count() - offset;
 			}
-			return PartialView("Members", _db.Users.OrderBy(d => d.Rang).Skip(offset).Take(count).ToArray());
+			return PartialView("Members", _db.Users.OrderBy(d => d.Rang).Include(u => u.Links).Skip(offset).Take(count).ToArray());
 		}
 
 		public ActionResult TopArticlesLoad()

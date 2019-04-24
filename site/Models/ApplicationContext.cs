@@ -19,7 +19,7 @@ namespace site.Models
 //			optionsBuilder.UseSqlServer("Server=localhost;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=mssql.u0641156.plsk.regruhosting.ru;Database=u0641156_diffind;User Id = u0641156_diffind; Password = Qwartet123!");
 //			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=q112;Trusted_Connection=True;");
-			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a11;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=a12;Trusted_Connection=True;");
 		}
 		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

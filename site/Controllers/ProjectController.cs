@@ -62,7 +62,7 @@ namespace site.Controllers
                 
                 if (model.Cover.ContentType.StartsWith("image"))
                 {
-                    path =  model.Cover.FileName;
+                    path =  Guid.NewGuid().ToString();
                  
 	                Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
 	                
@@ -79,9 +79,13 @@ namespace site.Controllers
 	                
 	                Directory.SetCurrentDirectory("Cover");
 	                
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    using (var fileStream = model.Cover.OpenReadStream())
                     {
-                        await model.Cover.CopyToAsync(fileStream);
+	                    Image img = Image.FromStream(fileStream);
+	                    using (var resized = ImageUtilities.ResizeImage(img , img.Width, img.Height))
+	                    {
+		                    ImageUtilities.SaveJpeg($"{path}.jpeg", resized, 80);
+	                    }
                     }
 	                
 	                Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/ProjectPhotos");
@@ -110,12 +114,18 @@ namespace site.Controllers
 	            
                 foreach (var image in model.SliderImages)
                 {
-                    string localPath = $"/img/ProjectPhotos/{uniqueId}/Slider/{image.FileName}";
-	                paths += localPath + ":" ;
-	               
-                    using (var fileStream = new FileStream(image.FileName, FileMode.Create))
+	                string sliderImagePath = Guid.NewGuid().ToString();
+                    string localPath = $"/img/ProjectPhotos/{uniqueId}/Slider/{sliderImagePath}.jpeg";
+	                
+                    paths += localPath + ":" ;
+					
+                    using (var fileStream = image.OpenReadStream())
                     {
-                        await image.CopyToAsync(fileStream);
+	                    Image img = Image.FromStream(fileStream);
+	                    using (var resized = ImageUtilities.ResizeImage(img , img.Width, img.Height))
+	                    {
+		                    ImageUtilities.SaveJpeg($"{sliderImagePath}.jpeg", resized, 80);
+	                    }
                     }
 	                
 	                
@@ -131,14 +141,14 @@ namespace site.Controllers
                 Project proj = new Project
                 {
                     Name = model.Title,
-                    Img = $"/img/ProjectPhotos/{uniqueId}/Cover/{path}",
+                    Img = $"/img/ProjectPhotos/{uniqueId}/Cover/{path}.jpeg",
                     Description = model.Description,
                     SliderImages = paths,
                     Rang = _db.Projects.ToList().Count + 1
                 };
                 
-                _db.Projects.Add(proj);
-                _db.SaveChanges();
+                await _db.Projects.AddAsync(proj);
+                await _db.SaveChangesAsync();
 
                 #region Добавление ссылок
 				
@@ -151,7 +161,7 @@ namespace site.Controllers
 	                
 	                proj.Links.Add(lnk);
                 }
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 #endregion
                      
                 #region Добавление технологии
@@ -168,10 +178,22 @@ namespace site.Controllers
 	                }
                 } 
 
-                _db.SaveChanges();	  
+                await _db.SaveChangesAsync(); 
                 #endregion
-				
-	            #region Добавление участникоов
+
+                #region Добавление лидера
+
+                if (model.Leader != null)
+                {
+	                User user = _db.Users.Find(model.Leader);
+	                proj.Leader = user;
+	                user.LeaderProjects.Add(proj);
+                }
+                await _db.SaveChangesAsync(); 
+                #endregion
+                
+                
+	            #region Добавление участников
 	                        
 				if (model.Members != null)
 				{
@@ -185,7 +207,7 @@ namespace site.Controllers
 						});					
 					}
 				}
-				_db.SaveChanges();	    
+				await _db.SaveChangesAsync();  
 				
 				#endregion
             }
@@ -195,11 +217,12 @@ namespace site.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-	        Project project = _db.Projects
+	        Project project = await _db.Projects
 		        .Include(p => p.Links)
+		        .Include(l => l.Leader)
 		        .Include(p => p.Members)
 		        .Include(p => p.Specialities)
-		        .FirstOrDefault(p => p.ProjectId == id);
+		        .FirstOrDefaultAsync(p => p.ProjectId == id);
 	        
 	        if (project == null)
 	        {
@@ -352,8 +375,10 @@ namespace site.Controllers
 			}
 			
 			Project proj = _db.Projects
+				.Include(l => l.Leader)
 				.Include(t => t.Members)
 				.ThenInclude(u => u.User)
+				.ThenInclude(l => l.Links)
 				.Include(s => s.Specialities)
 				.ThenInclude(s => s.Speciality)
 				.Include(l => l.Links)

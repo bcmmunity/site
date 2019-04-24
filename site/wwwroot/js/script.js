@@ -12,6 +12,7 @@ function readURL(input) {
             aspectRatio: 1,
             bgColor: "#000000",
             bgOpacity: .3,
+            setSelect: [75, 75, 300, 300],
             onSelect: updateCoords
           }
       );
@@ -78,6 +79,7 @@ $("#addProject").on("click", function(e) {
 $(function() {
   $("#select").selectric();
   $("#selectUsers").selectric();
+  $("#selectLeader").selectric();
 
 
   $("#addWork").on("click", function(e) {

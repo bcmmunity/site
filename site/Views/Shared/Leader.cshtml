@@ -1,0 +1,35 @@
+@using site.Controllers
+@model User
+@{
+    User user = Model;
+}
+
+    <div class="team__list__inner">
+        <div class="left">
+            @{
+                string alt = "profilePhoto" + user.Id;
+            }
+            <img src="@user.Photo" alt="@alt" class="photo">
+            <div class="links">
+                @foreach (var social in user.Links)
+                {
+                    if (!social.IsEmpty)
+                    {
+                        <a href="@social.Href" target="_blank">
+                            <object data="@social.Pic" type="image/svg+xml">
+                            </object>
+                        </a>
+                    }
+
+                }
+
+            </div>
+        </div>
+        <div class="right">
+            <span class="name">@user.Name @user.Surname (<span class = "leader">Лидер</span>)</span>
+            <span class="position">@user.Position</span>
+            <span class="email">@user.Email</span>
+            <p class="description">@user.Description</p>
+            @Html.ActionLink("Подробнее", "Profile", "Account", new {id=user.Id} )
+        </div>
+    </div>

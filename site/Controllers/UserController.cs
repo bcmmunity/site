@@ -28,7 +28,6 @@ namespace CustomIdentityApp.Controllers
         }
 
 
-        public IActionResult Index() => View(_userManager.Users.ToList());
 
         public IActionResult Create() => View();
 
@@ -92,6 +91,9 @@ namespace CustomIdentityApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+                
+                
                 ViewBag.socials = _db.SNs.ToList();
                 List<SN> socials = _db.SNs.ToList();
 
@@ -143,13 +145,15 @@ namespace CustomIdentityApp.Controllers
                                 Directory.CreateDirectory(model.Id);
                             Directory.SetCurrentDirectory(model.Id);
 
-                            path = model.Photo.FileName;
+                            path = Guid.NewGuid().ToString();
 
+                            
+                            
                             Image img = Image.FromStream(model.Photo.OpenReadStream());
 
                             // Кроп изображения
                             // http://web.archive.org/web/20130126075626/http://www.switchonthecode.com:80/tutorials/csharp-tutorial-image-editing-saving-cropping-and-resizing
-
+                            
                             using (Bitmap bitmap = new Bitmap(img))
                             {
                                 Rectangle cropArea = new Rectangle(
@@ -158,11 +162,19 @@ namespace CustomIdentityApp.Controllers
                                     (int) (img.Size.Width * model.CropWidth / 600f),
                                     (int) (img.Size.Width * model.CropWidth / 600f));
 
-                                bitmap.Clone(cropArea, bitmap.PixelFormat).Save(model.Photo.FileName);
+                                if (cropArea.Size.Width == 0)
+                                    cropArea.Width = 500;
+                                if (cropArea.Size.Height == 0)
+                                    cropArea.Height = 500;
+                                bitmap.Clone(cropArea, bitmap.PixelFormat);
+                                using (var resized = ImageUtilities.ResizeImage(bitmap , cropArea.Width, cropArea.Height))
+                                {
+                                    ImageUtilities.SaveJpeg($"{path}.jpeg", resized, 80);
+                                }
                             }
+                            
 
-
-                            user.Photo = $"/img/UserPhotos/{model.Id}/{path}";
+                            user.Photo = $"/img/UserPhotos/{model.Id}/{path}.jpeg";
                         }
                     }
 

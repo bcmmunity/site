@@ -60,6 +60,20 @@
             </div>
             
             <div class="add__group">
+                <label>Лидер проекта</label>
+                <select id="selectLeader" name = "Leader" >
+					
+				
+                    @foreach (var user in users)
+                    {
+                        string info = $"{user.Name} {user.Surname} {user.Position}";
+                        <option value="@user.Id">@info</option>
+ 					
+                    }
+                </select>
+            </div>
+            
+            <div class="add__group">
                 <label>Команда проекта</label>
                 <select id="selectUsers" multiple="multiple" name = "Members" >
 					

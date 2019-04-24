@@ -12,10 +12,11 @@ namespace site.Models
 		public string Description { get; set; }
 		public string Status { get; set; }
 		public string Type { get; set; }
+		
 		public int Rang { get; set; }
 		public bool IsShowed { get; set; }
-		// [NotMapped]
-		// public User Leader { get; set; }
+		
+		public User Leader { get; set; }
 		
 		public string SliderImages { get; set; }
 

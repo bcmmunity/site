@@ -111,7 +111,9 @@ namespace site.Controllers
 				.Include(s => s.Experiences)
 				.Include(p => p.Projects)
 				.ThenInclude(p => p.Project)
+				
 				.FirstOrDefault(u => u.Id == localId);
+			
 			if (user != null)
 			{
 				return View("Profile", user);

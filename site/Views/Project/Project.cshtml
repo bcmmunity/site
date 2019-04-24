@@ -6,9 +6,10 @@
     Project project = Model;
     ViewBag.Title = project.Name;
     List<User> users = new List<User>();
+    User leader = project.Leader;
     if (project.Members != null)
     {
-        users = project.Members.Select(u => u.User).ToList();
+        users = project.Members.Select(u => u.User).Where(i => i.Id != project.Leader.Id).ToList();
     }
     string[] images = project.SliderImages.Split(":");
 }
@@ -71,10 +72,9 @@
 <section class="team">
     <h2 class="h2-common">Наша команда</h2>
     <div class="container">
-        <div class="team__list">     
-            @{
-                @(await Html.PartialAsync("Members", users))
-            }
+        <div class="team__list">
+            @(await Html.PartialAsync("Leader", leader))
+            @(await Html.PartialAsync("Members", users))
         </div>
     </div>
 

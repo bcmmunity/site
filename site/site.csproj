@@ -16,13 +16,24 @@
 
   <ItemGroup>
     <Folder Include="Areas\" />
+    <Folder Include="Migrations" />
+    <Folder Include="wwwroot\img\ProjectPhotos" />
     <Folder Include="wwwroot\img\ProjectPhotos\" />
+    <Folder Include="wwwroot\img\UserPhotos" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\img\884969f5-3bf2-466a-a369-f9e95cab3716\Без имени-1.png" />
     <_ContentIncludedByDefault Remove="wwwroot\img\UserPhotos\884969f5-3bf2-466a-a369-f9e95cab3716\CTa3u8rIpuU.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\UserPhotos\884969f5-3bf2-466a-a369-f9e95cab3716\Без имени-1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\UserPhotos\50287316-92f3-4567-81a6-70370980513f\inoplanetyane_korabl_polet_minimalizm_66185_1920x1200.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\UserPhotos\770b7746-8e7f-4489-9e14-71d256cc0e04\7818_33550913958_0e15906500_z_640_360_nofilter — копия.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\ProjectPhotos\136982a0-a191-4b19-bd26-4ae9d40b3947\Cover\inoplanetyane_korabl_polet_minimalizm_66185_1920x1200.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\ProjectPhotos\136982a0-a191-4b19-bd26-4ae9d40b3947\Slider\inoplanetyane_korabl_polet_minimalizm_66185_1920x1200.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\ProjectPhotos\b3af409bb8423187c75e6c7f5b683908\Cover\Screenshot_1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\ProjectPhotos\b3af409bb8423187c75e6c7f5b683908\Slider\Screenshot_1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\ProjectPhotos\e57bc66f-1040-4e6b-8c36-040dc4e63052\Cover\inoplanetyane_korabl_polet_minimalizm_66185_1920x1200.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\ProjectPhotos\e57bc66f-1040-4e6b-8c36-040dc4e63052\Slider\inoplanetyane_korabl_polet_minimalizm_66185_1920x1200.jpg" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

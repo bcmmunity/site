@@ -62,7 +62,7 @@
     <h2 class="h2-common">Наша команда</h2>
     <div class="container" >
         <div class="team__list" id ="mems">      
-            @await Html.PartialAsync("Members", Model.Users.Include(u => u.Links).OrderBy(d => d.Rang).Skip(0).Take(4).ToArray())
+            @await Html.PartialAsync("Members", Model.Users.OrderBy(d => d.Rang).Skip(0).Take(4).Include(u => u.Links).ToArray())
         </div>
     </div>
     <div class="team__load">
