@@ -18,25 +18,30 @@
                     @Html.EditorFor(m => m.Title)
                 </div>
                 
-                    @Html.LabelFor(m => m.Description, new { @class = "second_label"})
-                    @Html.TextAreaFor(m => m.Description, new { @class = "anime", @id="aboutyou" })
-                    @Html.LabelFor(m => m.StartDate, new { @class = "second_label"})
-                    <input type="date" value="@Model.StartDateString" name = "StartDate">
+                @Html.LabelFor(m => m.Description, new { @class = "second_label"})
+                @Html.TextAreaFor(m => m.Description, new { @class = "anime", @id="aboutyou" })
+                @Html.LabelFor(m => m.StartDate, new { @class = "second_label"})
+                <input type="date" value="@Model.StartDateString" name = "StartDate">
                     
-                    @Html.LabelFor(m => m.FinishDate, new { @class = "second_label"})
-                    <input type="date" value="@Model.FinishDateString" name = "FinishDate">
+                @Html.LabelFor(m => m.FinishDate, new { @class = "second_label"})
+                <input type="date" value="@Model.FinishDateString" name = "FinishDate">
                     
   
                     
                     
-                    @Html.LabelFor(m => m.IsWork, new { @class = "second_label"})
-                    @Html.EditorFor(m => m.IsWork)
+                @Html.LabelFor(m => m.IsWork, new { @class = "second_label"})
+                @Html.EditorFor(m => m.IsWork)
   
-                    @Html.LabelFor(m => m.IsNow, new { @class = "second_label"})
-                    @Html.EditorFor(m => m.IsNow)
+                @Html.LabelFor(m => m.IsNow, new { @class = "second_label"})
+                @Html.EditorFor(m => m.IsNow)
             
             </div>
             <input type="submit" class="bttn-dark">
         </form>
+        @{
+            string toDelete = $"/Experience/Delete/{Model.Id}";
+        }
+        <a href="@toDelete" class = "bttn-delete" style = "margin-top: 15px">Удалить</a>
+
     </div>
 </section>
