@@ -250,7 +250,6 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditProjectViewModel model)
         {
-
 	        if (ModelState.IsValid)
 	        {
 		        Project project = _db.Projects
@@ -349,7 +348,6 @@ namespace site.Controllers
 		        await _db.SaveChangesAsync();
 		        return RedirectToAction("Index", "Home");
 	        }
-
 	        return View("Error");
         }
         

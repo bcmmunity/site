@@ -1,0 +1,42 @@
+@model site.ViewModels.ExperienceViewModel
+@{
+    Layout = "_Header_Footer";
+    ViewBag.Title = "Редактивароние опыта";
+}
+<section class="add">
+    <div class="container">
+        <h2 class="h2-common">Редактирование опыта</h2>
+        <form asp-action="Edit" asp-controller="Experience" enctype="multipart/form-data">
+            <div class="edit__courses__group">
+                <div class="edit__group">
+                    @Html.LabelFor(m => m.Link, new { @class = "second_label"})
+                    @Html.EditorFor(m => m.Link)
+                </div>
+                
+                <div class="edit__group">
+                    @Html.LabelFor(m => m.Title, new { @class = "second_label"})
+                    @Html.EditorFor(m => m.Title)
+                </div>
+                
+                    @Html.LabelFor(m => m.Description, new { @class = "second_label"})
+                    @Html.TextAreaFor(m => m.Description, new { @class = "anime", @id="aboutyou" })
+                    @Html.LabelFor(m => m.StartDate, new { @class = "second_label"})
+                    <input type="date" value="@Model.StartDateString" name = "StartDate">
+                    
+                    @Html.LabelFor(m => m.FinishDate, new { @class = "second_label"})
+                    <input type="date" value="@Model.FinishDateString" name = "FinishDate">
+                    
+  
+                    
+                    
+                    @Html.LabelFor(m => m.IsWork, new { @class = "second_label"})
+                    @Html.EditorFor(m => m.IsWork)
+  
+                    @Html.LabelFor(m => m.IsNow, new { @class = "second_label"})
+                    @Html.EditorFor(m => m.IsNow)
+            
+            </div>
+            <input type="submit" class="bttn-dark">
+        </form>
+    </div>
+</section>

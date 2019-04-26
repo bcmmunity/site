@@ -901,20 +901,24 @@ sup
     display: flex
     flex-wrap: wrap
     &-item
+      position: relative
       display: -webkit-flex
       display: -ms-flex
       display: flex
       flex-direction: column
       width: 100%
       margin-bottom: 20px
+
       & p
         font-size: 16px
       & span
         font-size: 18px
         margin-bottom: 20px
-      & a
+      &-link
         color: #5ea3e9
         position: relative
+        &:hover
+          cursor: pointer
         &::before
           content: ""
           position: absolute
@@ -925,10 +929,21 @@ sup
           transition: 0.2s
           transform-origin: center
           width: 100%
+
         &:hover::before
           background-color: #5ea3e9
           transform: scale(1)
           width: 100%
+      &-edit
+        position: absolute
+        top: 12px
+        left: -40px
+        width: 32px
+        height: 32px
+        object
+          width: 24px
+          height: 24px
+          pointer-events: none
   &__group
     display: -webkit-flex
     display: -ms-flex

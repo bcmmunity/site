@@ -1053,6 +1053,7 @@ sup {
   flex-wrap: wrap;
 }
 .user .job-list-item {
+  position: relative;
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
@@ -1067,11 +1068,14 @@ sup {
   font-size: 18px;
   margin-bottom: 20px;
 }
-.user .job-list-item a {
+.user .job-list-item-link {
   color: #5ea3e9;
   position: relative;
 }
-.user .job-list-item a::before {
+.user .job-list-item-link:hover {
+  cursor: pointer;
+}
+.user .job-list-item-link::before {
   content: "";
   position: absolute;
   bottom: -3px;
@@ -1082,10 +1086,22 @@ sup {
   transform-origin: center;
   width: 100%;
 }
-.user .job-list-item a:hover::before {
+.user .job-list-item-link:hover::before {
   background-color: #5ea3e9;
   transform: scale(1);
   width: 100%;
+}
+.user .job-list-item-edit {
+  position: absolute;
+  top: 12px;
+  left: -40px;
+  width: 32px;
+  height: 32px;
+}
+.user .job-list-item-edit object {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
 }
 .user__group {
   display: -webkit-flex;

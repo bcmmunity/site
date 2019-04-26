@@ -156,21 +156,25 @@ namespace CustomIdentityApp.Controllers
                             
                             using (Bitmap bitmap = new Bitmap(img))
                             {
+                                int size = (int) (img.Size.Width * model.CropWidth / 600f);
                                 Rectangle cropArea = new Rectangle(
                                     (int) (img.Size.Width * model.CropX / 600f),
                                     (int) (model.CropY * img.Size.Width / 600f),
-                                    (int) (img.Size.Width * model.CropWidth / 600f),
-                                    (int) (img.Size.Width * model.CropWidth / 600f));
+                                    size,
+                                    size);
 
                                 if (cropArea.Size.Width == 0)
                                     cropArea.Width = 500;
                                 if (cropArea.Size.Height == 0)
                                     cropArea.Height = 500;
-                                bitmap.Clone(cropArea, bitmap.PixelFormat);
-                                using (var resized = ImageUtilities.ResizeImage(bitmap , cropArea.Width, cropArea.Height))
+                               
+                                
+                                using (var resized = ImageUtilities.ResizeImage( bitmap.Clone(cropArea, bitmap.PixelFormat), size, size))
                                 {
                                     ImageUtilities.SaveJpeg($"{path}.jpeg", resized, 80);
+                                    
                                 }
+                                
                             }
                             
 

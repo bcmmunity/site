@@ -72,9 +72,22 @@
       {
         foreach (var exp in Work)
          {
+           
            <div class="job-list-item">
-             <span>@exp.Title (<a href="@exp.Link">Сайт</a>) @exp.Year</span>
+             <span>@exp.Title @if (!string.IsNullOrEmpty(exp.Link))
+                              {
+                                @:(<a class = "job-list-item-link" href="@exp.Link">Сайт</a>)
+                              }  @exp.Year</span>
              <p>@exp.Description</p>
+             @if (User.Identity.IsAuthenticated && ViewBag.CurrentUserId == Model.Id)
+             {
+               <a href="/Experience/Edit/@exp.ExperienceId" class = "job-list-item-edit">
+                 <object data="../../img/edit.svg" type="image/svg+xml">
+
+                 </object>
+               </a>
+             }
+             
            </div>
          }
       }
@@ -92,9 +105,22 @@
         foreach (var lrn in NotWork)
          {
            <div class="job-list-item">
-             <span>@lrn.Title (<a href="@lrn.Link">Сайт</a>) @lrn.Year</span>
+             <span>@lrn.Title @if (!string.IsNullOrEmpty(lrn.Link))
+                              {
+                                @:<a class = "job-list-item-link" href="@lrn.Link">Сайт</a>) 
+                              }@lrn.Year</span>
              <p>@lrn.Description</p>
+             @if (User.Identity.IsAuthenticated && ViewBag.CurrentUserId == Model.Id)
+             {
+               <a href="/Experience/Edit/@lrn.ExperienceId" class = "job-list-item-edit">
+                 <object data="../../img/edit.svg" type="image/svg+xml">
+
+                 </object>
+               </a>
+             }
+             
            </div>
+           
          }
       }
       
