@@ -13,6 +13,7 @@ namespace site.ViewModels
         
         public List<int> Specialities { get; set; }
         public List<string> Members { get; set; }
+        public string Leader { get; set; }
         public List<string> Links { get; set; }
     }
 }

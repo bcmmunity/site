@@ -239,7 +239,8 @@ namespace site.Controllers
 				Description = project.Description,
 				Specialities = project.Specialities.Select(u => u.SpecialityId).ToList(),
 				Members = project.Members.Select(u => u.Id).ToList(),
-				Links =  project.Links.Select(u => u.Href).ToList()
+				Links =  project.Links.Select(u => u.Href).ToList(),
+				Leader = project.Leader.Id
 	        };
 			
 	        ViewBag.Specialities = _db.Specialities.ToList();
@@ -255,6 +256,7 @@ namespace site.Controllers
 		        Project project = _db.Projects
 			        .Include(p => p.Links)
 			        .Include(p => p.Members)
+			        .Include(l => l.Leader)
 			        .Include(p => p.Specialities)
 			        .FirstOrDefault(p => p.ProjectId == model.Id);
 
@@ -292,6 +294,17 @@ namespace site.Controllers
 		        
 		        #endregion
 		        
+		        #region Изменение лидера
+
+		        if (model.Leader != null)
+		        {
+			        User leader = _db.Users.Find(model.Leader);
+			        project.Leader = leader;
+			        await _db.SaveChangesAsync();
+		        }
+		        #endregion
+		        
+		        
 		        #region Изменение пользователей
 		        
 		        if (model.Members != null)
@@ -299,6 +312,7 @@ namespace site.Controllers
 			        var userIdList = Utils.Compare(projectUsers, model.Members);
 			        List<string> toDelete = userIdList[0];
 			        List<string> toAdd = userIdList[1];
+			        bool lead;
 			        foreach (var id in toDelete)
 			        {
 				        project.Members.Remove(project.Members.FirstOrDefault(u => u.Id == id));
@@ -307,9 +321,11 @@ namespace site.Controllers
 			        {
 				        if (!projectUsers.Contains(id))
 				        {
+					        lead = id == model.Leader;
 					        project.Members.Add(new ProjectUser
 					        {
 						        Id = id,
+						        IsLeader = lead,
 						        ProjectId = model.Id
 					        });
 				        }

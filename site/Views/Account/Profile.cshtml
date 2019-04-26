@@ -6,8 +6,8 @@
   ViewBag.Title = Model.Name + " " + Model.Surname;
   User u = Model;
   
-  var Work = Model.Experiences.Where(l => l.IsWork).OrderBy(k => k.StartDate).ToList();
-  var NotWork = Model.Experiences.Where(k => k.IsWork == false).OrderBy(k => k.StartDate).ToList();
+  var Work = Model.Experiences.Where(l => l.IsWork).OrderByDescending(k => k.StartDate).ToList();
+  var NotWork = Model.Experiences.Where(k => k.IsWork == false).OrderByDescending(k => k.StartDate).ToList();
   List<Project> projects = u.Projects.Select(x => x.Project).ToList();
   List<string> specialities = Model.Specialities.Select(k => k.Speciality).Select(k => k.Name).ToList();
   

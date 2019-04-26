@@ -4,7 +4,7 @@
     List<Speciality> specialities = ViewBag.Specialities;
     List<User> users = ViewBag.Members;
     List<string> links = Model.Links;
-    List<ProjectUser> Members = ViewBag.Users;
+    
     Layout = "_Header_Footer";
 }
 
@@ -62,7 +62,31 @@
                 </select>
             </div>
 
-
+            <div class="edit__group">
+                <label for="">Лидер проекта</label>
+                <select id="selectLeader" name = "Leader">
+					
+				
+                    @foreach (var user in users)
+                    {
+                        if (Model.Leader == user.Id)
+                        {
+                            <option value="@user.Id" selected>
+                                @user.Name @user.Surname @user.Position
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@user.Id">
+                                @user.Name @user.Surname @user.Position
+                            </option>
+                        }
+ 					
+                    }
+                </select>
+            </div>
+            
+            
             <div class="edit__group">
                 <label for="">Команда проекта</label>
                 <select id="selectUsers" multiple="multiple" name = "Members">
