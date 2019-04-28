@@ -47,7 +47,7 @@
 					<a asp-controller="Home" asp-action="Contacts">Сотрудничество</a>
 					@if (User.Identity.IsAuthenticated)
 					{
-						<a asp-controller="Account" asp-action="Profile">Профиль</a>
+						<a href= "/Account/Profile">Профиль</a>
 						<a asp-controller="Account" asp-action="LogOff">Выйти</a>
 
 						@*<a asp-controller="Account" asp-action="Register">Регистрация</a> *@

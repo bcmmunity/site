@@ -21,6 +21,24 @@
 		{
 		  <a asp-controller="User" asp-action="Edit">Редактирование профиля</a>
 		}
+      
+      @if (ViewBag.CurrentUserId  == "87759cdf-3b58-483b-a738-f79a051bac23")
+      {
+        <a href="#deleteModal" class="delete">удолить</a>
+        <div id="deleteModal">
+          <div  class="modal">
+
+            <form asp-controller="User" asp-action="Delete">
+              <a href="#close" class = "close">Закрыть окно</a>
+              <input type="hidden" name = "id" value = @Model.Id>
+              <input type="submit" value="удолить" class = "bttn-delete">
+            </form>
+          </div>
+
+        </div>
+      }
+      
+      
 
 	  </div>
     <div class="user__group">

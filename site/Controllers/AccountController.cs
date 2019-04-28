@@ -71,6 +71,7 @@ namespace site.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				
 				var result =
 					await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 				

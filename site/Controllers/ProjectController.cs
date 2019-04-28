@@ -16,6 +16,7 @@ using site.Models;
 using site.ViewModels;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace site.Controllers
 {
@@ -24,11 +25,14 @@ namespace site.Controllers
 		public ApplicationContext _db;
 
 	    private IHostingEnvironment _contentPath;
+
+	    private readonly UserManager<User> _userManager;
 	    
-		public ProjectController(ApplicationContext db, IHostingEnvironment contentPath)
+		public ProjectController(UserManager<User> userManager, ApplicationContext db, IHostingEnvironment contentPath)
         {
 			_db = db;
 	        _contentPath = contentPath;
+	        _userManager = userManager;
         }
 
         public IActionResult Add()
@@ -43,7 +47,15 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
-
+			// TODO: РОЛИ РОЛИ РОЛИ
+			string nikita = _userManager.GetUserId(HttpContext.User);
+			ViewBag.nikita = nikita;
+			if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
+			{
+				return NotFound();
+			}
+			
+			
 			string path = "";
 			string paths = "";
 			string uniqueId = Guid.NewGuid().ToString();
@@ -219,6 +231,13 @@ namespace site.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+	        // TODO: РОЛИ РОЛИ РОЛИ
+	        string nikita = _userManager.GetUserId(HttpContext.User);
+	        ViewBag.nikita = nikita;
+	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
+	        {
+		        return NotFound();
+	        }
 
 	        Project project = await _db.Projects
 		        .Include(p => p.Links)
@@ -251,6 +270,13 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditProjectViewModel model)
         {
+	        // TODO: РОЛИ РОЛИ РОЛИ
+	        string nikita = _userManager.GetUserId(HttpContext.User);
+	        ViewBag.nikita = nikita;
+	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
+	        {
+		        return NotFound();
+	        }
 	        if (ModelState.IsValid)
 	        {
 		        Project project = _db.Projects
@@ -389,7 +415,8 @@ namespace site.Controllers
         
         public ActionResult View(int? id)
 		{
-
+			string nikita = _userManager.GetUserId(HttpContext.User);
+			ViewBag.nikita = nikita;
 			if (id == null)
 			{
 				return NotFound();

@@ -303,13 +303,27 @@ namespace CustomIdentityApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
-            User user = await _userManager.FindByIdAsync(id);
+            // TODO: РОЛИ РОЛИ РОЛИ
+            string nikita = _userManager.GetUserId(HttpContext.User);
+            ViewBag.nikita = nikita;
+            if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
+            {
+                return NotFound();
+            }
+//            User user = await _userManager.FindByIdAsync(id);
+            User user = _db.Users
+                .Include(l => l.Links)
+                .Include(l => l.Specialities)
+                .Include(l => l.Experiences)
+                .Include(l => l.Projects)
+                .FirstOrDefault(u => u.Id == id);
             if (user != null)
             {
-                IdentityResult result = await _userManager.DeleteAsync(user);
+                _db.Users.Remove(user);
+                await _db.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

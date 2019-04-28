@@ -15,18 +15,22 @@
 
 <section class="project">
     <div class="container">
-        @* <a href="#deleteModal" class="delete">удолить</a> *@
-        <div id="deleteModal">
-            <div  class="modal">
+        @if (ViewBag.nikita  == "87759cdf-3b58-483b-a738-f79a051bac23")
+        {
+             <a href="#deleteModal" class="delete">удолить</a> 
+            <div id="deleteModal">
+                <div  class="modal">
 
-                <form asp-controller="Project" asp-action="Delete">
-                    <a href="#close" class = "close">Закрыть окно</a>
-                    <input type="hidden" name = "id" value = @project.ProjectId>
-                    <input type="submit" value="удолить" class = "bttn-delete">
-                </form>
+                    <form asp-controller="Project" asp-action="Delete">
+                        <a href="#close" class = "close">Закрыть окно</a>
+                        <input type="hidden" name = "id" value = @project.ProjectId>
+                        <input type="submit" value="удолить" class = "bttn-delete">
+                    </form>
+                </div>
+
             </div>
-
-        </div>
+        }
+        
         <div class="project__cover">
             <img src="@project.Img" alt="projectCover">
         </div>
