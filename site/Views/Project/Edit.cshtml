@@ -13,8 +13,10 @@
         <div class="h2-common">Редактирование проекта</div>
         <form asp-action="Edit" asp-controller="Project" class = "edit-form" enctype="multipart/form-data">
             <div class="edit__group">
+                @Model.ProjectUId
                 <label for="">Название проекта</label>
                 <input type="text" asp-for="Name">
+                <input type="hidden" value="@Model.ProjectUId" name="ProjectUId"/>
             </div>
 
             <div class="edit__group">
@@ -23,9 +25,26 @@
             </div>
             
             <div class="edit__group">
-                <label for="">Обложка проекта</label>
-                <img src="@Model.CoverPath">
+                <label>Текущая обложка</label>
+                <img src="@Model.CoverPath" style="width: 100%; margin-bottom: 10px">
+                <label for="">Сменить обложку проекта</label>
                 @Html.EditorFor(u => u.NewCover)
+            </div>
+            
+            
+            <div class="edit__group">
+                <label>Фотографии в слайдере</label>
+                <div class="edit__group__slider">
+                    @foreach (var slider in Model.SliderImagesPreview)
+                    {
+                        <div class="item">
+                            <img src="@slider" alt="@slider">
+                            <input type="hidden" name="OldSliderImages" value="@slider"/>
+                        </div>
+                    }
+                </div>
+                <label for="">Добавить НОВЫЕ фотографии в слайдер</label>
+                @Html.EditorFor(u => u.SliderImages)
             </div>
             
             <div class="edit__group" id = "addProjectContainer">

@@ -37,13 +37,13 @@ namespace site.Controllers
 
         public IActionResult Add()
         {
-	        // TODO: РОЛИ РОЛИ РОЛИ
-	        string nikita = _userManager.GetUserId(HttpContext.User);
-	        ViewBag.nikita = nikita;
-	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
-	        {
-		        return NotFound();
-	        }
+//	        // TODO: РОЛИ РОЛИ РОЛИ
+//	        string nikita = _userManager.GetUserId(HttpContext.User);
+//	        ViewBag.nikita = nikita;
+//	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
+//	        {
+//		        return NotFound();
+//	        }
 	        
 			ViewBag.Specialities = _db.Specialities.ToList();
 			ViewBag.Users = _db.Users.ToList();
@@ -58,13 +58,13 @@ namespace site.Controllers
 		{
 			ViewBag.Specialities = _db.Specialities.ToList();
 			ViewBag.Users = _db.Users.ToList();
-			// TODO: РОЛИ РОЛИ РОЛИ
-			string nikita = _userManager.GetUserId(HttpContext.User);
-			ViewBag.nikita = nikita;
-			if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
-			{
-				return NotFound();
-			}
+//			// TODO: РОЛИ РОЛИ РОЛИ
+//			string nikita = _userManager.GetUserId(HttpContext.User);
+//			ViewBag.nikita = nikita;
+//			if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
+//			{
+//				return NotFound();
+//			}
 			
 			
 			string path = "";
@@ -270,10 +270,12 @@ namespace site.Controllers
 	        {
 				Id = project.ProjectId,
 				Name = project.Name,
+				ProjectUId = project.Img.Split("/")[3],
 				Description = project.Description,
 				Specialities = project.Specialities.Select(u => u.SpecialityId).ToList(),
 				Members = project.Members.Select(u => u.Id).ToList(),
 				Links =  project.Links.Select(u => u.Href).ToList(),
+				SliderImagesPreview = project.SliderImages.Split(":").ToList(),
 				CoverPath = project.Img,
 				Leader = project.Leader.Id
 	        };
@@ -308,11 +310,15 @@ namespace site.Controllers
 		        List<int> projectSpecialities = project?.Specialities.Select(u => u.SpecialityId).ToList();
 		        
 		        List<string> projectLinks = project?.Links.Select(h => h.Href).ToList();
+
+		        List<string> sliderImages = project?.SliderImages.Split(":").ToList();
+		        
+		        
+		        
+		        
 		        project.Name = model.Name;
 		        project.Description = model.Description;
-		        Console.WriteLine("\n\n\n\n\n");
-		        Console.WriteLine(model.NewCover == null);
-		        Console.WriteLine("\n\n\n\n\n");
+		        
 		        #region Изменение обложки проекта
 		        if (model.NewCover != null && model.NewCover.ContentType.StartsWith("image"))
 		        {
@@ -324,9 +330,7 @@ namespace site.Controllers
 				        Directory.CreateDirectory("ProjectPhotos");
 	                
 			        Directory.SetCurrentDirectory("ProjectPhotos");
-			        Directory.CreateDirectory(uniqueId);
-			        Directory.SetCurrentDirectory(uniqueId);
-	                
+			        Directory.SetCurrentDirectory(model.ProjectUId);
 	                
 			        if (!Directory.Exists("Cover"))
 				        Directory.CreateDirectory("Cover");
@@ -341,14 +345,84 @@ namespace site.Controllers
 					        ImageUtilities.SaveJpeg($"{path}.jpeg", resized, 80);
 				        }
 			        }
+			        project.Img = $"/img/ProjectPhotos/{model.ProjectUId}/Cover/{path}.jpeg";
 	                
 			        Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/ProjectPhotos");
 		        }
 
-		        project.Img = $"/img/ProjectPhotos/{uniqueId}/Cover/{path}.jpeg";
+		        
 
 		        await _db.SaveChangesAsync();
 
+		       #endregion
+		       
+		       #region Изменение фотографии для слайдера
+
+		       if (model.OldSliderImages != null)
+		       {
+			       var difference = Utils.Compare(sliderImages, model.OldSliderImages);
+			       List<string> toDelete = difference[0];
+			       foreach (var id in toDelete)
+			       {
+				       sliderImages.Remove(id);
+			       }
+
+			       project.SliderImages = string.Join(":", sliderImages);
+
+			       await _db.SaveChangesAsync();
+			       
+			       if (model.SliderImages == null)
+				       project.SliderImages = string.Join(":", sliderImages);
+			       
+		       }
+		       
+		       Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/ProjectPhotos");
+
+
+	           
+		       Directory.SetCurrentDirectory(model.ProjectUId);
+
+	            
+		       if (!Directory.Exists("Slider"))
+			       Directory.CreateDirectory("Slider");
+	                
+		       Directory.SetCurrentDirectory("Slider");
+		       if (model.SliderImages != null)
+		       {
+			       foreach (var image in model.SliderImages)
+			       {
+				       if (image.ContentType.StartsWith("image"))
+				       {
+				       
+					       string sliderImagePath = Guid.NewGuid().ToString();
+					       string localPath = $"/img/ProjectPhotos/{model.ProjectUId}/Slider/{sliderImagePath}.jpeg";
+					       sliderImages.Add(localPath);
+					
+					       using (var fileStream = image.OpenReadStream())
+					       {
+						       Image img = Image.FromStream(fileStream);
+						       using (var resized = ImageUtilities.ResizeImage(img , img.Width, img.Height))
+						       {
+							       ImageUtilities.SaveJpeg($"{sliderImagePath}.jpeg", resized, 80);
+						       }
+					       }
+				       }
+				       project.SliderImages = string.Join(":", sliderImages);
+
+			       
+	                
+	                
+			       }
+		       }
+		       
+				
+		       Directory.SetCurrentDirectory(_contentPath.ContentRootPath);
+	            
+		       
+		       
+		       
+		       
+		       
 		       #endregion
 		        
 		        

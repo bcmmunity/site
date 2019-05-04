@@ -1,4 +1,4 @@
-﻿var api;
+var api;
 
 function readURL(input) {
 
@@ -12,7 +12,7 @@ function readURL(input) {
             aspectRatio: 1,
             bgColor: "#000000",
             bgOpacity: .3,
-            setSelect: [75, 75, 300, 300],
+            setSelect: [50, 50, 250, 250],
             onSelect: updateCoords
           }
       );
@@ -71,7 +71,9 @@ $("#addProject").on("click", function(e) {
   $("#addProjectContainer").append(input);
 });
 
-
+$(".edit__group__slider .item").dblclick(function(e) {
+  e.target.remove();
+})
 
 
 })

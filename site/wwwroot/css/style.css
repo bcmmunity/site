@@ -934,6 +934,39 @@ sup {
   flex-direction: column;
   margin-bottom: 15px;
 }
+.edit__group__slider, .add__group__slider {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+  margin-bottom: 15px;
+}
+.edit__group__slider img, .add__group__slider img {
+  width: 100%;
+}
+.edit__group__slider button, .add__group__slider button {
+  background-color: #000;
+}
+.edit__group__slider .item, .add__group__slider .item {
+  position: relative;
+}
+.edit__group__slider .item::before, .add__group__slider .item::before {
+  content: "";
+  transition: 0.2s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+}
+.edit__group__slider .item:hover, .add__group__slider .item:hover {
+  cursor: pointer;
+}
+.edit__group__slider .item:hover::before, .add__group__slider .item:hover::before {
+  background-color: rgba(0, 0, 0, 0.7);
+}
 .edit__group .bttn-light, .add__group .bttn-light {
   width: 40%;
 }
