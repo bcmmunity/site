@@ -15,9 +15,12 @@
 
 <section class="project">
     <div class="container">
-        @if (ViewBag.nikita  == "87759cdf-3b58-483b-a738-f79a051bac23")
+
+        @if (ViewBag.nikita  == "87759cdf-3b58-483b-a738-f79a051bac23" || ViewBag.CurrentUserId == "4d980ae0-2592-43fa-a2c1-35f8789102b7")
         {
-             <a href="#deleteModal" class="delete">удолить</a> 
+            @Html.ActionLink("редакировать проект", "Edit", "Project", new {id = Model.ProjectId})
+
+            <a href="#deleteModal" class="delete">удолить</a> 
             <div id="deleteModal">
                 <div  class="modal">
 

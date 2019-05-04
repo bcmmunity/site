@@ -8,7 +8,8 @@ namespace site.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IFormFile Cover { get; set; }
+        public string CoverPath { get; set; }
+        public IFormFile NewCover { get; set; }
         
         
         public List<int> Specialities { get; set; }

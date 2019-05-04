@@ -40,7 +40,7 @@ namespace CustomIdentityApp.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -306,7 +306,7 @@ namespace CustomIdentityApp.Controllers
             // TODO: РОЛИ РОЛИ РОЛИ
             string nikita = _userManager.GetUserId(HttpContext.User);
             ViewBag.nikita = nikita;
-            if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
+            if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
             {
                 return NotFound();
             }

@@ -20,9 +20,12 @@
 	  	@if (User.Identity.IsAuthenticated && ViewBag.CurrentUserId == Model.Id) 
 		{
 		  <a asp-controller="User" asp-action="Edit">Редактирование профиля</a>
+		 
 		}
       
-      @if (ViewBag.CurrentUserId  == "87759cdf-3b58-483b-a738-f79a051bac23")
+      @if (ViewBag.CurrentUserId  == "87759cdf-3b58-483b-a738-f79a051bac23"  
+           || ViewBag.CurrentUserId == "4d980ae0-2592-43fa-a2c1-35f8789102b7"
+           || ViewBag.CurrentUserId == "da37bd7c-5c9b-4dff-be2e-3a96d6860b8a")
       {
         <a href="#deleteModal" class="delete">удолить</a>
         <div id="deleteModal">

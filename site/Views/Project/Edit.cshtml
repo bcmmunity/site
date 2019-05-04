@@ -11,7 +11,7 @@
 <section class="edit">
     <div class="container">
         <div class="h2-common">Редактирование проекта</div>
-        <form asp-action="Edit" asp-controller="Project" class = "edit-form">
+        <form asp-action="Edit" asp-controller="Project" class = "edit-form" enctype="multipart/form-data">
             <div class="edit__group">
                 <label for="">Название проекта</label>
                 <input type="text" asp-for="Name">
@@ -21,7 +21,13 @@
                 <label for="">Описание проекта</label>
                 <textarea name = "Description">@Model.Description</textarea>
             </div>
-
+            
+            <div class="edit__group">
+                <label for="">Обложка проекта</label>
+                <img src="@Model.CoverPath">
+                @Html.EditorFor(u => u.NewCover)
+            </div>
+            
             <div class="edit__group" id = "addProjectContainer">
                 <label for="">Ссылки на проект</label>
                 @if (links != null && !links.IsEmpty())

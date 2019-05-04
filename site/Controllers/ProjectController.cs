@@ -37,6 +37,14 @@ namespace site.Controllers
 
         public IActionResult Add()
         {
+	        // TODO: РОЛИ РОЛИ РОЛИ
+	        string nikita = _userManager.GetUserId(HttpContext.User);
+	        ViewBag.nikita = nikita;
+	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
+	        {
+		        return NotFound();
+	        }
+	        
 			ViewBag.Specialities = _db.Specialities.ToList();
 			ViewBag.Users = _db.Users.ToList();
 			
@@ -45,12 +53,15 @@ namespace site.Controllers
         }
 
         [HttpPost]
+        
         public async Task<IActionResult> Add(ProjectViewModel model)
 		{
+			ViewBag.Specialities = _db.Specialities.ToList();
+			ViewBag.Users = _db.Users.ToList();
 			// TODO: РОЛИ РОЛИ РОЛИ
 			string nikita = _userManager.GetUserId(HttpContext.User);
 			ViewBag.nikita = nikita;
-			if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
+			if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
 			{
 				return NotFound();
 			}
@@ -209,6 +220,10 @@ namespace site.Controllers
 	                        
 				if (model.Members != null)
 				{
+					if (!model.Members.Contains(model.Leader))
+					{
+						model.Members.Add(model.Leader);
+					}
 					foreach (var id in model.Members)
 					{
 						User user = _db.Users.Find(id);
@@ -232,12 +247,12 @@ namespace site.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 	        // TODO: РОЛИ РОЛИ РОЛИ
-	        string nikita = _userManager.GetUserId(HttpContext.User);
-	        ViewBag.nikita = nikita;
-	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
-	        {
-		        return NotFound();
-	        }
+//	        string nikita = _userManager.GetUserId(HttpContext.User);
+//	        ViewBag.nikita = nikita;
+//	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
+//	        {
+//		        return NotFound();
+//	        }
 
 	        Project project = await _db.Projects
 		        .Include(p => p.Links)
@@ -245,7 +260,7 @@ namespace site.Controllers
 		        .Include(p => p.Members)
 		        .Include(p => p.Specialities)
 		        .FirstOrDefaultAsync(p => p.ProjectId == id);
-	        
+		        
 	        if (project == null)
 	        {
 		        return NotFound();
@@ -259,6 +274,7 @@ namespace site.Controllers
 				Specialities = project.Specialities.Select(u => u.SpecialityId).ToList(),
 				Members = project.Members.Select(u => u.Id).ToList(),
 				Links =  project.Links.Select(u => u.Href).ToList(),
+				CoverPath = project.Img,
 				Leader = project.Leader.Id
 	        };
 			
@@ -271,12 +287,15 @@ namespace site.Controllers
         public async Task<IActionResult> Edit(EditProjectViewModel model)
         {
 	        // TODO: РОЛИ РОЛИ РОЛИ
-	        string nikita = _userManager.GetUserId(HttpContext.User);
-	        ViewBag.nikita = nikita;
-	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23")
-	        {
-		        return NotFound();
-	        }
+//	        string nikita = _userManager.GetUserId(HttpContext.User);
+//	        ViewBag.nikita = nikita;
+//	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
+//	        {
+//		        return NotFound();
+//	        }
+	        string path = "";
+	        string uniqueId = Guid.NewGuid().ToString();
+	        
 	        if (ModelState.IsValid)
 	        {
 		        Project project = _db.Projects
@@ -287,10 +306,52 @@ namespace site.Controllers
 			        .FirstOrDefault(p => p.ProjectId == model.Id);
 
 		        List<int> projectSpecialities = project?.Specialities.Select(u => u.SpecialityId).ToList();
-		        List<string> projectUsers = project?.Members.Select(u => u.Id).ToList();
+		        
 		        List<string> projectLinks = project?.Links.Select(h => h.Href).ToList();
 		        project.Name = model.Name;
 		        project.Description = model.Description;
+		        Console.WriteLine("\n\n\n\n\n");
+		        Console.WriteLine(model.NewCover == null);
+		        Console.WriteLine("\n\n\n\n\n");
+		        #region Изменение обложки проекта
+		        if (model.NewCover != null && model.NewCover.ContentType.StartsWith("image"))
+		        {
+			        path =  Guid.NewGuid().ToString();
+                 
+			        Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/");
+	                
+			        if (!Directory.Exists("ProjectPhotos"))
+				        Directory.CreateDirectory("ProjectPhotos");
+	                
+			        Directory.SetCurrentDirectory("ProjectPhotos");
+			        Directory.CreateDirectory(uniqueId);
+			        Directory.SetCurrentDirectory(uniqueId);
+	                
+	                
+			        if (!Directory.Exists("Cover"))
+				        Directory.CreateDirectory("Cover");
+	                
+			        Directory.SetCurrentDirectory("Cover");
+	                
+			        using (var fileStream = model.NewCover.OpenReadStream())
+			        {
+				        Image img = Image.FromStream(fileStream);
+				        using (var resized = ImageUtilities.ResizeImage(img , img.Width, img.Height))
+				        {
+					        ImageUtilities.SaveJpeg($"{path}.jpeg", resized, 80);
+				        }
+			        }
+	                
+			        Directory.SetCurrentDirectory(_contentPath.WebRootPath + "/img/ProjectPhotos");
+		        }
+
+		        project.Img = $"/img/ProjectPhotos/{uniqueId}/Cover/{path}.jpeg";
+
+		        await _db.SaveChangesAsync();
+
+		       #endregion
+		        
+		        
 		        
 		        #region Изменение технологии 
 		        
@@ -335,20 +396,26 @@ namespace site.Controllers
 		        
 		        if (model.Members != null)
 		        {
+			        List<string> projectUsers = project.Members.Select(u => u.Id).ToList();
 			        var userIdList = Utils.Compare(projectUsers, model.Members);
 			        List<string> toDelete = userIdList[0];
 			        List<string> toAdd = userIdList[1];
 			        bool lead;
 			        foreach (var id in toDelete)
 			        {
-				        project.Members.Remove(project.Members.FirstOrDefault(u => u.Id == id));
+				        User user = _db.Users.Find(id);
+				        user.Projects.Remove(user.Projects.FirstOrDefault(u => u.Id == id));
+				        projectUsers.Remove(id);
 			        }
+			        if (!toAdd.Contains(model.Leader))
+						toAdd.Add(model.Leader);
 			        foreach (var id in toAdd)
 			        {
 				        if (!projectUsers.Contains(id))
 				        {
+					        User user = _db.Users.Find(id);
 					        lead = id == model.Leader;
-					        project.Members.Add(new ProjectUser
+					        user.Projects.Add(new ProjectUser
 					        {
 						        Id = id,
 						        IsLeader = lead,
@@ -397,6 +464,15 @@ namespace site.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+	        // TODO: РОЛИ РОЛИ РОЛИ
+//	        string nikita = _userManager.GetUserId(HttpContext.User);
+//	        ViewBag.nikita = nikita;
+//	        if (nikita != "87759cdf-3b58-483b-a738-f79a051bac23" && nikita != "4d980ae0-2592-43fa-a2c1-35f8789102b7")
+//	        {
+//		        return NotFound();
+//	        }
+	        
+	        
 	        Project proj = await _db.Projects
 		        .Include(l => l.Links)
 		        .FirstOrDefaultAsync(p => p.ProjectId == id);

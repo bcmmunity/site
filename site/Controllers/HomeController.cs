@@ -114,7 +114,7 @@ namespace site.Controllers
 			m.Subject = header;
 			m.Body = $"От: {mailFrom}\n{body}";
 			SmtpClient smtp = new SmtpClient("wpl19.hosting.reg.ru", 587 );
-			smtp.Credentials = new NetworkCredential("info@diffind.com", "SuperInfo123!");
+			smtp.Credentials = new NetworkCredential("info@diffind.com", "Diffind123!");
 			smtp.Send(m);
 			return RedirectToAction("Index", "Home");
 		}

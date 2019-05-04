@@ -31,12 +31,12 @@
             
             <div class="add__group">
                 <label >Описание проекта</label>
-                @Html.TextAreaFor(n => n.Description)
+                @Html.TextAreaFor(n => n.Description, new {required = true})
             </div>
             
             <div class="add__group">
                 <label >Изображения для слайдера</label>
-                <input type="file" asp-for="SliderImages" multiple>
+                <input type="file" asp-for="SliderImages" multiple required>
             </div>
             <div class="add__group">
                 <label>Технологии</label>
