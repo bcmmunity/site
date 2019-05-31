@@ -1,0 +1,41 @@
+@model List<Project>
+
+@{
+    ViewBag.Title = "Список проектов";
+    Layout = "_Header_Footer";
+    List<Project> projects = Model;
+}
+
+
+
+<section class="projectlist">
+    <div class="container">
+        <ul>
+            @foreach (var project in projects)
+            {
+                if (project.IsShowed)
+                {
+                    <li>@project.ProjectId. @project.Name 
+                        @Html.ActionLink("Скрыть", "ChangeVisibility", new { id = project.ProjectId}, new {@class = "button button_hide"})
+                        @Html.ActionLink("Изменить", "Edit", new {id = project.ProjectId}, new {@class = "button button_change"})
+                        @Html.ActionLink("Удалить", "Delete", new {id = project.ProjectId}, new {@class = "button button_delete"})
+                        </li>
+                    
+                }
+                else
+                {
+                    <li>@project.ProjectId. @project.Name 
+                        @Html.ActionLink("Показать", "ChangeVisibility", new {id = project.ProjectId}, new {@class = " button button_show"})
+                        @Html.ActionLink("Изменить", "Edit", new {id = project.ProjectId}, new {@class = "button button_change"})
+                        @Html.ActionLink("Удалить", "Delete", new {id = project.ProjectId}, new {@class = "button button_delete"})
+                    </li>
+                }
+                    
+                
+            }
+        </ul>
+    </div>
+</section>
+
+
+

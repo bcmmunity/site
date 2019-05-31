@@ -565,6 +565,7 @@ namespace site.Controllers
         
         public ActionResult View(int? id)
 		{
+			
 			string nikita = _userManager.GetUserId(HttpContext.User);
 			ViewBag.nikita = nikita;
 			if (id == null)
@@ -581,6 +582,11 @@ namespace site.Controllers
 				.ThenInclude(s => s.Speciality)
 				.Include(l => l.Links)
 				.FirstOrDefault(t => t.ProjectId == id);
+
+			if (!proj.IsShowed)
+			{
+				return NotFound();
+			}
 			
 			if (proj != null)
 			{
@@ -590,7 +596,22 @@ namespace site.Controllers
 			return View("Error");
 			
         }
-	    
+
+        public IActionResult List()
+        {
+	        List<Project> projects = _db.Projects.ToList();
+	        return View(projects);
+        }
+
+        public async Task<IActionResult> ChangeVisibility(int id)
+        {
+	        Project project = _db.Projects.Find(id);
+	        project.IsShowed = !project.IsShowed;
+	        _db.Projects.Update(project);
+	        await _db.SaveChangesAsync();
+	        return RedirectToAction("List");
+        }
+        
 	 
 	    
 	  

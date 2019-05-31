@@ -18,7 +18,6 @@
 
         @if (ViewBag.nikita  == "87759cdf-3b58-483b-a738-f79a051bac23" || ViewBag.CurrentUserId == "4d980ae0-2592-43fa-a2c1-35f8789102b7")
         {
-            @Html.ActionLink("редакировать проект", "Edit", "Project", new {id = Model.ProjectId})
 
             <a href="#deleteModal" class="delete">удолить</a> 
             <div id="deleteModal">
@@ -26,8 +25,8 @@
 
                     <form asp-controller="Project" asp-action="Delete">
                         <a href="#close" class = "close">Закрыть окно</a>
-                        <input type="hidden" name = "id" value = @project.ProjectId>
-                        <input type="submit" value="удолить" class = "bttn-delete">
+                        <input type="hidden" name = "id" value = @project.ProjectId />
+                        <input type="submit" value="удолить" class = "bttn-delete" />
                     </form>
                 </div>
 
@@ -35,7 +34,7 @@
         }
         
         <div class="project__cover">
-            <img src="@project.Img" alt="projectCover">
+            <img src="@project.Img" alt="projectCover" />
         </div>
         <h1 class="project__title">@project.Name</h1>
         <div class="project__info">
@@ -63,7 +62,7 @@
                 <div class="owl-carousel owl-theme">
                     @foreach (string img in images)
                     {
-                        <img src="@img" alt="картинка для слайдера">
+                        <img src="@img" alt="картинка для слайдера" />
                     }
 
 

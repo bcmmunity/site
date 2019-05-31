@@ -1,14 +1,5 @@
 @import "vars"
 
-@font-face
-  font-family: "Roboto"
-  src: url("../../../../../../fonts/Roboto-Regular.ttf") format("truetype")
-
-@font-face
-  font-family: "Montserrat"
-  src: url("../../../../../../fonts/Montserrat-Regular.ttf") format("truetype")
-
-
 *, *::before, *::after
   margin: 0
   padding: 0
@@ -16,6 +7,14 @@
 body
   color: #434343
   font-family: 'Montserrat', sans-serif
+
+@font-face
+  font-family: "Roboto"
+  src: url("../../../../../../fonts/Roboto-Regular.ttf") format("truetype")
+
+@font-face
+  font-family: "Montserrat"
+  src: url("../../../../../../fonts/Montserrat-Regular.ttf") format("truetype")
 
 
 a
@@ -330,8 +329,6 @@ sup
         display: flex
         flex-direction: column
         justify-content: space-around
-        .leader
-          color: #f06969
         .name
           font-size: 24px
         .position, .email
@@ -797,34 +794,6 @@ sup
     display: flex
     flex-direction: column
     margin-bottom: 15px
-    &__slider
-      width: 100%
-      display: grid
-      grid-template-columns: 1fr 1fr 1fr
-      grid-column-gap: 5px
-      grid-row-gap: 5px
-      margin-bottom: 15px
-      img
-        width: 100%
-      button
-        background-color: #000
-      & .item
-        position: relative
-        &::before
-          content: ""
-          transition: .2s ease
-          position: absolute
-          top: 0
-          left: 0
-          width: 100%
-          height: 100%
-          background-color: rgba(0, 0, 0, 0)
-        &:hover
-          cursor: pointer
-          &::before
-            background-color: rgba(0, 0, 0, .7)
-
-
     & .bttn-light
       width: 40%
     & .previous
@@ -929,24 +898,20 @@ sup
     display: flex
     flex-wrap: wrap
     &-item
-      position: relative
       display: -webkit-flex
       display: -ms-flex
       display: flex
       flex-direction: column
       width: 100%
       margin-bottom: 20px
-
       & p
         font-size: 16px
       & span
         font-size: 18px
         margin-bottom: 20px
-      &-link
+      & a
         color: #5ea3e9
         position: relative
-        &:hover
-          cursor: pointer
         &::before
           content: ""
           position: absolute
@@ -957,21 +922,10 @@ sup
           transition: 0.2s
           transform-origin: center
           width: 100%
-
         &:hover::before
           background-color: #5ea3e9
           transform: scale(1)
           width: 100%
-      &-edit
-        position: absolute
-        top: 12px
-        left: -40px
-        width: 32px
-        height: 32px
-        object
-          width: 24px
-          height: 24px
-          pointer-events: none
   &__group
     display: -webkit-flex
     display: -ms-flex
@@ -1093,5 +1047,25 @@ sup
 .delete
   color: #de3a3a
   margin-bottom: 10px
+
+
+.projectlist
+  min-height: calc(100vh - 410px)
+  display: -webkit-flex
+  display: -ms-flex
+  display: flex
+  align-items: center
+  .button
+    font-weight: 600
+    margin-left: 50px
+    &_show
+      color: #2ecc71
+    &_hide
+      color: #f1c40f
+    &_delete
+      margin-left: 150px
+      color: #c0392b
+    &_change
+      color: #2980b9
 
 @import "media"

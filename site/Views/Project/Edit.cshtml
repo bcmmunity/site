@@ -13,7 +13,6 @@
         <div class="h2-common">Редактирование проекта</div>
         <form asp-action="Edit" asp-controller="Project" class = "edit-form" enctype="multipart/form-data">
             <div class="edit__group">
-                @Model.ProjectUId
                 <label for="">Название проекта</label>
                 <input type="text" asp-for="Name">
                 <input type="hidden" value="@Model.ProjectUId" name="ProjectUId"/>
@@ -61,7 +60,7 @@
 
             </div>
             <button class = "bttn-light" id = "addProject">Добавить ссылку</button>
-
+            
             <div class="edit__group">
                 <label for="">Технологии</label>
                 <select id="select" multiple="multiple" name = "Specialities">

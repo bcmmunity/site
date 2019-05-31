@@ -7,24 +7,28 @@
 
 @for (int i = 0, len = pr.Length; i < len; i += 1)
 {
-    <div class="projects__item">
-        <div class="left">
-            @{
-                string alt = "projectCover" + pr[i].ProjectId;
-            }
-           <img class = "left__img" src="@pr[i].Img" alt="@alt">
-        </div>
-        <div class="right">
-            <div class="projects__title">
-                <span class="type">@pr[i].Name</span>
-                <span class="date">2019 год</span>
+    if (pr[i].IsShowed)
+    {
+        <div class="projects__item">
+                <div class="left">
+                    @{
+                        string alt = "projectCover" + pr[i].ProjectId;
+                    }
+                    <img class = "left__img" src="@pr[i].Img" alt="@alt" />
+                </div>
+                <div class="right">
+                    <div class="projects__title">
+                        <span class="type">@pr[i].Name</span>
+                        <span class="date">2019 год</span>
+                    </div>
+                    <span class="name">@pr[i].Name</span>
+                    <div class="comp-more">
+                        <span class="company">Diffind</span>
+                        @Html.ActionLink("Подробнее", "View", "Project", new {id=@pr[i].ProjectId} )
+                    </div>
+        
+                </div>
             </div>
-            <span class="name">@pr[i].Name</span>
-            <div class="comp-more">
-                <span class="company">Diffind</span>
-                @Html.ActionLink("Подробнее", "View", "Project", new {id=@pr[i].ProjectId} )
-            </div>
-
-        </div>
-    </div>
+    }
+    
 }
